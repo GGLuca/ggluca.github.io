@@ -32,7 +32,7 @@ ggplot(d, aes(theta, density, colour = what)) +
 **George Gunnesch-Luca** psiholog. Bayes!, evaluare la scara larga, dezvoltare psihomotorie, si multa orgapsy!
 Universitatea din Bucuresti, FPSE; FAU Erlangen-Nurnberg.
 
-In curand aici un blog despre statistica Bayesiana in R, cu `brms`, in romana.
+In curand aici un blog despre inferenta Bayesiana in R, cu `brms`, in romana. Si bineinteles, altele... 
 
 Pana atunci: [brms CPU benchmark](https://github.com/GGLuca/brms-cpu-benchmark) ·
 [apa.cor](https://github.com/GGLuca/apa.cor) · george.gunnesch-luca [at] fpse.unibuc.ro
