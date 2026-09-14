@@ -29,7 +29,7 @@ ggplot(d, aes(theta, density, colour = what)) +
         panel.grid.minor = element_blank())
 ```
 
-**George Gunnesch-Luca** psiholog. Modele Bayesiene multinivel, psihometrie, evaluare la scara larga. 
+**George Gunnesch-Luca** psiholog. Bayes!, evaluare la scara larga, dezvoltare psihomotorie, si multa orgapsy!
 Universitatea din Bucuresti, FPSE; FAU Erlangen-Nurnberg.
 
 In curand aici un blog despre statistica Bayesiana in R, cu `brms`, in romana.
