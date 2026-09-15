@@ -25,7 +25,7 @@ ggplot(d, aes(theta, density, colour = what)) +
   scale_colour_manual(values = c("grey60", "#e07b39", "#1b6ca8"), name = NULL) +
   labs(x = expression(theta), y = NULL) +
   theme_minimal(base_size = 13) +
-  theme(legend.position = "top", axis.text.y = element_blank(),
+  theme(legend.position = "none", axis.text.y = element_blank(),
         panel.grid.minor = element_blank())
 ```
 
