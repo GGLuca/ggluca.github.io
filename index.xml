@@ -12,7 +12,7 @@
 <generator>quarto-1.9.37</generator>
 <lastBuildDate>Wed, 16 Sep 2026 22:00:00 GMT</lastBuildDate>
 <item>
-  <title>CPU performance for MCMC sampling</title>
+  <title>Tipuri de procesoare pentru eșantionare MCMC</title>
   <link>https://ggluca.ro/posts/2026-09-brms-benchmark/</link>
   <description><![CDATA[ 
 
@@ -48,7 +48,7 @@ dbl (7): fast_cores, chains, threads, mean_chain, total_exec, elapsed, overhead
 
  ]]></description>
   <category>brms</category>
-  <category>en</category>
+  <category>ro</category>
   <category>cpu</category>
   <category>bayes</category>
   <category>mcmc</category>

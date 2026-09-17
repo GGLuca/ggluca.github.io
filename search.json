@@ -23,7 +23,7 @@
   {
     "objectID": "posts/2026-09-brms-benchmark/index.html",
     "href": "posts/2026-09-brms-benchmark/index.html",
-    "title": "CPU performance for MCMC sampling",
+    "title": "Tipuri de procesoare pentru eșantionare MCMC",
     "section": "",
     "text": "Textul postarii. Cod R in chunk-uri, ca de obicei:\n\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.2.1     ✔ readr     2.2.0\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.3     ✔ tibble    3.3.1\n✔ lubridate 1.9.5     ✔ tidyr     1.3.2\n✔ purrr     1.2.2     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\nRows: 20 Columns: 13\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (6): machine, brms, cmdstan, r, os, date\ndbl (7): fast_cores, chains, threads, mean_chain, total_exec, elapsed, overhead\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message."
   },
@@ -32,7 +32,7 @@
     "href": "index.html",
     "title": "George Gunnesch-Luca",
     "section": "",
-    "text": "Ordoneaza dupa\n      Implicit\n      \n        Titlu\n      \n      \n        Data - Cele mai vechi\n      \n      \n        Data - Cele mai noi\n      \n    \n  \n\n\n\n\n\n\n\n\n\n\nCPU performance for MCMC sampling\n\n\n\nbrms\n\nen\n\ncpu\n\nbayes\n\nmcmc\n\n\n\nSome thoughts and benchmarks\n\n\n\n17 Septembrie 2026\n\n\n\n\n\n\nNicio postare"
+    "text": "Ordoneaza dupa\n      Implicit\n      \n        Titlu\n      \n      \n        Data - Cele mai vechi\n      \n      \n        Data - Cele mai noi\n      \n    \n  \n\n\n\n\n\n\n\n\n\n\nTipuri de procesoare pentru eșantionare MCMC\n\n\n\nbrms\n\nro\n\ncpu\n\nbayes\n\nmcmc\n\n\n\nCele mai bune procesoare pentru inferență Bayesiană nu sunt neapărat și cele mai scumpe. Câteva cifre și gânduri\n\n\n\n17 Septembrie 2026\n\n\n\n\n\n\nNicio postare"
   },
   {
     "objectID": "software.html",
