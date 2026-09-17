@@ -1,15 +1,31 @@
 ---
-title: "Tipuri de procesoare pentru eșantionare MCMC"
-description: "Cele mai bune procesoare pentru inferență Bayesiană nu sunt neapărat și cele mai scumpe. Câteva cifre și gânduri"
+title: "Care mai sunt procesoarele bune pt MCMC"
+description: "Câteva cifre și gânduri "
 date: 2026-09-17
 categories: [brms, ro, cpu, bayes, mcmc]
 image: featured.png
 ---
 
-Textul postarii. Cod R in chunk-uri, ca de obicei:
+Partea computațională a inferenței Bayesiene poate fi uneori extrem de costisitoare. Mai ales daca modelele rulate au functii de verosimilitate (_eng_. likelihood) dificile ca de ex. negativ-binomiala sau modele ordinale (pt scale Likert), care obliga lanturile MCMC sa faca pasi multi si marunti cand exploreaza distributia posterioara. Pe un laptop cu Windows, o regresie simpla cu `brms` poate dura si 5 minute si este un motiv extrem de valid pentru incepatori de a nu se complica cu Bayes non-analitic (aici ma refer la MCMC). Asa ca intrebarea pe care o primesc probabil cel mai des este care sunt cele mai bune calculatoare pentru asa ceva.
+
+Pentru ca am acces la diverse generatii de procesoare sub diverse configuratii, m-am gandit sa le compar si sa scriu prima postare pe blog. Nici ca se putea mai bine. 
+
+## The Royal Rumble
+
+1. HP ProBook 455 G9 (Windows), cu un Ryzen 5 5625U (6 nuclee, aprox. 500 de Euro)
+2. Apple MacBook Air cu M1 (8 nuclee, din care 4 de performanta, aprox 400-500 Euro _SH_)
+3. Apple Mac Mini, cu un M4 (4 nuclee de performanta, cam 700 sau 800 de euro).
+4. Apple Macbook Pro M4 (8 nuclee de performanta, cam 1700 Euro _SH_).
+5. Apple Macbook Pro M4 Max (12 nuclee de performanta),  _Furgeddaboutit_.
+6. Un desktop cu AMD Ryzen 9 5950X (16 nuclee, Ubuntu dar cu 128 GbRAM). 
+
+
+
+
+
 
 ```{r}
-#| echo: false
+#| echo: true
 library(tidyverse)
 res <- read_csv("https://raw.githubusercontent.com/GGLuca/brms-cpu-benchmark/master/results.csv")
 ```

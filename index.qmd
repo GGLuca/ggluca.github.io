@@ -2,12 +2,12 @@
 title: ""
 listing:
   contents: posts
-  type: grid                           # the card layout
+  type: grid                           
   grid-columns: 2
   image-height: 180px
   sort: "date desc"
-  sort-ui: [title, date]               # the sort dropdown
-  categories: numbered                    # sidebar with counts ("numbered" for a plain list)
+  sort-ui: [title, date]               
+  categories: numbered
   fields: [image, title, description, date, categories]
   feed: true
 page-layout: full
