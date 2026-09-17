@@ -1,8 +1,8 @@
 ---
-title: "CPU performance for MCMC sampling"
-description: "Some thoughts and benchmarks"
+title: "Tipuri de procesoare pentru eșantionare MCMC"
+description: "Cele mai bune procesoare pentru inferență Bayesiană nu sunt neapărat și cele mai scumpe. Câteva cifre și gânduri"
 date: 2026-09-17
-categories: [brms, en, cpu, bayes, mcmc]
+categories: [brms, ro, cpu, bayes, mcmc]
 image: featured.png
 ---
 
