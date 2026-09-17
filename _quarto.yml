@@ -1,12 +1,35 @@
 project:
   type: website
+
 website:
   title: "George Gunnesch-Luca"
+  site-url: https://ggluca.ro
+  repo-url: https://github.com/GGLuca/ggluca.github.io
+  repo-actions: [edit, issue]          # "Edit this page / Report an issue" in the footer
   navbar:
+    left:
+      - href: index.qmd
+        text: Blog
+      - href: cursuri.qmd
+        text: Cursuri
+      - href: cercetare.qmd
+        text: Cercetare
+      - href: software.qmd
+        text: Software
+      - href: despre.qmd
+        text: Despre
     right:
-      - href: https://github.com/GGLuca
-        icon: github
+      - icon: rss
+        href: index.xml
+      - icon: github
+        href: https://github.com/GGLuca
+  page-footer:
+    center: "Construit cu Quarto."
+
 format:
   html:
-    theme: cosmo
+    theme:
+      light: cosmo
+      dark: darkly                     # supplying both adds the light/dark toggle
+    css: styles.css
     toc: false

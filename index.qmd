@@ -1,38 +1,15 @@
 ---
 title: ""
+listing:
+  contents: posts
+  type: grid                           # the card layout
+  grid-columns: 2
+  image-height: 180px
+  sort: "date desc"
+  sort-ui: [title, date]               # the sort dropdown
+  categories: cloud                    # sidebar with counts ("numbered" for a plain list)
+  fields: [image, title, description, date, categories]
+  feed: true
+page-layout: full
+title-block-banner: false
 ---
-
-```{r}
-#| echo: false
-#| message: false
-#| fig-width: 7
-#| fig-height: 3.6
-library(ggplot2)
-
-theta <- seq(0, 1, length.out = 500)
-a0 <- 2; b0 <- 2          # prior Beta(2, 2)
-y  <- 7; n  <- 10         # 7 successes in 10 trials
-
-d <- rbind(
-  data.frame(theta, density = dbeta(theta, a0, b0),               what = "prior"),
-  data.frame(theta, density = dbeta(theta, y + 1, n - y + 1),     what = "likelihood"),
-  data.frame(theta, density = dbeta(theta, a0 + y, b0 + n - y),   what = "posterior")
-)
-d$what <- factor(d$what, levels = c("prior", "likelihood", "posterior"))
-
-ggplot(d, aes(theta, density, colour = what)) +
-  geom_line(linewidth = 1.2) +
-  scale_colour_manual(values = c("grey60", "#e07b39", "#1b6ca8"), name = NULL) +
-  labs(x = expression(theta), y = NULL) +
-  theme_minimal(base_size = 13) +
-  theme(legend.position = "none", axis.text.y = element_blank(),
-        panel.grid.minor = element_blank())
-```
-
-**George Gunnesch-Luca** psiholog. Bayes!, evaluare la scara larga, dezvoltare psihomotorie, si multa orgapsy!
-Universitatea din Bucuresti, FPSE; FAU Erlangen-Nurnberg.
-
-In curand aici un blog despre inferenta Bayesiana in R, cu `brms`, in romana. Si bineinteles, altele... 
-
-Pana atunci: [brms CPU benchmark](https://github.com/GGLuca/brms-cpu-benchmark) ·
-[apa.cor](https://github.com/GGLuca/apa.cor) · george.gunnesch-luca [at] fpse.unibuc.ro
