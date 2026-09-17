@@ -1,7 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://ggluca.ro/cursuri.html</loc>
+    <lastmod>2026-09-17T11:01:55.945Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ggluca.ro/despre.html</loc>
+    <lastmod>2026-09-17T11:01:55.947Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ggluca.ro/cercetare.html</loc>
+    <lastmod>2026-09-17T11:01:55.946Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ggluca.ro/posts/2026-09-brms-benchmark/index.html</loc>
+    <lastmod>2026-09-17T11:11:56.230Z</lastmod>
+  </url>
+  <url>
     <loc>https://ggluca.ro/index.html</loc>
-    <lastmod>2026-09-17T10:33:22.550Z</lastmod>
+    <lastmod>2026-09-17T11:18:13.034Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ggluca.ro/software.html</loc>
+    <lastmod>2026-09-17T11:01:55.947Z</lastmod>
   </url>
 </urlset>
