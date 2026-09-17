@@ -7,7 +7,7 @@ listing:
   image-height: 180px
   sort: "date desc"
   sort-ui: [title, date]               # the sort dropdown
-  categories: cloud                    # sidebar with counts ("numbered" for a plain list)
+  categories: numbered                    # sidebar with counts ("numbered" for a plain list)
   fields: [image, title, description, date, categories]
   feed: true
 page-layout: full

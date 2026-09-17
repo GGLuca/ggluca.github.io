@@ -1,0 +1,15 @@
+---
+title: "CPU performance for MCMC sampling"
+description: "Some thoughts and benchmarks"
+date: 2026-09-17
+categories: [brms, en, cpu, bayes, mcmc]
+image: featured.png
+---
+
+Textul postarii. Cod R in chunk-uri, ca de obicei:
+
+```{r}
+#| echo: false
+library(tidyverse)
+res <- read_csv("https://raw.githubusercontent.com/GGLuca/brms-cpu-benchmark/master/results.csv")
+```

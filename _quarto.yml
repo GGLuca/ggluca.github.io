@@ -1,5 +1,8 @@
 project:
   type: website
+  
+lang: ro
+date-format: "D MMMM YYYY"
 
 website:
   title: "George Gunnesch-Luca"
@@ -28,7 +31,7 @@ website:
 format:
   html:
     theme:
-      light: cosmo
-      dark: darkly                     # supplying both adds the light/dark toggle
+      light: [cosmo, custom.css]
+      dark: [darkly, custom.css]                     # supplying both adds the light/dark toggle
     css: styles.css
     toc: false
