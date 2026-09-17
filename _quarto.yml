@@ -7,7 +7,7 @@ website:
   repo-url: https://github.com/GGLuca/ggluca.github.io
   repo-actions: [edit, issue]          # "Edit this page / Report an issue" in the footer
   navbar:
-    left:
+    right:
       - href: index.qmd
         text: Blog
       - href: cursuri.qmd
@@ -18,7 +18,6 @@ website:
         text: Software
       - href: despre.qmd
         text: Despre
-    right:
       - icon: rss
         href: index.xml
       - icon: github
