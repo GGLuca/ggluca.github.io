@@ -12,7 +12,7 @@
 <generator>quarto-1.9.37</generator>
 <lastBuildDate>Wed, 16 Sep 2026 22:00:00 GMT</lastBuildDate>
 <item>
-  <title>Tipuri de procesoare pentru eșantionare MCMC</title>
+  <title>Care mai sunt procesoarele bune pt MCMC</title>
   <link>https://ggluca.ro/posts/2026-09-brms-benchmark/</link>
   <description><![CDATA[ 
 
@@ -20,8 +20,22 @@
 
 
 
-<p>Textul postarii. Cod R in chunk-uri, ca de obicei:</p>
+<p>Partea computațională a inferenței Bayesiene poate fi uneori extrem de costisitoare. Mai ales daca modelele rulate au functii de verosimilitate (<em>eng</em>. likelihood) dificile ca de ex. negativ-binomiala sau modele ordinale (pt scale Likert), care obliga lanturile MCMC sa faca pasi multi si marunti cand exploreaza distributia posterioara. Pe un laptop cu Windows, o regresie simpla cu <code>brms</code> poate dura si 5 minute si este un motiv extrem de valid pentru incepatori de a nu se complica cu Bayes non-analitic (aici ma refer la MCMC). Asa ca intrebarea pe care o primesc probabil cel mai des este care sunt cele mai bune calculatoare pentru asa ceva.</p>
+<p>Pentru ca am acces la diverse generatii de procesoare sub diverse configuratii, m-am gandit sa le compar si sa scriu prima postare pe blog. Nici ca se putea mai bine.</p>
+<section id="the-royal-rumble" class="level2">
+<h2 class="anchored" data-anchor-id="the-royal-rumble">The Royal Rumble</h2>
+<ol type="1">
+<li>HP ProBook 455 G9 (Windows), cu un Ryzen 5 5625U (6 nuclee, aprox. 500 de Euro)</li>
+<li>Apple MacBook Air cu M1 (8 nuclee, din care 4 de performanta, aprox 400-500 Euro <em>SH</em>)</li>
+<li>Apple Mac Mini, cu un M4 (4 nuclee de performanta, cam 700 sau 800 de euro).</li>
+<li>Apple Macbook Pro M4 (8 nuclee de performanta, cam 1700 Euro <em>SH</em>).</li>
+<li>Apple Macbook Pro M4 Max (12 nuclee de performanta), <em>Furgeddaboutit</em>.</li>
+<li>Un desktop cu AMD Ryzen 9 5950X (16 nuclee, Ubuntu dar cu 128 GbRAM).</li>
+</ol>
 <div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(tidyverse)</span></code></pre></div></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.2.1     ✔ readr     2.2.0
@@ -32,8 +46,17 @@
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors
-Rows: 20 Columns: 13
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1">res <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">read_csv</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"https://raw.githubusercontent.com/GGLuca/brms-cpu-benchmark/master/results.csv"</span>)</span></code></pre></div></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 20 Columns: 13
 ── Column specification ────────────────────────────────────────────────────────
 Delimiter: ","
 chr (6): machine, brms, cmdstan, r, os, date
@@ -45,6 +68,7 @@ dbl (7): fast_cores, chains, threads, mean_chain, total_exec, elapsed, overhead
 </div>
 
 
+</section>
 
  ]]></description>
   <category>brms</category>

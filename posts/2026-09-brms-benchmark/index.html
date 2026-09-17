@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Cele mai bune procesoare pentru inferență Bayesiană nu sunt neapărat și cele mai scumpe. Câteva cifre și gânduri">
+<meta name="description" content="Câteva cifre și gânduri">
 
-<title>Tipuri de procesoare pentru eșantionare MCMC – George Gunnesch-Luca</title>
+<title>Care mai sunt procesoarele bune pt MCMC – George Gunnesch-Luca</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -23,6 +23,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -308,7 +343,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Tipuri de procesoare pentru eșantionare MCMC</h1>
+<h1 class="title">Care mai sunt procesoarele bune pt MCMC</h1>
   <div class="quarto-categories">
     <div class="quarto-category">brms</div>
     <div class="quarto-category">ro</div>
@@ -320,7 +355,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Cele mai bune procesoare pentru inferență Bayesiană nu sunt neapărat și cele mai scumpe. Câteva cifre și gânduri
+    Câteva cifre și gânduri
   </div>
 </div>
 
@@ -343,8 +378,20 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Textul postarii. Cod R in chunk-uri, ca de obicei:</p>
+<p>Partea computațională a inferenței Bayesiene poate fi uneori extrem de costisitoare. Mai ales daca modelele rulate au functii de verosimilitate (<em>eng</em>. likelihood) dificile ca de ex. negativ-binomiala sau modele ordinale (pt scale Likert), care obliga lanturile MCMC sa faca pasi multi si marunti cand exploreaza distributia posterioara. Pe un laptop cu Windows, o regresie simpla cu <code>brms</code> poate dura si 5 minute si este un motiv extrem de valid pentru incepatori de a nu se complica cu Bayes non-analitic (aici ma refer la MCMC). Asa ca intrebarea pe care o primesc probabil cel mai des este care sunt cele mai bune calculatoare pentru asa ceva.</p>
+<p>Pentru ca am acces la diverse generatii de procesoare sub diverse configuratii, m-am gandit sa le compar si sa scriu prima postare pe blog. Nici ca se putea mai bine.</p>
+<section id="the-royal-rumble" class="level2">
+<h2 class="anchored" data-anchor-id="the-royal-rumble">The Royal Rumble</h2>
+<ol type="1">
+<li>HP ProBook 455 G9 (Windows), cu un Ryzen 5 5625U (6 nuclee, aprox. 500 de Euro)</li>
+<li>Apple MacBook Air cu M1 (8 nuclee, din care 4 de performanta, aprox 400-500 Euro <em>SH</em>)</li>
+<li>Apple Mac Mini, cu un M4 (4 nuclee de performanta, cam 700 sau 800 de euro).</li>
+<li>Apple Macbook Pro M4 (8 nuclee de performanta, cam 1700 Euro <em>SH</em>).</li>
+<li>Apple Macbook Pro M4 Max (12 nuclee de performanta), <em>Furgeddaboutit</em>.</li>
+<li>Un desktop cu AMD Ryzen 9 5950X (16 nuclee, Ubuntu dar cu 128 GbRAM).</li>
+</ol>
 <div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.2.1     ✔ readr     2.2.0
@@ -355,8 +402,11 @@ ul.task-list li input[type="checkbox"] {
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors
-Rows: 20 Columns: 13
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/GGLuca/brms-cpu-benchmark/master/results.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 20 Columns: 13
 ── Column specification ────────────────────────────────────────────────────────
 Delimiter: ","
 chr (6): machine, brms, cmdstan, r, os, date
@@ -368,6 +418,7 @@ dbl (7): fast_cores, chains, threads, mean_chain, total_exec, elapsed, overhead
 </div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
