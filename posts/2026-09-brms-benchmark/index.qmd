@@ -1,31 +1,31 @@
 ---
 title: "Care mai sunt procesoarele bune pt MCMC"
-description: "Câteva cifre și gânduri "
-date: 2026-09-17
+description: "Ganduri, idei, recomandari pentru sisteme sau procesoare ce ruleaza brms/Rstan. Un mic benchmark pentru acasa."
+date: 2026-09-20
 categories: [brms, ro, cpu, bayes, mcmc]
 image: featured.png
 ---
 
-Partea computațională a inferenței Bayesiene poate fi uneori extrem de costisitoare. Mai ales daca modelele rulate au functii de verosimilitate (_eng_. likelihood) dificile ca de ex. negativ-binomiala sau modele ordinale (pt scale Likert), care obliga lanturile MCMC sa faca pasi multi si marunti cand exploreaza distributia posterioara. Pe un laptop cu Windows, o regresie simpla cu `brms` poate dura si 5 minute si este un motiv extrem de valid pentru incepatori de a nu se complica cu Bayes non-analitic (aici ma refer la MCMC). Asa ca intrebarea pe care o primesc probabil cel mai des este care sunt cele mai bune calculatoare pentru asa ceva.
+## Introducere
 
-Pentru ca am acces la diverse generatii de procesoare sub diverse configuratii, m-am gandit sa le compar si sa scriu prima postare pe blog. Nici ca se putea mai bine. 
+Partea computațională a inferenței Bayesiene poate fi extrem de costisitoare. In special daca modelele rulate au functii de verosimilitate (eng. _likelihood_) dificile ca de ex. cea negativ-binomiala, sau daca cumva sunt modele ordinale (pt scale Likert). Geometria dificila a distributiei posterioare obliga lanturile MCMC sa faca pasi multi si marunti cand o exploreaza. Asa ca un procesor "bun" este binevenit. Bun inseamna evident un timp real de executie cat mai scurt de la compilare pana la estimare. Dar care sunt cele bune, si care e curba randamentului sau punctul de eficienta, care o data atins nu justifica achizitia unui CPU "si mai bun"? Pentru ca am acces la diverse generatii de procesoare sub diverse configuratii, m-am gandit sa le compar si cu ocazia asta sa si scriu prima postare pe blog. Nici ca se putea mai bine. 
 
-## The Royal Rumble
+## Catindatii...
 
 1. HP ProBook 455 G9 (Windows), cu un Ryzen 5 5625U (6 nuclee, aprox. 500 de Euro)
 2. Apple MacBook Air cu M1 (8 nuclee, din care 4 de performanta, aprox 400-500 Euro _SH_)
 3. Apple Mac Mini, cu un M4 (4 nuclee de performanta, cam 700 sau 800 de euro).
 4. Apple Macbook Pro M4 (8 nuclee de performanta, cam 1700 Euro _SH_).
-5. Apple Macbook Pro M4 Max (12 nuclee de performanta),  _Furgeddaboutit_.
-6. Un desktop cu AMD Ryzen 9 5950X (16 nuclee, Ubuntu dar cu 128 GbRAM). 
+5. Apple Macbook Pro M4 Max (12 nuclee de performanta), _Furgeddaboutit_.
+6. Un desktop cu AMD Ryzen 9 5950X (16 nuclee, sub Ubuntu). 
 
+## Benchmarkul
 
-
-
-
+In primul rand avem de nevoie de niste date si de un model. 
 
 ```{r}
 #| echo: true
+#| message: false
 library(tidyverse)
 res <- read_csv("https://raw.githubusercontent.com/GGLuca/brms-cpu-benchmark/master/results.csv")
 ```
