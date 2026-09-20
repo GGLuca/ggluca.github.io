@@ -25,21 +25,35 @@
     "href": "posts/2026-09-brms-benchmark/index.html",
     "title": "Care mai sunt procesoarele bune pt MCMC",
     "section": "",
-    "text": "Partea computațională a inferenței Bayesiene poate fi uneori extrem de costisitoare. Mai ales daca modelele rulate au functii de verosimilitate (eng. likelihood) dificile ca de ex. negativ-binomiala sau modele ordinale (pt scale Likert), care obliga lanturile MCMC sa faca pasi multi si marunti cand exploreaza distributia posterioara. Pe un laptop cu Windows, o regresie simpla cu brms poate dura si 5 minute si este un motiv extrem de valid pentru incepatori de a nu se complica cu Bayes non-analitic (aici ma refer la MCMC). Asa ca intrebarea pe care o primesc probabil cel mai des este care sunt cele mai bune calculatoare pentru asa ceva.\nPentru ca am acces la diverse generatii de procesoare sub diverse configuratii, m-am gandit sa le compar si sa scriu prima postare pe blog. Nici ca se putea mai bine."
+    "text": "Partea computațională a inferenței Bayesiene poate fi extrem de costisitoare. In special daca modelele rulate au functii de verosimilitate (eng. likelihood) dificile ca de ex. cea negativ-binomiala, sau daca cumva sunt modele ordinale (pt scale Likert). Geometria dificila a distributiei posterioare obliga lanturile MCMC sa faca pasi multi si marunti cand o exploreaza. Asa ca un procesor “bun” este binevenit. Bun inseamna evident un timp real de executie cat mai scurt de la compilare pana la estimare. Dar care sunt cele bune, si care e curba randamentului sau punctul de eficienta, care o data atins nu justifica achizitia unui CPU “si mai bun”? Pentru ca am acces la diverse generatii de procesoare sub diverse configuratii, m-am gandit sa le compar si cu ocazia asta sa si scriu prima postare pe blog. Nici ca se putea mai bine."
   },
   {
-    "objectID": "posts/2026-09-brms-benchmark/index.html#the-royal-rumble",
-    "href": "posts/2026-09-brms-benchmark/index.html#the-royal-rumble",
+    "objectID": "posts/2026-09-brms-benchmark/index.html#introducere",
+    "href": "posts/2026-09-brms-benchmark/index.html#introducere",
     "title": "Care mai sunt procesoarele bune pt MCMC",
-    "section": "The Royal Rumble",
-    "text": "The Royal Rumble\n\nHP ProBook 455 G9 (Windows), cu un Ryzen 5 5625U (6 nuclee, aprox. 500 de Euro)\nApple MacBook Air cu M1 (8 nuclee, din care 4 de performanta, aprox 400-500 Euro SH)\nApple Mac Mini, cu un M4 (4 nuclee de performanta, cam 700 sau 800 de euro).\nApple Macbook Pro M4 (8 nuclee de performanta, cam 1700 Euro SH).\nApple Macbook Pro M4 Max (12 nuclee de performanta), Furgeddaboutit.\nUn desktop cu AMD Ryzen 9 5950X (16 nuclee, Ubuntu dar cu 128 GbRAM).\n\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.2.1     ✔ readr     2.2.0\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.3     ✔ tibble    3.3.1\n✔ lubridate 1.9.5     ✔ tidyr     1.3.2\n✔ purrr     1.2.2     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nres &lt;- read_csv(\"https://raw.githubusercontent.com/GGLuca/brms-cpu-benchmark/master/results.csv\")\n\nRows: 20 Columns: 13\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (6): machine, brms, cmdstan, r, os, date\ndbl (7): fast_cores, chains, threads, mean_chain, total_exec, elapsed, overhead\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message."
+    "section": "",
+    "text": "Partea computațională a inferenței Bayesiene poate fi extrem de costisitoare. In special daca modelele rulate au functii de verosimilitate (eng. likelihood) dificile ca de ex. cea negativ-binomiala, sau daca cumva sunt modele ordinale (pt scale Likert). Geometria dificila a distributiei posterioare obliga lanturile MCMC sa faca pasi multi si marunti cand o exploreaza. Asa ca un procesor “bun” este binevenit. Bun inseamna evident un timp real de executie cat mai scurt de la compilare pana la estimare. Dar care sunt cele bune, si care e curba randamentului sau punctul de eficienta, care o data atins nu justifica achizitia unui CPU “si mai bun”? Pentru ca am acces la diverse generatii de procesoare sub diverse configuratii, m-am gandit sa le compar si cu ocazia asta sa si scriu prima postare pe blog. Nici ca se putea mai bine."
+  },
+  {
+    "objectID": "posts/2026-09-brms-benchmark/index.html#catindatii",
+    "href": "posts/2026-09-brms-benchmark/index.html#catindatii",
+    "title": "Care mai sunt procesoarele bune pt MCMC",
+    "section": "Catindatii…",
+    "text": "Catindatii…\n\nHP ProBook 455 G9 (Windows), cu un Ryzen 5 5625U (6 nuclee, aprox. 500 de Euro)\nApple MacBook Air cu M1 (8 nuclee, din care 4 de performanta, aprox 400-500 Euro SH)\nApple Mac Mini, cu un M4 (4 nuclee de performanta, cam 700 sau 800 de euro).\nApple Macbook Pro M4 (8 nuclee de performanta, cam 1700 Euro SH).\nApple Macbook Pro M4 Max (12 nuclee de performanta), Furgeddaboutit.\nUn desktop cu AMD Ryzen 9 5950X (16 nuclee, sub Ubuntu)."
+  },
+  {
+    "objectID": "posts/2026-09-brms-benchmark/index.html#benchmarkul",
+    "href": "posts/2026-09-brms-benchmark/index.html#benchmarkul",
+    "title": "Care mai sunt procesoarele bune pt MCMC",
+    "section": "Benchmarkul",
+    "text": "Benchmarkul\nIn primul rand avem de nevoie de niste date si de un model.\n\nlibrary(tidyverse)\nres &lt;- read_csv(\"https://raw.githubusercontent.com/GGLuca/brms-cpu-benchmark/master/results.csv\")"
   },
   {
     "objectID": "index.html",
     "href": "index.html",
     "title": "George Gunnesch-Luca",
     "section": "",
-    "text": "Ordoneaza dupa\n      Implicit\n      \n        Titlu\n      \n      \n        Data - Cele mai vechi\n      \n      \n        Data - Cele mai noi\n      \n    \n  \n\n\n\n\n\n\n\n\n\n\nCare mai sunt procesoarele bune pt MCMC\n\n\n\nbrms\n\nro\n\ncpu\n\nbayes\n\nmcmc\n\n\n\nCâteva cifre și gânduri\n\n\n\n17 Septembrie 2026\n\n\n\n\n\n\nNicio postare"
+    "text": "Ordoneaza dupa\n      Implicit\n      \n        Titlu\n      \n      \n        Data - Cele mai vechi\n      \n      \n        Data - Cele mai noi\n      \n    \n  \n\n\n\n\n\n\n\n\n\n\nCare mai sunt procesoarele bune pt MCMC\n\n\n\nbrms\n\nro\n\ncpu\n\nbayes\n\nmcmc\n\n\n\nGanduri, idei, recomandari pentru sisteme sau procesoare ce ruleaza brms/Rstan. Un mic benchmark pentru acasa.\n\n\n\n20 Septembrie 2026\n\n\n\n\n\n\nNicio postare"
   },
   {
     "objectID": "software.html",
