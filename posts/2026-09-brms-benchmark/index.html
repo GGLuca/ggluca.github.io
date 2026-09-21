@@ -383,10 +383,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="introducere" class="level2">
 <h2 class="anchored" data-anchor-id="introducere">Introducere</h2>
-<p>Partea computațională a inferenței Bayesiene poate fi extrem de costisitoare. In special daca modelele rulate au functii de verosimilitate (eng. <em>likelihood</em>) dificile ca de ex. cea negativ-binomiala, sau daca cumva sunt modele ordinale (pt scale Likert). Geometria dificila a distributiei posterioare obliga lanturile MCMC sa faca pasi multi si marunti cand o exploreaza. Asa ca un procesor “bun” este binevenit. Bun inseamna evident un timp real de executie cat mai scurt de la compilare pana la estimare. Dar care sunt cele bune, si care e curba randamentului sau punctul de eficienta, care o data atins nu justifica achizitia unui CPU “si mai bun”? Pentru ca am acces la diverse generatii de procesoare sub diverse configuratii, m-am gandit sa le compar si cu ocazia asta sa si scriu prima postare pe blog. Nici ca se putea mai bine.</p>
+<p>Partea computațională a inferenței Bayesiene poate fi extrem de costisitoare. In special daca modelele rulate au functii de verosimilitate (eng. <em>likelihood</em>) dificile ca de ex. cea negativ-binomiala, sau daca cumva sunt modele ordinale (pt scale Likert). Geometria dificila a distributiei posterioare obliga lanturile MCMC sa faca pasi multi si marunti cand o exploreaza. Asa ca un procesor “bun” este binevenit. Bun inseamna evident un timp real de executie cat mai scurt de la compilare pana la estimare. Dar care sunt cele bune, si care e curba randamentului sau punctul de eficienta, care o data atins nu justifica achizitia unui CPU “si mai bun”? Pentru ca am acces la diverse generatii de procesoare sub diverse configuratii, m-am gandit sa le compar si cu ocazia asta sa si scriu prima postare pe blog.</p>
 </section>
-<section id="catindatii" class="level2">
-<h2 class="anchored" data-anchor-id="catindatii">Catindatii…</h2>
+<section id="candidatii" class="level2">
+<h2 class="anchored" data-anchor-id="candidatii">Candidatii…</h2>
 <ol type="1">
 <li>HP ProBook 455 G9 (Windows), cu un Ryzen 5 5625U (6 nuclee, aprox. 500 de Euro)</li>
 <li>Apple MacBook Air cu M1 (8 nuclee, din care 4 de performanta, aprox 400-500 Euro <em>SH</em>)</li>
@@ -398,7 +398,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="benchmarkul" class="level2">
 <h2 class="anchored" data-anchor-id="benchmarkul">Benchmarkul</h2>
-<p>In primul rand avem de nevoie de niste date si de un model.</p>
+<p>In primul rand avem de nevoie de niste date si de un model. Nimic complicat pentru inceput si</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/GGLuca/brms-cpu-benchmark/master/results.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>

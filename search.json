@@ -25,28 +25,28 @@
     "href": "posts/2026-09-brms-benchmark/index.html",
     "title": "Care mai sunt procesoarele bune pt MCMC",
     "section": "",
-    "text": "Partea computațională a inferenței Bayesiene poate fi extrem de costisitoare. In special daca modelele rulate au functii de verosimilitate (eng. likelihood) dificile ca de ex. cea negativ-binomiala, sau daca cumva sunt modele ordinale (pt scale Likert). Geometria dificila a distributiei posterioare obliga lanturile MCMC sa faca pasi multi si marunti cand o exploreaza. Asa ca un procesor “bun” este binevenit. Bun inseamna evident un timp real de executie cat mai scurt de la compilare pana la estimare. Dar care sunt cele bune, si care e curba randamentului sau punctul de eficienta, care o data atins nu justifica achizitia unui CPU “si mai bun”? Pentru ca am acces la diverse generatii de procesoare sub diverse configuratii, m-am gandit sa le compar si cu ocazia asta sa si scriu prima postare pe blog. Nici ca se putea mai bine."
+    "text": "Partea computațională a inferenței Bayesiene poate fi extrem de costisitoare. In special daca modelele rulate au functii de verosimilitate (eng. likelihood) dificile ca de ex. cea negativ-binomiala, sau daca cumva sunt modele ordinale (pt scale Likert). Geometria dificila a distributiei posterioare obliga lanturile MCMC sa faca pasi multi si marunti cand o exploreaza. Asa ca un procesor “bun” este binevenit. Bun inseamna evident un timp real de executie cat mai scurt de la compilare pana la estimare. Dar care sunt cele bune, si care e curba randamentului sau punctul de eficienta, care o data atins nu justifica achizitia unui CPU “si mai bun”? Pentru ca am acces la diverse generatii de procesoare sub diverse configuratii, m-am gandit sa le compar si cu ocazia asta sa si scriu prima postare pe blog."
   },
   {
     "objectID": "posts/2026-09-brms-benchmark/index.html#introducere",
     "href": "posts/2026-09-brms-benchmark/index.html#introducere",
     "title": "Care mai sunt procesoarele bune pt MCMC",
     "section": "",
-    "text": "Partea computațională a inferenței Bayesiene poate fi extrem de costisitoare. In special daca modelele rulate au functii de verosimilitate (eng. likelihood) dificile ca de ex. cea negativ-binomiala, sau daca cumva sunt modele ordinale (pt scale Likert). Geometria dificila a distributiei posterioare obliga lanturile MCMC sa faca pasi multi si marunti cand o exploreaza. Asa ca un procesor “bun” este binevenit. Bun inseamna evident un timp real de executie cat mai scurt de la compilare pana la estimare. Dar care sunt cele bune, si care e curba randamentului sau punctul de eficienta, care o data atins nu justifica achizitia unui CPU “si mai bun”? Pentru ca am acces la diverse generatii de procesoare sub diverse configuratii, m-am gandit sa le compar si cu ocazia asta sa si scriu prima postare pe blog. Nici ca se putea mai bine."
+    "text": "Partea computațională a inferenței Bayesiene poate fi extrem de costisitoare. In special daca modelele rulate au functii de verosimilitate (eng. likelihood) dificile ca de ex. cea negativ-binomiala, sau daca cumva sunt modele ordinale (pt scale Likert). Geometria dificila a distributiei posterioare obliga lanturile MCMC sa faca pasi multi si marunti cand o exploreaza. Asa ca un procesor “bun” este binevenit. Bun inseamna evident un timp real de executie cat mai scurt de la compilare pana la estimare. Dar care sunt cele bune, si care e curba randamentului sau punctul de eficienta, care o data atins nu justifica achizitia unui CPU “si mai bun”? Pentru ca am acces la diverse generatii de procesoare sub diverse configuratii, m-am gandit sa le compar si cu ocazia asta sa si scriu prima postare pe blog."
   },
   {
-    "objectID": "posts/2026-09-brms-benchmark/index.html#catindatii",
-    "href": "posts/2026-09-brms-benchmark/index.html#catindatii",
+    "objectID": "posts/2026-09-brms-benchmark/index.html#candidatii",
+    "href": "posts/2026-09-brms-benchmark/index.html#candidatii",
     "title": "Care mai sunt procesoarele bune pt MCMC",
-    "section": "Catindatii…",
-    "text": "Catindatii…\n\nHP ProBook 455 G9 (Windows), cu un Ryzen 5 5625U (6 nuclee, aprox. 500 de Euro)\nApple MacBook Air cu M1 (8 nuclee, din care 4 de performanta, aprox 400-500 Euro SH)\nApple Mac Mini, cu un M4 (4 nuclee de performanta, cam 700 sau 800 de euro).\nApple Macbook Pro M4 (8 nuclee de performanta, cam 1700 Euro SH).\nApple Macbook Pro M4 Max (12 nuclee de performanta), Furgeddaboutit.\nUn desktop cu AMD Ryzen 9 5950X (16 nuclee, sub Ubuntu)."
+    "section": "Candidatii…",
+    "text": "Candidatii…\n\nHP ProBook 455 G9 (Windows), cu un Ryzen 5 5625U (6 nuclee, aprox. 500 de Euro)\nApple MacBook Air cu M1 (8 nuclee, din care 4 de performanta, aprox 400-500 Euro SH)\nApple Mac Mini, cu un M4 (4 nuclee de performanta, cam 700 sau 800 de euro).\nApple Macbook Pro M4 (8 nuclee de performanta, cam 1700 Euro SH).\nApple Macbook Pro M4 Max (12 nuclee de performanta), Furgeddaboutit.\nUn desktop cu AMD Ryzen 9 5950X (16 nuclee, sub Ubuntu)."
   },
   {
     "objectID": "posts/2026-09-brms-benchmark/index.html#benchmarkul",
     "href": "posts/2026-09-brms-benchmark/index.html#benchmarkul",
     "title": "Care mai sunt procesoarele bune pt MCMC",
     "section": "Benchmarkul",
-    "text": "Benchmarkul\nIn primul rand avem de nevoie de niste date si de un model.\n\nlibrary(tidyverse)\nres &lt;- read_csv(\"https://raw.githubusercontent.com/GGLuca/brms-cpu-benchmark/master/results.csv\")"
+    "text": "Benchmarkul\nIn primul rand avem de nevoie de niste date si de un model. Nimic complicat pentru inceput si\n\nlibrary(tidyverse)\nres &lt;- read_csv(\"https://raw.githubusercontent.com/GGLuca/brms-cpu-benchmark/master/results.csv\")"
   },
   {
     "objectID": "index.html",
