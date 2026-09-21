@@ -8,9 +8,9 @@ image: featured.png
 
 ## Introducere
 
-Partea computațională a inferenței Bayesiene poate fi extrem de costisitoare. In special daca modelele rulate au functii de verosimilitate (eng. _likelihood_) dificile ca de ex. cea negativ-binomiala, sau daca cumva sunt modele ordinale (pt scale Likert). Geometria dificila a distributiei posterioare obliga lanturile MCMC sa faca pasi multi si marunti cand o exploreaza. Asa ca un procesor "bun" este binevenit. Bun inseamna evident un timp real de executie cat mai scurt de la compilare pana la estimare. Dar care sunt cele bune, si care e curba randamentului sau punctul de eficienta, care o data atins nu justifica achizitia unui CPU "si mai bun"? Pentru ca am acces la diverse generatii de procesoare sub diverse configuratii, m-am gandit sa le compar si cu ocazia asta sa si scriu prima postare pe blog. Nici ca se putea mai bine. 
+Partea computațională a inferenței Bayesiene poate fi extrem de costisitoare. In special daca modelele rulate au functii de verosimilitate (eng. _likelihood_) dificile ca de ex. cea negativ-binomiala, sau daca cumva sunt modele ordinale (pt scale Likert). Geometria dificila a distributiei posterioare obliga lanturile MCMC sa faca pasi multi si marunti cand o exploreaza. Asa ca un procesor "bun" este binevenit. Bun inseamna evident un timp real de executie cat mai scurt de la compilare pana la estimare. Dar care sunt cele bune, si care e curba randamentului sau punctul de eficienta, care o data atins nu justifica achizitia unui CPU "si mai bun"? Pentru ca am acces la diverse generatii de procesoare sub diverse configuratii, m-am gandit sa le compar si cu ocazia asta sa si scriu prima postare pe blog.
 
-## Catindatii...
+## Candidatii...
 
 1. HP ProBook 455 G9 (Windows), cu un Ryzen 5 5625U (6 nuclee, aprox. 500 de Euro)
 2. Apple MacBook Air cu M1 (8 nuclee, din care 4 de performanta, aprox 400-500 Euro _SH_)
@@ -21,7 +21,7 @@ Partea computațională a inferenței Bayesiene poate fi extrem de costisitoare.
 
 ## Benchmarkul
 
-In primul rand avem de nevoie de niste date si de un model. 
+In primul rand avem de nevoie de niste date si de un model. Nimic complicat pentru inceput si 
 
 ```{r}
 #| echo: true
