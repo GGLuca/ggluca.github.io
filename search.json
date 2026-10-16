@@ -46,7 +46,7 @@
     "href": "posts/2026-09-brms-benchmark/index.html#benchmarkul",
     "title": "Care mai sunt procesoarele bune pt MCMC",
     "section": "Benchmarkul",
-    "text": "Benchmarkul\nIn primul rand avem de nevoie de niste date si de un model. Nimic complicat pentru inceput si\n\nlibrary(tidyverse)\nres &lt;- read_csv(\"https://raw.githubusercontent.com/GGLuca/brms-cpu-benchmark/master/results.csv\")"
+    "text": "Benchmarkul\nIn primul rand avem de nevoie de niste date si de un model. Nimic complicat pentru inceput\n\nlibrary(tidyverse)\nres &lt;- read_csv(\"https://raw.githubusercontent.com/GGLuca/brms-cpu-benchmark/master/results.csv\")"
   },
   {
     "objectID": "index.html",

@@ -9,8 +9,8 @@
 <link>https://ggluca.ro/</link>
 <atom:link href="https://ggluca.ro/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
-<generator>quarto-1.10.18</generator>
-<lastBuildDate>Sat, 19 Sep 2026 22:00:00 GMT</lastBuildDate>
+<generator>quarto-1.9.37</generator>
+<lastBuildDate>Sat, 19 Sep 2026 21:00:00 GMT</lastBuildDate>
 <item>
   <title>Care mai sunt procesoarele bune pt MCMC</title>
   <link>https://ggluca.ro/posts/2026-09-brms-benchmark/</link>
@@ -37,7 +37,7 @@
 </section>
 <section id="benchmarkul" class="level2">
 <h2 class="anchored" data-anchor-id="benchmarkul">Benchmarkul</h2>
-<p>In primul rand avem de nevoie de niste date si de un model. Nimic complicat pentru inceput si</p>
+<p>In primul rand avem de nevoie de niste date si de un model. Nimic complicat pentru inceput</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -61,7 +61,7 @@ font-style: inherit;">"https://raw.githubusercontent.com/GGLuca/brms-cpu-benchma
   <category>bayes</category>
   <category>mcmc</category>
   <guid>https://ggluca.ro/posts/2026-09-brms-benchmark/</guid>
-  <pubDate>Sat, 19 Sep 2026 22:00:00 GMT</pubDate>
+  <pubDate>Sat, 19 Sep 2026 21:00:00 GMT</pubDate>
   <media:content url="https://ggluca.ro/posts/2026-09-brms-benchmark/featured.png" medium="image" type="image/png" height="192" width="144"/>
 </item>
 </channel>
