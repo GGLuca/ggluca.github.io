@@ -1,28 +1,24 @@
 ---
-title: "Care mai sunt procesoarele bune pt MCMC"
-description: "Ganduri, idei, recomandari pentru sisteme sau procesoare ce ruleaza brms/Rstan. Un mic benchmark pentru acasa."
-date: 2026-09-20
+title: "Bayes cu R si brms. Nu procesorul e problema..."
+description: "Gânduri și recomandări despre sistemele pe care rulează modelele Bayesiene în brms și Stan. Un mic benchmark pentru acasă."
+date: 2026-10-18
 categories: [brms, ro, cpu, bayes, mcmc]
 image: featured.png
 ---
 
 ## Introducere
 
-Partea computațională a inferenței Bayesiene poate fi uneori extrem de costisitoare. In special daca modelele rulate au functii de verosimilitate dificile ca de ex. cea negativ-binomiala, sau daca cumva sunt modele ordinale. Problema e ca geometria dificila a distributiei posterioare obliga lanturile MCMC sa faca pasi multi si marunti cand o exploreaza, asa ca un procesor "bun" este binevenit. Dar ce inseamna "bun"? Pai, probabil un timp real de executie cat mai scurt de la compilare pana la estimare.\
+Partea computațională a inferenței Bayesiene poate fi uneori extrem de costisitoare. În special dacă modelele rulate au funcții de verosimilitate dificile ca de ex. cea negativ-binomială, sau dacă cumva sunt modele ordinale. Problema e că geometria dificilă a distribuției posterioare obligă lanțurile MCMC să facă pași mulți și mărunți când o explorează, așa că un procesor “bun” este binevenit. Dar ce înseamnă “bun”? Păi, probabil un timp real de execuție cât mai scurt până la estimare.\
 
-Deci un nucleu rapid ar fi de dorit, dar care e curba randamentului sau punctul de eficienta, care o data atins nu justifica achizitia unui CPU "si mai bun"? Sau cat proverbial unt poti scoate din ceva mai vechi cu ajutorul paralizarii intre nuclee si intra-lanturi?\
+Deci un nucleu rapid ar fi de dorit, dar care e curba randamentului sau punctul de eficiență, care o dată atins nu justifică achiziția unui CPU “și mai bun”? Sau cât proverbial unt poți scoate din ceva mai vechi cu ajutorul paralelizării între nuclee și intra-lanțuri MCMC?\
 
-Pentru ca am acces la diverse generatii de procesoare sub diverse configuratii, m-am gandit sa le compar si cu ocazia asta sa si scriu prima postare pe blog.
-
-## Pe scurt
-
-
+Pentru că am acces la diverse generații de procesoare sub diverse configurații, m-am gândit să le compar in concediu :) și cu ocazia asta să și scriu prima postare pe blog.
 
 ## Candidatii 
 
 Momentan
 
-| Masina | Nuclee (performanta) | RAM | Sistem | Pret aprox. |
+| Calculator | Nuclee (performanta) | RAM | Sistem | Pret aprox. |
 |:--|--:|--:|:--|--:|
 | HP ProBook 455 G9, Ryzen 5 5625U | 6 | 16 | Win / WSL2 | 500 € |
 | Desktop, Ryzen 5 3600 | 6 | 32 | Win / WSL | sub 100 € (CPU, SH) |
@@ -33,9 +29,9 @@ Momentan
 
 ## Benchmarkul
 
-In primul rand avem de nevoie de niste date si de un model. Ambele le-am luat pur si simplu de pe foarte buna [vigneta](https://paulbuerkner.com/brms/articles/brms_threading.html) a lui Sebastian Weber despre rularea modelelor `brms` cu ajutorul paralelizarii intra-lanturi MCMC. 
+În primul rând avem nevoie de niște date și de un model. Ambele le-am luat pur și simplu de pe foarte buna [vigneta](https://paulbuerkner.com/brms/articles/brms_threading.html) a lui Sebastian Weber despre rularea modelelor `brms` cu ajutorul paralelizării intra-lanțuri MCMC.
 
-Pe scurt, sunt niste date sintetice. 10,000 de observatii, grupate in 1000 de clustere. Modelul e un Poisson cu doi predictori, un intercept aleator și pante fixe, cu forma
+Pe scurt, sunt niște date sintetice cu 10.000 de observații, grupate în 1000 de clustere. Modelul e un Poisson cu doi predictori, un intercept aleator și pante fixe, cu forma
 
 ```{r}
 #| echo: true
@@ -55,13 +51,18 @@ brm(
   save_pars = save_pars(all = TRUE))
 ```
 
+Pentru cei curioși, detaliile le puteți găsi și pe [pagina de github](https://github.com/GGLuca/brms-cpu-benchmark) a benchmarkului, și dacă sunteți *și mai* curioși, puteți să rulați funcția voi și să îmi scrieți și mie ce valori primiți, împreună cu datele sistemului, si le pun "pe net".
 
+## Cum am testat
 
-Destul de complex pentru a chinui cateva zeci de secunde un CPU modern. Pentru cei curiosi, detaliile le puteti gasi si pe [pagina de github](https://github.com/GGLuca/brms-cpu-benchmark) a benchmarkului, si daca sunteti si mai curiosi, puteti sa rulati functia voi si sa imi scrieti si mie ce valori primiti, impreuna cu datele sistemului.
+Fiecare calculator a rulat același model, cu aceleași date și cu aceeași seed. Am rulat fiecare configurație de două ori. Prima rulare include compilarea modelului, a doua folosește executabilul deja compilat si scris pe disc. În tabel de mai jos apare valoarea cea mai mică, adică rularea fără compilare.
 
+Ce raportez aici este timpul mediu pe lanț. Am pornit de la 4 lanțuri în paralel, câte unul pe nucleu, apoi am adăugat threaduri în interiorul fiecărui lanț (`threads = threading(k)`), atât cât au permis nucleele de performanță. De exemplu, pe CPUurile cu 6 nuclee am folosit 3 lanțuri x 2 threaduri, ca să ocup toate nucleele. Pe celelalte, 4x2, sau 4x3 (5950)
+
+Ce mai e de zis e ca laptopurile au fost conectate la priză, iar in Linux am setat guvernorul procesorului pe `performance`. All set!
 
 ```{r}
-#| echo: true
+#| echo: false
 #| message: false
 library(tidyverse)
 res <- read_csv("https://raw.githubusercontent.com/GGLuca/brms-cpu-benchmark/master/results.csv")
@@ -69,7 +70,7 @@ res <- read_csv("https://raw.githubusercontent.com/GGLuca/brms-cpu-benchmark/mas
 
 ## Rezultate
 
-| Calculici | 1 thread | 2 threaduri | 3 threaduri | 4 threaduri |
+| Sistem | 1 thread | 2 threaduri | 3 threaduri | 4 threaduri |
 |:---|---:|---:|---:|---:|
 | AMD 5625U (WSL2) | 89.8 s | 65.5 s (1.37×) |  |  |
 | AMD 3600 (Win11 + WSL1) | 87.6 s | 58.9 s (1.49×) |  |  |
@@ -78,5 +79,84 @@ res <- read_csv("https://raw.githubusercontent.com/GGLuca/brms-cpu-benchmark/mas
 | Apple M4 Pro | 45.4 s | 32.9 s (1.38×) |  |  |
 | Apple M4 Max | 45.1 s | 30.4 s (1.48×) | 27.6 s (1.63×) |  |
 
+### Și graficul aferent...
 
-## So what?
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-width: 8
+#| fig-height: 5
+#| dpi: 300
+#| fig-alt: "Timpul mediu pe lanț scade cu numărul de fire de execuție pe toate sistemele; Ryzen 9 5950X ajunge la 26 de secunde cu patru fire."
+
+dat <- res |>
+  filter(!str_detect(machine, "native")) |>
+  mutate(sistem = case_when(
+    str_detect(machine, "5950X")    ~ "Ryzen 9 5950X (Ubuntu)",
+    str_detect(machine, "3600")     ~ "Ryzen 5 3600 (WSL)",
+    str_detect(machine, "5625U")    ~ "Ryzen 5 5625U (WSL)",
+    str_detect(machine, "M4 Max")   ~ "Apple M4 Max",
+    str_detect(machine, "M4 Pro")   ~ "Apple M4 Pro",
+    str_detect(machine, "Apple M4") ~ "Apple M4 (Mac mini)",
+    .default = machine
+  )) |>
+  group_by(sistem, threads) |>
+  slice_min(mean_chain, n = 1, with_ties = FALSE) |>
+  ungroup() |>
+  mutate(sistem = fct_reorder2(sistem, threads, mean_chain),
+         lanturi = factor(chains, levels = c(4, 3)))
+
+culori <- c(
+  "Ryzen 5 5625U (WSL)"    = "#e6550d",
+  "Ryzen 5 3600 (WSL)"     = "#fdae6b",
+  "Ryzen 9 5950X (Ubuntu)" = "#a63603",
+  "Apple M4 (Mac mini)"    = "#9ecae1",
+  "Apple M4 Pro"           = "#4292c6",
+  "Apple M4 Max"           = "#08306b"
+)
+
+p <- ggplot(dat, aes(threads, mean_chain, colour = sistem, group = sistem)) +
+  geom_line(linewidth = 1.1) +
+  geom_point(aes(shape = lanturi), size = 3.2, stroke = 1.2, fill = "white") +
+  scale_colour_manual(values = culori, name = NULL) +
+  scale_shape_manual(values = c(`4` = 16, `3` = 21),
+                     labels = c("4 lanțuri", "3 lanțuri"), name = NULL) +
+  scale_x_continuous(breaks = 1:4) +
+  scale_y_continuous(limits = c(0, NA),
+                     expand = expansion(mult = c(0, 0.05)),
+                     labels = \(x) paste0(x, " s")) +
+  labs(
+    x = "Threaduri pe lanț MCMC",
+    y = "Timp mediu de execuție",
+    caption = "Windows nativ exclus. Date: github.com/GGLuca/brms-cpu-benchmark"
+  ) +
+  guides(colour = guide_legend(order = 1), shape = guide_legend(order = 2)) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title.position = "plot",
+    plot.title = element_text(face = "bold"),
+    plot.subtitle = element_text(colour = "grey35"),
+    plot.caption = element_text(colour = "grey50", size = 9),
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_blank(),
+    legend.position = "right"
+  )
+
+p
+```
+
+## Concluzii...
+
+După toate aceste zile de testări ideea e că, pe un singur nucleu, diferențele dintre procesoarele moderne sunt mult mai mici decât ar sugera prețurile. De exemplu, toate cele trei CPUuri de la Apple, M4, de la Mac Mini până la M4 Max, termină un lanț în aproximativ 45–48 de secunde, iar acel Mac Mini m-a costat (cu prima didactica, ce-i drept) 1500 RON. Daca il gasiti pe undeva la SH, eu zic ca e e arhisuficient pentru modelele obișnuite.
+
+La fel, un Ryzen 9 5950X, care e un procesor de desktop din 2020, are nevoie de vreo 57 de secunde pt același model, dar are și un 105W TDP (poate chiar mai mult) în sarcină maximă. Ce a făcut Apple e de-a dreptul fascinant.\
+
+Diferența reală apare abia când folosesc nucleele rămase libere, prin `threading()` Două threaduri pe lanț MCMC duc la un câștig de timp de aproximativ 1,4–1,6 ori pe toate sistemele, iar pe desktopul meu cu 16 nuclee, cu patru threaduri pe lanț, ajunge la 26! de secunde, care e chiar puțin mai repede decât M4 Max-ul de 4.000 de euro. Nice!
+
+Și aș mai trage o concluzie și care e probabil cea mai importantă pt cei care rulează încă Windows. Sistemul de operare contează mai mult decât procesorul. Nu am atașat aici absolut toate datele dar pe același Ryzen 5 3600, același model durează 189 de secunde în Windows (11) nativ și 94 de secunde când CmdStan rulează prin Windows Subsystem for Linux (WSL). La fel și pentru laptopul HP, diferența e de 3,2 ori! Nu știu exact de ce, dar probabil acele .dll-uri în Windows își fac de cap cum vor ele.
+
+Eu zic că soluția în Windows nu cere hardware nou pentru modele simple sau puțin mai complicate. Dacă [modelul trece prin WSL](https://discourse.mc-stan.org/t/large-cmdstan-performance-differences-windows-vs-linux/14415?page=2), câștigul de timp e real.
+
+Cam atât pt primul post!
+Happy modeling!
