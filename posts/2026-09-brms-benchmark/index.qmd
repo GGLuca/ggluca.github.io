@@ -16,8 +16,6 @@ Pentru că am acces la diverse generații de procesoare sub diverse configurați
 
 ## Candidatii 
 
-Momentan
-
 | Calculator | Nuclee (performanta) | RAM | Sistem | Pret aprox. |
 |:--|--:|--:|:--|--:|
 | HP ProBook 455 G9, Ryzen 5 5625U | 6 | 16 | Win / WSL2 | 500 € |
