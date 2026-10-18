@@ -8,20 +8,57 @@ image: featured.png
 
 ## Introducere
 
-Partea computațională a inferenței Bayesiene poate fi extrem de costisitoare. In special daca modelele rulate au functii de verosimilitate (eng. _likelihood_) dificile ca de ex. cea negativ-binomiala, sau daca cumva sunt modele ordinale (pt scale Likert). Geometria dificila a distributiei posterioare obliga lanturile MCMC sa faca pasi multi si marunti cand o exploreaza. Asa ca un procesor "bun" este binevenit. Bun inseamna evident un timp real de executie cat mai scurt de la compilare pana la estimare. Dar care sunt cele bune, si care e curba randamentului sau punctul de eficienta, care o data atins nu justifica achizitia unui CPU "si mai bun"? Pentru ca am acces la diverse generatii de procesoare sub diverse configuratii, m-am gandit sa le compar si cu ocazia asta sa si scriu prima postare pe blog.
+Partea computațională a inferenței Bayesiene poate fi uneori extrem de costisitoare. In special daca modelele rulate au functii de verosimilitate dificile ca de ex. cea negativ-binomiala, sau daca cumva sunt modele ordinale. Problema e ca geometria dificila a distributiei posterioare obliga lanturile MCMC sa faca pasi multi si marunti cand o exploreaza, asa ca un procesor "bun" este binevenit. Dar ce inseamna "bun"? Pai, probabil un timp real de executie cat mai scurt de la compilare pana la estimare.\
 
-## Candidatii...
+Deci un nucleu rapid ar fi de dorit, dar care e curba randamentului sau punctul de eficienta, care o data atins nu justifica achizitia unui CPU "si mai bun"? Sau cat proverbial unt poti scoate din ceva mai vechi cu ajutorul paralizarii intre nuclee si intra-lanturi?\
 
-1. HP ProBook 455 G9 (Windows), cu un Ryzen 5 5625U (6 nuclee, aprox. 500 de Euro)
-2. Apple MacBook Air cu M1 (8 nuclee, din care 4 de performanta, aprox 400-500 Euro _SH_)
-3. Apple Mac Mini, cu un M4 (4 nuclee de performanta, cam 700 sau 800 de euro).
-4. Apple Macbook Pro M4 (8 nuclee de performanta, cam 1700 Euro _SH_).
-5. Apple Macbook Pro M4 Max (12 nuclee de performanta), _Furgeddaboutit_.
-6. Un desktop cu AMD Ryzen 9 5950X (16 nuclee, sub Ubuntu). 
+Pentru ca am acces la diverse generatii de procesoare sub diverse configuratii, m-am gandit sa le compar si cu ocazia asta sa si scriu prima postare pe blog.
+
+## Pe scurt
+
+
+
+## Candidatii 
+
+Momentan
+
+| Masina | Nuclee (performanta) | RAM | Sistem | Pret aprox. |
+|:--|--:|--:|:--|--:|
+| HP ProBook 455 G9, Ryzen 5 5625U | 6 | 16 | Win / WSL2 | 500 € |
+| Desktop, Ryzen 5 3600 | 6 | 32 | Win / WSL | sub 100 € (CPU, SH) |
+| Mac mini M4 | 4 din 10 | 16 | macOS | 700–800 € |
+| MacBook Pro M4 Pro | 8 din 12 | 24 | macOS | 1.700 € SH |
+| MacBook Pro M4 Max | 12 din 16 | 36 | macOS | 4.000 € |
+| Desktop, Ryzen 9 5950X | 16 | 128 | Ubuntu | ~250 € (CPU, SH) |
 
 ## Benchmarkul
 
-In primul rand avem de nevoie de niste date si de un model. Nimic complicat pentru inceput
+In primul rand avem de nevoie de niste date si de un model. Ambele le-am luat pur si simplu de pe foarte buna [vigneta](https://paulbuerkner.com/brms/articles/brms_threading.html) a lui Sebastian Weber despre rularea modelelor `brms` cu ajutorul paralelizarii intra-lanturi MCMC. 
+
+Pe scurt, sunt niste date sintetice. 10,000 de observatii, grupate in 1000 de clustere. Modelul e un Poisson cu doi predictori, un intercept aleator și pante fixe, cu forma
+
+```{r}
+#| echo: true
+#| message: false
+#| eval: false
+
+brm(
+  y ~ 1 + x1 + x2 + (1 | g),
+  data = benchmark, family = poisson(),
+  iter = 4000, warmup = 2000,
+  chains = 4, cores = 4,
+  threads = if (k > 1) threading(k) else NULL,
+  seed = 1234,
+  prior = prior(normal(0, 1), class = b) +
+          prior(constant(1), class = sd, group = g),
+  backend = "cmdstanr",
+  save_pars = save_pars(all = TRUE))
+```
+
+
+
+Destul de complex pentru a chinui cateva zeci de secunde un CPU modern. Pentru cei curiosi, detaliile le puteti gasi si pe [pagina de github](https://github.com/GGLuca/brms-cpu-benchmark) a benchmarkului, si daca sunteti si mai curiosi, puteti sa rulati functia voi si sa imi scrieti si mie ce valori primiti, impreuna cu datele sistemului.
+
 
 ```{r}
 #| echo: true
@@ -29,3 +66,17 @@ In primul rand avem de nevoie de niste date si de un model. Nimic complicat pent
 library(tidyverse)
 res <- read_csv("https://raw.githubusercontent.com/GGLuca/brms-cpu-benchmark/master/results.csv")
 ```
+
+## Rezultate
+
+| Calculici | 1 thread | 2 threaduri | 3 threaduri | 4 threaduri |
+|:---|---:|---:|---:|---:|
+| AMD 5625U (WSL2) | 89.8 s | 65.5 s (1.37×) |  |  |
+| AMD 3600 (Win11 + WSL1) | 87.6 s | 58.9 s (1.49×) |  |  |
+| AMD 5950X | 56.9 s | 36.4 s (1.56×) | 31.9 s (1.78×) | 26.2 s (2.17×) |
+| Apple M4 | 47.5 s |  |  |  |
+| Apple M4 Pro | 45.4 s | 32.9 s (1.38×) |  |  |
+| Apple M4 Max | 45.1 s | 30.4 s (1.48×) | 27.6 s (1.63×) |  |
+
+
+## So what?
