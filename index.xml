@@ -10,9 +10,9 @@
 <atom:link href="https://ggluca.ro/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.9.37</generator>
-<lastBuildDate>Sat, 19 Sep 2026 21:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sat, 17 Oct 2026 21:00:00 GMT</lastBuildDate>
 <item>
-  <title>Care mai sunt procesoarele bune pt MCMC</title>
+  <title>Bayes cu brms pe șase calculatoare. Nu procesorul e problema…</title>
   <link>https://ggluca.ro/posts/2026-09-brms-benchmark/</link>
   <description><![CDATA[ 
 
@@ -22,34 +22,276 @@
 
 <section id="introducere" class="level2">
 <h2 class="anchored" data-anchor-id="introducere">Introducere</h2>
-<p>Partea computațională a inferenței Bayesiene poate fi extrem de costisitoare. In special daca modelele rulate au functii de verosimilitate (eng. <em>likelihood</em>) dificile ca de ex. cea negativ-binomiala, sau daca cumva sunt modele ordinale (pt scale Likert). Geometria dificila a distributiei posterioare obliga lanturile MCMC sa faca pasi multi si marunti cand o exploreaza. Asa ca un procesor “bun” este binevenit. Bun inseamna evident un timp real de executie cat mai scurt de la compilare pana la estimare. Dar care sunt cele bune, si care e curba randamentului sau punctul de eficienta, care o data atins nu justifica achizitia unui CPU “si mai bun”? Pentru ca am acces la diverse generatii de procesoare sub diverse configuratii, m-am gandit sa le compar si cu ocazia asta sa si scriu prima postare pe blog.</p>
+<p>Partea computațională a inferenței Bayesiene poate fi uneori extrem de costisitoare. În special dacă modelele rulate au funcții de verosimilitate dificile ca de ex. cea negativ-binomială, sau dacă cumva sunt modele ordinale. Problema e că geometria dificilă a distribuției posterioare obligă lanțurile MCMC să facă pași mulți și mărunți când o explorează, așa că un procesor “bun” este binevenit. Dar ce înseamnă “bun”? Păi, probabil un timp real de execuție cât mai scurt până la estimare.<br>
+</p>
+<p>Deci un nucleu rapid ar fi de dorit, dar care e curba randamentului sau punctul de eficiență, care o dată atins nu justifică achiziția unui CPU “și mai bun”? Sau cât proverbial unt poți scoate din ceva mai vechi cu ajutorul paralelizării între nuclee și intra-lanțuri MCMC?<br>
+</p>
+<p>Pentru că am acces la diverse generații de procesoare sub diverse configurații, m-am gândit să le compar in concediu :) și cu ocazia asta să și scriu prima postare pe blog.</p>
 </section>
 <section id="candidatii" class="level2">
-<h2 class="anchored" data-anchor-id="candidatii">Candidatii…</h2>
-<ol type="1">
-<li>HP ProBook 455 G9 (Windows), cu un Ryzen 5 5625U (6 nuclee, aprox. 500 de Euro)</li>
-<li>Apple MacBook Air cu M1 (8 nuclee, din care 4 de performanta, aprox 400-500 Euro <em>SH</em>)</li>
-<li>Apple Mac Mini, cu un M4 (4 nuclee de performanta, cam 700 sau 800 de euro).</li>
-<li>Apple Macbook Pro M4 (8 nuclee de performanta, cam 1700 Euro <em>SH</em>).</li>
-<li>Apple Macbook Pro M4 Max (12 nuclee de performanta), <em>Furgeddaboutit</em>.</li>
-<li>Un desktop cu AMD Ryzen 9 5950X (16 nuclee, sub Ubuntu).</li>
-</ol>
+<h2 class="anchored" data-anchor-id="candidatii">Candidatii</h2>
+<p>Momentan</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Calculator</th>
+<th style="text-align: right;">Nuclee (performanta)</th>
+<th style="text-align: right;">RAM</th>
+<th style="text-align: left;">Sistem</th>
+<th style="text-align: right;">Pret aprox.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">HP ProBook 455 G9, Ryzen 5 5625U</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: left;">Win / WSL2</td>
+<td style="text-align: right;">500 €</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Desktop, Ryzen 5 3600</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: left;">Win / WSL</td>
+<td style="text-align: right;">sub 100 € (CPU, SH)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mac mini M4</td>
+<td style="text-align: right;">4 din 10</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: left;">macOS</td>
+<td style="text-align: right;">700–800 €</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MacBook Pro M4 Pro</td>
+<td style="text-align: right;">8 din 12</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: left;">macOS</td>
+<td style="text-align: right;">1.700 € SH</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MacBook Pro M4 Max</td>
+<td style="text-align: right;">12 din 16</td>
+<td style="text-align: right;">36</td>
+<td style="text-align: left;">macOS</td>
+<td style="text-align: right;">4.000 €</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Desktop, Ryzen 9 5950X</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">128</td>
+<td style="text-align: left;">Ubuntu</td>
+<td style="text-align: right;">~250 € (CPU, SH)</td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="benchmarkul" class="level2">
 <h2 class="anchored" data-anchor-id="benchmarkul">Benchmarkul</h2>
-<p>In primul rand avem de nevoie de niste date si de un model. Nimic complicat pentru inceput</p>
+<p>În primul rând avem nevoie de niște date și de un model. Ambele le-am luat pur și simplu de pe foarte buna <a href="https://paulbuerkner.com/brms/articles/brms_threading.html">vigneta</a> a lui Sebastian Weber despre rularea modelelor <code>brms</code> cu ajutorul paralelizării intra-lanțuri MCMC.</p>
+<p>Pe scurt, sunt niște date sintetice cu 10.000 de observații, grupate în 1000 de clustere. Modelul e un Poisson cu doi predictori, un intercept aleator și pante fixe, cu forma</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">library</span>(tidyverse)</span>
-<span id="cb1-2">res <span class="ot" style="color: #003B4F;
+font-style: inherit;">brm</span>(</span>
+<span id="cb1-2">  y <span class="sc" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+font-style: inherit;">~</span> <span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">read_csv</span>(<span class="st" style="color: #20794D;
+font-style: inherit;">1</span> <span class="sc" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">"https://raw.githubusercontent.com/GGLuca/brms-cpu-benchmark/master/results.csv"</span>)</span></code></pre></div></div>
+font-style: inherit;">+</span> x1 <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> x2 <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> (<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|</span> g),</span>
+<span id="cb1-3">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> benchmark, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">family =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">poisson</span>(),</span>
+<span id="cb1-4">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">iter =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4000</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">warmup =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2000</span>,</span>
+<span id="cb1-5">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">chains =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">cores =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>,</span>
+<span id="cb1-6">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">threads =</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> (k <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">threading</span>(k) <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">else</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">NULL</span>,</span>
+<span id="cb1-7">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">seed =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1234</span>,</span>
+<span id="cb1-8">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">prior =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">prior</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">normal</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">class =</span> b) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb1-9">          <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">prior</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">constant</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">class =</span> sd, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">group =</span> g),</span>
+<span id="cb1-10">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">backend =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"cmdstanr"</span>,</span>
+<span id="cb1-11">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">save_pars =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">save_pars</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">all =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span>))</span></code></pre></div></div>
 </div>
+<p>Pentru cei curioși, detaliile le puteți găsi și pe <a href="https://github.com/GGLuca/brms-cpu-benchmark">pagina de github</a> a benchmarkului, și dacă sunteți <em>și mai</em> curioși, puteți să rulați funcția voi și să îmi scrieți și mie ce valori primiți, împreună cu datele sistemului, si le pun “pe net”.</p>
+</section>
+<section id="cum-am-testat" class="level2">
+<h2 class="anchored" data-anchor-id="cum-am-testat">Cum am testat</h2>
+<p>Fiecare calculator a rulat același model, cu aceleași date și cu aceeași seed. Am rulat fiecare configurație de două ori. Prima rulare include compilarea modelului, a doua folosește executabilul deja compilat si scris pe disc. În tabel de mai jos apare valoarea cea mai mică, adică rularea fără compilare.</p>
+<p>Ce raportez aici este timpul mediu pe lanț. Am pornit de la 4 lanțuri în paralel, câte unul pe nucleu, apoi am adăugat threaduri în interiorul fiecărui lanț (<code>threads = threading(k)</code>), atât cât au permis nucleele de performanță. De exemplu, pe CPUurile cu 6 nuclee am folosit 3 lanțuri x 2 threaduri, ca să ocup toate nucleele. Pe celelalte, 4x2, sau 4x3 (5950)</p>
+<p>Ce mai e de zis e ca laptopurile au fost conectate la priză, iar in Linux am setat guvernorul procesorului pe <code>performance</code>. All set!</p>
+</section>
+<section id="rezultate" class="level2">
+<h2 class="anchored" data-anchor-id="rezultate">Rezultate</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Sistem</th>
+<th style="text-align: right;">1 thread</th>
+<th style="text-align: right;">2 threaduri</th>
+<th style="text-align: right;">3 threaduri</th>
+<th style="text-align: right;">4 threaduri</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">AMD 5625U (WSL2)</td>
+<td style="text-align: right;">89.8 s</td>
+<td style="text-align: right;">65.5 s (1.37×)</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AMD 3600 (Win11 + WSL1)</td>
+<td style="text-align: right;">87.6 s</td>
+<td style="text-align: right;">58.9 s (1.49×)</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">AMD 5950X</td>
+<td style="text-align: right;">56.9 s</td>
+<td style="text-align: right;">36.4 s (1.56×)</td>
+<td style="text-align: right;">31.9 s (1.78×)</td>
+<td style="text-align: right;">26.2 s (2.17×)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Apple M4</td>
+<td style="text-align: right;">47.5 s</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Apple M4 Pro</td>
+<td style="text-align: right;">45.4 s</td>
+<td style="text-align: right;">32.9 s (1.38×)</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Apple M4 Max</td>
+<td style="text-align: right;">45.1 s</td>
+<td style="text-align: right;">30.4 s (1.48×)</td>
+<td style="text-align: right;">27.6 s (1.63×)</td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table>
+<section id="și-graficul-aferent" class="level3">
+<h3 class="anchored" data-anchor-id="și-graficul-aferent">Și graficul aferent…</h3>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://ggluca.ro/posts/2026-09-brms-benchmark/index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" alt="Timpul mediu pe lanț scade cu numărul de fire de execuție pe toate sistemele; Ryzen 9 5950X ajunge la 26 de secunde cu patru fire." width="2400"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="concluzii" class="level2">
+<h2 class="anchored" data-anchor-id="concluzii">Concluzii…</h2>
+<p>După toate aceste zile de testări ideea e că, pe un singur nucleu, diferențele dintre procesoarele moderne sunt mult mai mici decât ar sugera prețurile. De exemplu, toate cele trei CPUuri de la Apple, M4, de la Mac Mini până la M4 Max, termină un lanț în aproximativ 45–48 de secunde, iar acel Mac Mini m-a costat (cu prima didactica, ce-i drept) 1500 RON. Daca il gasiti pe undeva la SH, eu zic ca e e arhisuficient pentru modelele obișnuite.</p>
+<p>La fel, un Ryzen 9 5950X, care e un procesor de desktop din 2020, are nevoie de vreo 57 de secunde pt același model, dar are și un 105W TDP (poate chiar mai mult) în sarcină maximă. Ce a făcut Apple e de-a dreptul fascinant.<br>
+</p>
+<p>Diferența reală apare abia când folosesc nucleele rămase libere, prin <code>threading()</code> Două threaduri pe lanț MCMC duc la un câștig de timp de aproximativ 1,4–1,6 ori pe toate sistemele, iar pe desktopul meu cu 16 nuclee, cu patru threaduri pe lanț, ajunge la 26! de secunde, care e chiar puțin mai repede decât M4 Max-ul de 4.000 de euro. Nice!</p>
+<p>Și aș mai trage o concluzie și care e probabil cea mai importantă pt cei care rulează încă Windows. Sistemul de operare contează mai mult decât procesorul. Nu am atașat aici absolut toate datele dar pe același Ryzen 5 3600, același model durează 189 de secunde în Windows (11) nativ și 94 de secunde când CmdStan rulează prin Windows Subsystem for Linux (WSL). La fel și pentru laptopul HP, diferența e de 3,2 ori! Nu știu exact de ce, dar probabil acele .dll-uri în Windows își fac de cap cum vor ele.</p>
+<p>Eu zic că soluția în Windows nu cere hardware nou pentru modele simple sau puțin mai complicate. Dacă <a href="https://discourse.mc-stan.org/t/large-cmdstan-performance-differences-windows-vs-linux/14415?page=2">modelul trece prin WSL</a>, câștigul de timp e real.</p>
+<p>Cam atât pt primul post! Happy modeling!</p>
 
 
 </section>
@@ -61,7 +303,7 @@ font-style: inherit;">"https://raw.githubusercontent.com/GGLuca/brms-cpu-benchma
   <category>bayes</category>
   <category>mcmc</category>
   <guid>https://ggluca.ro/posts/2026-09-brms-benchmark/</guid>
-  <pubDate>Sat, 19 Sep 2026 21:00:00 GMT</pubDate>
+  <pubDate>Sat, 17 Oct 2026 21:00:00 GMT</pubDate>
   <media:content url="https://ggluca.ro/posts/2026-09-brms-benchmark/featured.png" medium="image" type="image/png" height="192" width="144"/>
 </item>
 </channel>
