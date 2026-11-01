@@ -1,6 +1,7 @@
 ---
 title: "George Gunnesch-Luca"
 image: images/ggluca.jpg
+include-after-body: _bayes-bg.html
 about:
   template: trestles
   image-shape: round
@@ -20,10 +21,12 @@ George aici, psiholog și conferențiar la Universitatea din București. Înaint
 
 Cercetarea mea se axează pe performanța umană în situații de interacțiune, de la motricitatea timpurie până la performanța în organizații. Tot timpul Bayesian, pentru că [probabilitatea nu există](https://en.wikipedia.org/wiki/Bruno_de_Finetti)!
 
-Scriu mult cod în R. Uneori chiar rulează.
+Scriu mult cod în R, iar uneori rulează.
+
+[Blogul](blog.qmd) nu e cu AI... toate cuvintele sunt ale mele, chiar și cele greșite.
 
 ::: {.text-muted lang="en"}
-*All the above in short:* Psychologist at the University of Bucharest, previously lots of beautiful years at FAU Erlangen-Nürnberg. Human performance in interaction, always Bayesian, lots of R (that sometimes runs!)
+*All the above in short:* Psychologist at the University of Bucharest, previously lots of beautiful years at FAU Erlangen-Nürnberg. Human performance in interaction, always Bayesian, lots of R (that sometimes runs!).
 :::
 
 ## Recent

@@ -11,3 +11,18 @@ $font-family-base: $font-family-sans-serif;
   white-space: nowrap;
   font-size: clamp(1.6rem, 3vw, 2.2rem);
 }
+
+// Prior, verosimilitate, posterior sub linkurile de pe homepage (generat de _bayes-bg.R)
+.bayes-bg {
+  width: 100%; max-width: 16em; margin: 1em auto 0;
+  pointer-events: none;
+  svg { display: block; width: 100%; height: auto; }
+  path { stroke-width: 1.5; vector-effect: non-scaling-stroke; fill-opacity: .12; stroke-opacity: .45; }
+  // MetBrewer::met.brewer("Klimt", 3)
+  .prior      { fill: #924099; stroke: #924099; }
+  .likelihood { fill: #c93f55; stroke: #c93f55; }
+  .posterior  { fill: #eacc62; stroke: #eacc62; fill-opacity: .25; stroke-opacity: .8; }
+  .area { stroke: none; }
+  .line { fill: none; }
+}
+body.quarto-dark .bayes-bg path { fill-opacity: .16; stroke-opacity: .6; }
