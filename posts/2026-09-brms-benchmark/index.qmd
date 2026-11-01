@@ -1,5 +1,5 @@
 ---
-title: "Bayes cu R si brms. Nu procesorul e problema..."
+title: "Bayes cu R și brms. Nu procesorul e problema..."
 description: "Gânduri și recomandări despre sistemele pe care rulează modelele Bayesiene în brms și Stan. Un mic benchmark pentru acasă."
 date: 2026-10-18
 categories: [brms, ro, cpu, bayes, mcmc]
@@ -12,11 +12,11 @@ Partea computațională a inferenței Bayesiene poate fi uneori extrem de costis
 
 Deci un nucleu rapid ar fi de dorit, dar care e curba randamentului sau punctul de eficiență, care o dată atins nu justifică achiziția unui CPU “și mai bun”? Sau cât proverbial unt poți scoate din ceva mai vechi cu ajutorul paralelizării între nuclee și intra-lanțuri MCMC?\
 
-Pentru că am acces la diverse generații de procesoare sub diverse configurații, m-am gândit să le compar in concediu :) și cu ocazia asta să și scriu prima postare pe blog.
+Pentru că am acces la diverse generații de procesoare sub diverse configurații, m-am gândit să le compar în concediu :) și cu ocazia asta să și scriu prima postare pe blog.
 
-## Candidatii 
+## Candidații
 
-| Calculator | Nuclee (performanta) | RAM | Sistem | Pret aprox. |
+| Calculator | Nuclee (performanță) | RAM | Sistem | Preț aprox. |
 |:--|--:|--:|:--|--:|
 | HP ProBook 455 G9, Ryzen 5 5625U | 6 | 16 | Win / WSL2 | 500 € |
 | Desktop, Ryzen 5 3600 | 6 | 32 | Win / WSL | sub 100 € (CPU, SH) |
@@ -49,15 +49,15 @@ brm(
   save_pars = save_pars(all = TRUE))
 ```
 
-Pentru cei curioși, detaliile le puteți găsi și pe [pagina de github](https://github.com/GGLuca/brms-cpu-benchmark) a benchmarkului, și dacă sunteți *și mai* curioși, puteți să rulați funcția voi și să îmi scrieți și mie ce valori primiți, împreună cu datele sistemului, si le pun "pe net".
+Pentru cei curioși, detaliile le puteți găsi și pe [pagina de github](https://github.com/GGLuca/brms-cpu-benchmark) a benchmarkului, și dacă sunteți *și mai* curioși, puteți să rulați funcția voi și să îmi scrieți și mie ce valori primiți, împreună cu datele sistemului, și le pun "pe net".
 
 ## Cum am testat
 
-Fiecare calculator a rulat același model, cu aceleași date și cu aceeași seed. Am rulat fiecare configurație de două ori. Prima rulare include compilarea modelului, a doua folosește executabilul deja compilat si scris pe disc. În tabel de mai jos apare valoarea cea mai mică, adică rularea fără compilare.
+Fiecare calculator a rulat același model, cu aceleași date și cu aceeași seed. Am rulat fiecare configurație de două ori. Prima rulare include compilarea modelului, a doua folosește executabilul deja compilat și scris pe disc. În tabel de mai jos apare valoarea cea mai mică, adică rularea fără compilare.
 
 Ce raportez aici este timpul mediu pe lanț. Am pornit de la 4 lanțuri în paralel, câte unul pe nucleu, apoi am adăugat threaduri în interiorul fiecărui lanț (`threads = threading(k)`), atât cât au permis nucleele de performanță. De exemplu, pe CPUurile cu 6 nuclee am folosit 3 lanțuri x 2 threaduri, ca să ocup toate nucleele. Pe celelalte, 4x2, sau 4x3 (5950)
 
-Ce mai e de zis e ca laptopurile au fost conectate la priză, iar in Linux am setat guvernorul procesorului pe `performance`. All set!
+Ce mai e de zis e că laptopurile au fost conectate la priză, iar în Linux am setat guvernorul procesorului pe `performance`. All set!
 
 ```{r}
 #| echo: false
@@ -146,7 +146,7 @@ p
 
 ## Concluzii...
 
-După toate aceste zile de testări ideea e că, pe un singur nucleu, diferențele dintre procesoarele moderne sunt mult mai mici decât ar sugera prețurile. De exemplu, toate cele trei CPUuri de la Apple, M4, de la Mac Mini până la M4 Max, termină un lanț în aproximativ 45–48 de secunde, iar acel Mac Mini m-a costat (cu prima didactica, ce-i drept) 1500 RON. Daca il gasiti pe undeva la SH, eu zic ca e e arhisuficient pentru modelele obișnuite.
+După toate aceste zile de testări ideea e că, pe un singur nucleu, diferențele dintre procesoarele moderne sunt mult mai mici decât ar sugera prețurile. De exemplu, toate cele trei CPUuri de la Apple, M4, de la Mac Mini până la M4 Max, termină un lanț în aproximativ 45–48 de secunde, iar acel Mac Mini m-a costat (cu prima didactică, ce-i drept) 1500 RON. Dacă îl găsiți pe undeva la SH, eu zic că e arhisuficient pentru modelele obișnuite.
 
 La fel, un Ryzen 9 5950X, care e un procesor de desktop din 2020, are nevoie de vreo 57 de secunde pt același model, dar are și un 105W TDP (poate chiar mai mult) în sarcină maximă. Ce a făcut Apple e de-a dreptul fascinant.\
 
