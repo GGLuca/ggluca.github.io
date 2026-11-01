@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ro" xml:lang="ro"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="GGL">
+<meta name="description" content="Redactarea in timp real a documentelor">
+
+<title>Workshop: RMarkdown pentru o literatura stiintifica reproductibila – George Gunnesch-Luca</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../images/favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-9f9bee2c5df52c576f80702a0444854b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-7b1f6849361a072933304eb698951353.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-9f9bee2c5df52c576f80702a0444854b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "Caută",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta property="og:title" content="Workshop: RMarkdown pentru o literatura stiintifica reproductibila – George Gunnesch-Luca">
+<meta property="og:description" content="Redactarea in timp real a documentelor">
+<meta property="og:image" content="https://ggluca.ro/workshops/rmarkdown-2022/images/document-nou.png">
+<meta property="og:site_name" content="George Gunnesch-Luca">
+<meta property="og:image:height" content="443">
+<meta property="og:image:width" content="586">
+<meta name="twitter:title" content="Workshop: RMarkdown pentru o literatura stiintifica reproductibila – George Gunnesch-Luca">
+<meta name="twitter:description" content="Redactarea in timp real a documentelor">
+<meta name="twitter:image" content="https://ggluca.ro/workshops/rmarkdown-2022/images/document-nou.png">
+<meta name="twitter:image-height" content="443">
+<meta name="twitter:image-width" content="586">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="floating nav-fixed slimcontent quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">George Gunnesch-Luca</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../workshops.html"> 
+<span class="menu-text">Workshopuri</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../cercetare.html"> 
+<span class="menu-text">Cercetare</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../software.html"> 
+<span class="menu-text">Software</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../blog.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/GGLuca"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Cuprins</h2>
+   
+  <ul>
+  <li><a href="#introducere" id="toc-introducere" class="nav-link active" data-scroll-target="#introducere">Introducere</a>
+  <ul class="collapse">
+  <li><a href="#cui-i-se-adreseaza" id="toc-cui-i-se-adreseaza" class="nav-link" data-scroll-target="#cui-i-se-adreseaza">Cui i se adreseaza?</a></li>
+  <li><a href="#scopul-zilei-de-azi" id="toc-scopul-zilei-de-azi" class="nav-link" data-scroll-target="#scopul-zilei-de-azi">Scopul zilei de azi</a></li>
+  </ul></li>
+  <li><a href="#care-sunt-cerintele-unui-instrument-de-comunicare-a-rezultatelor-stiintifice" id="toc-care-sunt-cerintele-unui-instrument-de-comunicare-a-rezultatelor-stiintifice" class="nav-link" data-scroll-target="#care-sunt-cerintele-unui-instrument-de-comunicare-a-rezultatelor-stiintifice">Care sunt cerintele unui instrument de comunicare a rezultatelor stiintifice?</a></li>
+  <li><a href="#software-necesar" id="toc-software-necesar" class="nav-link" data-scroll-target="#software-necesar">Software necesar</a></li>
+  <li><a href="#creearea-unui-document-markdown" id="toc-creearea-unui-document-markdown" class="nav-link" data-scroll-target="#creearea-unui-document-markdown">Creearea unui document Markdown…</a></li>
+  <li><a href="#structura-unui-fisier-.rmd-rmarkdown" id="toc-structura-unui-fisier-.rmd-rmarkdown" class="nav-link" data-scroll-target="#structura-unui-fisier-.rmd-rmarkdown">Structura unui fisier .Rmd (<code>R</code>Markdown)</a>
+  <ul class="collapse">
+  <li><a href="#header-yaml" id="toc-header-yaml" class="nav-link" data-scroll-target="#header-yaml">1. Header (YAML)</a></li>
+  <li><a href="#textul-in-markdown" id="toc-textul-in-markdown" class="nav-link" data-scroll-target="#textul-in-markdown">2. Textul in Markdown</a></li>
+  <li><a href="#codul-r" id="toc-codul-r" class="nav-link" data-scroll-target="#codul-r">3. Codul <code>R</code></a></li>
+  <li><a href="#exercitii-10min" id="toc-exercitii-10min" class="nav-link" data-scroll-target="#exercitii-10min">Exercitii (~10min)</a></li>
+  </ul></li>
+  <li><a href="#sintaxa-markdown" id="toc-sintaxa-markdown" class="nav-link" data-scroll-target="#sintaxa-markdown">Sintaxa Markdown</a>
+  <ul class="collapse">
+  <li><a href="#formatarea-textului" id="toc-formatarea-textului" class="nav-link" data-scroll-target="#formatarea-textului">Formatarea textului</a></li>
+  <li><a href="#exercitii-10min-1" id="toc-exercitii-10min-1" class="nav-link" data-scroll-target="#exercitii-10min-1">Exercitii (~10min)</a></li>
+  <li><a href="#cum-citam" id="toc-cum-citam" class="nav-link" data-scroll-target="#cum-citam">Cum citam?</a></li>
+  <li><a href="#tabelul-in-markdown" id="toc-tabelul-in-markdown" class="nav-link" data-scroll-target="#tabelul-in-markdown">Tabelul in Markdown</a></li>
+  <li><a href="#grafice" id="toc-grafice" class="nav-link" data-scroll-target="#grafice">Grafice</a></li>
+  <li><a href="#ecuatii" id="toc-ecuatii" class="nav-link" data-scroll-target="#ecuatii">Ecuatii</a></li>
+  <li><a href="#statistici" id="toc-statistici" class="nav-link" data-scroll-target="#statistici">Statistici</a></li>
+  </ul></li>
+  <li><a href="#documente-in-format-apa-cu-ajutorul-pachetului-papaja." id="toc-documente-in-format-apa-cu-ajutorul-pachetului-papaja." class="nav-link" data-scroll-target="#documente-in-format-apa-cu-ajutorul-pachetului-papaja.">Documente in format <em>APA</em> cu ajutorul pachetului <code>papaja</code>.</a>
+  <ul class="collapse">
+  <li><a href="#instalarea-papaja" id="toc-instalarea-papaja" class="nav-link" data-scroll-target="#instalarea-papaja">Instalarea <code>papaja</code></a></li>
+  <li><a href="#crearea-unui-document" id="toc-crearea-unui-document" class="nav-link" data-scroll-target="#crearea-unui-document">Crearea unui document</a></li>
+  <li><a href="#cateva-observatii" id="toc-cateva-observatii" class="nav-link" data-scroll-target="#cateva-observatii">Cateva observatii:</a></li>
+  <li><a href="#analiza-statistica-in-papaja" id="toc-analiza-statistica-in-papaja" class="nav-link" data-scroll-target="#analiza-statistica-in-papaja">Analiza statistica in <code>papaja</code></a></li>
+  <li><a href="#exercitiu" id="toc-exercitiu" class="nav-link" data-scroll-target="#exercitiu">Exercitiu</a></li>
+  <li><a href="#sessioninfo" id="toc-sessioninfo" class="nav-link" data-scroll-target="#sessioninfo">Sessioninfo()</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/GGLuca/ggluca.github.io/edit/main/workshops/rmarkdown-2022/index.qmd" class="toc-action"><i class="bi bi-github"></i>Editează pagina</a></li><li><a href="https://github.com/GGLuca/ggluca.github.io/issues/new" class="toc-action"><i class="bi empty"></i>Semnalează o problemă</a></li></ul></div></nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Workshop: RMarkdown pentru o literatura stiintifica reproductibila</h1>
+<p class="subtitle lead">Redactarea in timp real a documentelor</p>
+  <div class="quarto-categories">
+    <div class="quarto-category">APIO 2022</div>
+    <div class="quarto-category">rmarkdown</div>
+    <div class="quarto-category">papaja</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Redactarea in timp real a documentelor
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Autor</div>
+    <div class="quarto-title-meta-contents">
+             <p>GGL </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Publicat</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">Ianuarie 2022</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introducere" class="level2">
+<h2 class="anchored" data-anchor-id="introducere">Introducere</h2>
+<p>Acest workshop este dedicat invatarii <code>RMarkdown</code>, cu scopul de a genera documente reproductibile din punct de vedere computational.</p>
+<p>Despre ce e vorba? Pe scurt, Rmarkdown va permite sa compilati datele, sintaxa si proza stiintifica intr-un singur document, urmatorul vostru articol, sau raport stiintific.</p>
+<section id="cui-i-se-adreseaza" class="level3">
+<h3 class="anchored" data-anchor-id="cui-i-se-adreseaza">Cui i se adreseaza?</h3>
+<ol type="1">
+<li>Cercetatorilor</li>
+<li>Studentilor</li>
+<li>Oricui implicat in predare…</li>
+</ol>
+</section>
+<section id="scopul-zilei-de-azi" class="level3">
+<h3 class="anchored" data-anchor-id="scopul-zilei-de-azi">Scopul zilei de azi</h3>
+<ul>
+<li>Care sunt cerintele unui instrument de prelucrare a textului.</li>
+<li>Sa invatati fundamentele sintaxei Markdown.</li>
+<li>Sa vedeti/intelegeti integrarea codului si prozei stiintifice in R+Markdown.</li>
+<li>Sa intelegeti cum se genereaza diferite documente (Word, PDF, HTML sau prezentari).</li>
+<li>Generarea tabelelor cu R/Markdown.</li>
+<li>Citari si referinte in Markdown.</li>
+<li>Generarea articole in format APA folosind pachetul <code>papaja</code> impreuna cu Markdown.</li>
+</ul>
+</section>
+</section>
+<section id="care-sunt-cerintele-unui-instrument-de-comunicare-a-rezultatelor-stiintifice" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="care-sunt-cerintele-unui-instrument-de-comunicare-a-rezultatelor-stiintifice">Care sunt cerintele unui instrument de comunicare a rezultatelor stiintifice?</h2>
+<ol type="1">
+<li>Integrarea sintaxei si produsul ei final in document.</li>
+</ol>
+<p>Separarea instrumentului de calcul de cel al procesarii textului in procesul de raportare creaza o falie ce trebuie trecuta <em>de fiecare data</em>. Doua lucruri se intampla obligatoriu aici: <em>copy-paste</em> si/sau actualizarea manuala. Dar <em>Copy-paste</em> este obositor si inclinat spre erori, ceea ce duce catre introducere manuala a datelor.</p>
+<div class="page-columns page-full"><blockquote class="blockquote">
+<p><strong>Nota</strong>: peste 10% din pragurile de semnficatie nu corespund statisticilor din textul respectiv, iar 1.6% din valorile <em>p</em> sunt tratate incorect, adica textul stiintific si valoarea <em>p</em> nu corespund.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+</blockquote><div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;<span class="citation" data-cites="nuijten2016">(<a href="#ref-nuijten2016" role="doc-biblioref">Nuijten et al. 2016</a>)</span></p><div id="ref-nuijten2016" class="csl-entry" role="listitem">
+Nuijten, Michèle B., Chris H. J. Hartgerink, Marcel A. L. M. van Assen, Sacha Epskamp, și Jelte M. Wicherts. 2016. <span>„The Prevalence of Statistical Reporting Errors in Psychology (1985–2013)”</span>. <em>Behavior Research Methods</em> 48 (4): 1205-26. <a href="https://doi.org/10.3758/s13428-015-0664-2">https://doi.org/10.3758/s13428-015-0664-2</a>.
+</div></div></div></div>
+<p>In ceea ce priveste actualizarea manuala, imaginati-va ca raportul dv. cuprinde 50 de diagrame, o serie de tabele, figuri si o serie intreaga de cifre. Aveti aproximativ 100 de clienti ce necesita raportul saptamanal. Rezultatele trebuie generate in acelasi timp cu textul.</p>
+<ol start="2" type="1">
+<li>Continutul primeaza</li>
+</ol>
+<p>Continutul are prioritate iar formatarea este, ca importanta, de ordin secundar. Un instrument orientat spre editare vizuala risca sa schimbe focus-ul dinspre continut spre decorul continutului.</p>
+<p>Suplimentar, ar fi ideal daca instrumentul se ocupa singur de toate aspectele formatarii. Cu toate astea, autorul trebuie sa aiba acces la o serie intreaga de optiuni suplimentare.</p>
+<ol start="3" type="1">
+<li>Utilizare usoara</li>
+</ol>
+<p>Cu toate ca indeplineste o serie din conditiile enumerate, <span class="math inline">\(\LaTeX\)</span>, sau HTML nu sunt simplu de invatat si utilizat. Dimpotriva.</p>
+<ol start="4" type="1">
+<li>Compatibilitatea cu standarde uzuale (.pdf, .doc, etc.)</li>
+</ol>
+<p>Cele mai populare standarde pentru rapoartele create sunt cu singuranta: .pdf, .doc, sau .ppt. In ultimul timp si HTML si EPUB, iar ele sunt de acum obligatorii.</p>
+<p>De ex. ubicuitatea tabletelor si cititoarelor pe hartie electronica implica metode diferite. Un document creat pentru tablete sau hartie electronica necesita linii ce se pot rupe independent in functie de rezolutia (ceea ce EPUB si HTML pot sa o faca nativ, dar nu si .pdf).</p>
+<p>Un mic bonus: acelasi text poate fi folosit pentru diverse scopuri cu un minim efort.</p>
+<ol start="5" type="1">
+<li><p>Documentul astfel pregatit sa fie multumitor <em>dpdv</em> estetic.</p></li>
+<li><p>Sa fie utilizabil indiferent de platorma de utilizare si de timpul utilizarii.</p></li>
+</ol>
+<p>Problema nu este imediat evidenta, insa evolutia soft-ului in timp o va face simtita.</p>
+<p>Experiment: incercati sa deschideti fisiere output SPSS de acum 15 ani si raportati starile emotionale prin care treceti.</p>
+<ol start="7" type="1">
+<li><p>Sa fie “puternic,” i.e., sa fie flexibil si sa aiba functii diverse.</p></li>
+<li><p>Sa fie gratis.</p></li>
+<li><p>Sa usureze colaborarea.</p></li>
+<li><p>Sa permita versionarea.</p></li>
+</ol>
+</section>
+<section id="software-necesar" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="software-necesar">Software necesar</h2>
+<ol type="1">
+<li><p>R<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p></li>
+<li><p>RStudio<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p></li>
+</ol>
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;<a href="https://cran.r-project.org/" class="uri">https://cran.r-project.org/</a></p></div><div id="fn3"><p><sup>3</sup>&nbsp;<a href="https://www.rstudio.com/products/rstudio/download/">https://www.rstudio.com/</a></p></div></div><p>Optional (si nu prea):</p>
+<ol start="3" type="1">
+<li><p>Miktex<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> (Pt. generarea fisierelor .pdf), sau pachetul tinytex.</p></li>
+<li><p>Sau Tinytex<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p></li>
+</ol>
+<div class="no-row-height column-margin column-container"><div id="fn4"><p><sup>4</sup>&nbsp;<a href="https://miktex.org/" class="uri">https://miktex.org/</a></p></div><div id="fn5"><p><sup>5</sup>&nbsp;Tinytex este, spre deosebire de Miktex, un pachet R</p></div></div></section>
+<section id="creearea-unui-document-markdown" class="level2">
+<h2 class="anchored" data-anchor-id="creearea-unui-document-markdown">Creearea unui document Markdown…</h2>
+<p>… nu poate fi mai simpla:</p>
+<p><img src="images/document-nou.png" class="img-fluid" alt="Meniul RStudio File > New File > R Markdown."></p>
+</section>
+<section id="structura-unui-fisier-.rmd-rmarkdown" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="structura-unui-fisier-.rmd-rmarkdown">Structura unui fisier .Rmd (<code>R</code>Markdown)</h2>
+<ol type="1">
+<li>Header (YAML)</li>
+<li>Text</li>
+<li>Cod <code>R</code></li>
+</ol>
+<section id="header-yaml" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="header-yaml">1. Header (YAML)</h3>
+<p>“Head”-erele in fisierele Markdown contin date, informatii despre documentul in care lucrati, si determina o serie de proprietati ale acestuia. In exemplul de mai jos, care este si cel mai simplu cu putinta, YAML contine informatii despre titlu, autor, data<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> si a tipului de fisier dorit.</p>
+<div class="no-row-height column-margin column-container"><div id="fn6"><p><sup>6</sup>&nbsp;Pro-tip: folositi functia <code>Sys.Date()</code> pentru generarea automata a datei.</p></div></div><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Cum se zice corect: Iran sau Irak?"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"George"</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">date</span><span class="kw">:</span><span class="at"> </span><span class="st">"Mai 11, 2019"</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">output</span><span class="kw">:</span><span class="at"> html_document</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Daca doriti un fisier de tip ’<code>.pdf</code> aveti nevoie de software suplimentar.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> O alta solutie este un pachet R, numit Tinytex, ce se instaleaza din interfata R.</p>
+<div class="no-row-height column-margin column-container"><div id="fn7"><p><sup>7</sup>&nbsp;E vorba de TEX, pe care il puteti gasi la urmatoarea adresa <a href="https://miktex.org/" class="uri">https://miktex.org/</a></p></div></div></section>
+<section id="textul-in-markdown" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="textul-in-markdown">2. Textul in Markdown</h3>
+<p>Dupa YAML, <em>Textul</em> este a doua componenta principala. Aici va scrieti proza stiintifica, adnotat cu <em>Markdown</em> (explicat ceva mai jos). Partea frumoasa este ca puteti combina codul <code>R</code> cu textul. In felul urmator:</p>
+<p>Incepeti codul din cadrul textului cu <code>`r</code>, dupa care inserati codul dorit si inchideti cu <code>`</code>.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> Un cod <code>R</code> <code>` r 1+1`</code> va fi rulat odata cu textul, iar rezultatul va fi afisat automat = 2. Vreti sa calculati 27 la puterea a 2-a? Nimic mai simplu: scrieti <code>` r 27^2`</code>, care va produce = 729.</p>
+<div class="no-row-height column-margin column-container"><div id="fn8"><p><sup>8</sup>&nbsp;Accentul grav (engl. <em>Backtick</em>) este un semn diacritic folosit in grafierile mai multor limbi contemporane, precum catalana, franceza, etc. Functia sa principala in cazul nostru este de a delimita codul <code>R</code> de text.</p></div></div></section>
+<section id="codul-r" class="level3">
+<h3 class="anchored" data-anchor-id="codul-r">3. Codul <code>R</code></h3>
+<p>A treia componenta este codul <code>R</code>. Codul se insereaza prin <code>Code-&gt;Insert code chunk</code> sau combinatia de taste: <code>CTRL+ALT+I</code>. Codul <code>R</code> atasat Markdown, poate lua doua forme:</p>
+<ol type="1">
+<li><em>Inline</em> (in cadrul textului) - destinat calculelor simple, sau redarii unor valori.</li>
+</ol>
+<blockquote class="blockquote">
+<p>Our sample is made out of <code>` r nrow(esantion)`</code> individuals.</p>
+</blockquote>
+<ol start="2" type="1">
+<li><em>Chunk</em> (bucati mari) - ce pot contine calcule complexe, imagini sau tabele.</li>
+</ol>
+<blockquote class="blockquote">
+<p><code>```{r} fit &lt;-lm(Ozone ~ Solar.R + Wind, data = airquality)```</code></p>
+</blockquote>
+</section>
+<section id="exercitii-10min" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="exercitii-10min">Exercitii (~10min)</h3>
+<ol type="1">
+<li>Creati un nou fisier Markdown si salvati-l intr-un dosar dedicat.</li>
+<li>Alegeti in <code>YAML</code> ce fel de document doriti sa creati : <code>.html</code>, <code>.pdf</code>, etc.</li>
+<li>“Crosetati-l” si observati ce se intampla in <em>dosar</em><a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> Alegeti cu atentie locul unde veti rula codul.</li>
+<li>Introduceti cateva bucati de cod (de exemplu, incarcati niste pachete - oricare dintre ele).</li>
+</ol>
+<div class="no-row-height column-margin column-container"><div id="fn9"><p><sup>9</sup>&nbsp;In Markdown, fisierele create si dependente se afla tot timpul in locul unde se afla si fisierul <em>.rmd</em>. De aceea locatia lor este relativa.</p></div></div></section>
+</section>
+<section id="sintaxa-markdown" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="sintaxa-markdown">Sintaxa Markdown</h2>
+<section id="formatarea-textului" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="formatarea-textului">Formatarea textului</h3>
+<p>Markdown este una dintre cele mai simple si usoare forme de adnotare a textului. Este un standard deschis, ce poate fi convertit in <code>.tex</code>, <code>.docx</code>, <code>.html</code>, <code>.pdf</code>, etc si este atat de usor incat il puteti <a href="https://learnxinyminutes.com/docs/markdown/">invata in aproximativ 5 minute!</a> Nu, chiar pe bune.<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> Exista si alte linkuri utile precum <a href="https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf">acest PDF</a>.</p>
+<div class="no-row-height column-margin column-container"><div id="fn10"><p><sup>10</sup>&nbsp;<a href="https://learnxinyminutes.com/docs/markdown/" class="uri">https://learnxinyminutes.com/docs/markdown/</a></p></div></div><p>Limbajul este pe cat de usor, pe atat de puternic. Iata cateva exemple:</p>
+<ul>
+<li>E usor sa formatezi: <code>*italic*</code> sau <code>**aldin**</code>.</li>
+<li>Titluri prin <code>#titlu</code> pentru primul nivel, <code>##titlu2</code> nivelul 2, si <code>###titlu3</code> pentru nivelul 3.</li>
+<li>Listele sunt create prin <code>*</code> pentru fiecare item.</li>
+<li>Linkuri externe, cam asa:<code>[text](http://google.com)</code>.</li>
+</ul>
+<p>Pentru o lista completa folositi <strong>R Markdown Cheat Sheet</strong><a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn11"><p><sup>11</sup>&nbsp;<a href="https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf">Cheat Sheet</a></p></div></div></section>
+<section id="exercitii-10min-1" class="level3">
+<h3 class="anchored" data-anchor-id="exercitii-10min-1">Exercitii (~10min)</h3>
+<p>Luati un text oarecare (de ex: o pagina de pe wikipedia) si formatati-l cum credeti de cuviinta. Jucati-va cu toate optiunile posibile, de la <del>text taiat</del> pana la <em>italic</em> sau <strong>aldine</strong>. (Folositi “fituica” oferita de RStudio)</p>
+</section>
+<section id="cum-citam" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="cum-citam">Cum citam?</h3>
+<p>Citarea in RMarkdown este un proces destul de simplu, dar care trebuie tratat cu atentie. In principiu se folosesc ori Bibtex sau Biblatex, ambele standarde deschise. Cu toate astea, daca nu folositi deja un manager cum ar fi <em>Zotero</em>, va propun sa incepeti cu el.</p>
+<p>Rmarkdown foloseste <code>pandoc-citeproc</code>, un filtru <code>pandoc</code> pe care-l aplica in ultimul pas al compilarii. Destul de tehnica explicatie, dar ideea (si avantajul) e ca functioneaza f.&nbsp;bine cu documentele Word si .pdf.</p>
+<p>Pentru a incepe, adaugati numele fisierului ce contine bibilografia in parametrul <code>bibliography</code> din YAML, de exemplu (<code>bibliography: literatura_mea.bib</code>). Din acest moment, RMarkdown stie unde sa se uite dupa <code>[@james_1890]</code> si o va genera atat in text ca si la sfarsitul documentului: <span class="citation" data-cites="james_1890">(<a href="#ref-james_1890" role="doc-biblioref">James 1890</a>)</span>.</p>
+<div class="no-row-height column-margin column-container"><div id="ref-james_1890" class="csl-entry" role="listitem">
+James, William. 1890. <em>The Principles of Psychology</em>. Holt.
+</div></div><p>Citari multiple trebuie separate de un <code>;</code> (e.g., <code>[@james_1890; @bem_2011]</code>). Pentru a cita surse in text, nu le puneti in paranteze drepte; de exemplu; scrieti <code>@james_1890</code> pentru a cita <span class="citation" data-cites="james_1890">(<a href="#ref-james_1890" role="doc-biblioref">James 1890</a>)</span>.</p>
+<table class="table">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 37%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><em>Tip citare</em></th>
+<th style="text-align: left;"><em>Sintaxa</em></th>
+<th style="text-align: left;"><em>Cum arata?</em></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Citare in paranteza</td>
+<td style="text-align: left;"><code>[@james_1890]</code></td>
+<td style="text-align: left;">(James, 1890)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Citari multiple</td>
+<td style="text-align: left;"><code>[@james_1890; @bem_2011]</code></td>
+<td style="text-align: left;">(Bem, 2011; James, 1890)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Citari in text</td>
+<td style="text-align: left;"><code>@james_1890</code></td>
+<td style="text-align: left;">James (1890)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Doar anul</td>
+<td style="text-align: left;"><code>[-@bem_2011]</code></td>
+<td style="text-align: left;">(2011)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="tabelul-in-markdown" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="tabelul-in-markdown">Tabelul in Markdown</h3>
+<p>In functie de ce doriti sa obtineti in RMarkdown, aveti la dispozitie o serie de instrumente:</p>
+<ol type="1">
+<li>Pentru ceva extrem de simplu si rapid: formatarea Markdown</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> A <span class="pp">|</span> B <span class="pp">|</span> C <span class="pp">|</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>:--<span class="pp">|</span>:--<span class="pp">|</span>:--<span class="pp">|</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> D <span class="pp">|</span> E <span class="pp">|</span> F <span class="pp">|</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> G <span class="pp">|</span> H <span class="pp">|</span> I <span class="pp">|</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>cu urmatorul output:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">A</th>
+<th style="text-align: left;">B</th>
+<th style="text-align: left;">C</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">D</td>
+<td style="text-align: left;">E</td>
+<td style="text-align: left;">F</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">G</td>
+<td style="text-align: left;">H</td>
+<td style="text-align: left;">I</td>
+</tr>
+</tbody>
+</table>
+<ol start="2" type="1">
+<li>Pentru pagini web (HTML) sau ceva mai simplu, pachetul <code>knitr</code> ofera functia <code>kable</code> - tabele rezonabile cu un efort minim. Optiunea <code>digits</code> va ofera ceva control pentru rotunjirea cifrelor.</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(mtcars), <span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 7%">
+<col style="width: 5%">
+<col style="width: 7%">
+<col style="width: 5%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 8%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 7%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">mpg</th>
+<th style="text-align: right;">cyl</th>
+<th style="text-align: right;">disp</th>
+<th style="text-align: right;">hp</th>
+<th style="text-align: right;">drat</th>
+<th style="text-align: right;">wt</th>
+<th style="text-align: right;">qsec</th>
+<th style="text-align: right;">vs</th>
+<th style="text-align: right;">am</th>
+<th style="text-align: right;">gear</th>
+<th style="text-align: right;">carb</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Mazda RX4</td>
+<td style="text-align: right;">21.0</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">160</td>
+<td style="text-align: right;">110</td>
+<td style="text-align: right;">3.90</td>
+<td style="text-align: right;">2.62</td>
+<td style="text-align: right;">16.46</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Mazda RX4 Wag</td>
+<td style="text-align: right;">21.0</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">160</td>
+<td style="text-align: right;">110</td>
+<td style="text-align: right;">3.90</td>
+<td style="text-align: right;">2.88</td>
+<td style="text-align: right;">17.02</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Datsun 710</td>
+<td style="text-align: right;">22.8</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">108</td>
+<td style="text-align: right;">93</td>
+<td style="text-align: right;">3.85</td>
+<td style="text-align: right;">2.32</td>
+<td style="text-align: right;">18.61</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Hornet 4 Drive</td>
+<td style="text-align: right;">21.4</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">258</td>
+<td style="text-align: right;">110</td>
+<td style="text-align: right;">3.08</td>
+<td style="text-align: right;">3.21</td>
+<td style="text-align: right;">19.44</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Hornet Sportabout</td>
+<td style="text-align: right;">18.7</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">360</td>
+<td style="text-align: right;">175</td>
+<td style="text-align: right;">3.15</td>
+<td style="text-align: right;">3.44</td>
+<td style="text-align: right;">17.02</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Valiant</td>
+<td style="text-align: right;">18.1</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">225</td>
+<td style="text-align: right;">105</td>
+<td style="text-align: right;">2.76</td>
+<td style="text-align: right;">3.46</td>
+<td style="text-align: right;">20.22</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ol start="3" type="1">
+<li>Pentru materiale ceva mai pretentioase (de ex: rapoarte de cercetare), pachetul <code>stargazer</code><a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a> va da rezultate foarte bune. Partea puternica: estetica pentru modele complicate si o curba de invatare lina.</li>
+</ol>
+<div class="no-row-height column-margin column-container"><div id="fn12"><p><sup>12</sup>&nbsp;<a href="https://cran.r-project.org/web/packages/stargazer/vignettes/stargazer.pdf">Link catre manual</a></p></div></div><p><em>Atentie</em>: functia <code>stargazer</code> cere optiunea <code>results="asis"</code> in cod.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fit    <span class="ot">&lt;-</span> <span class="fu">lm</span>    (Ozone <span class="sc">~</span> Solar.R, <span class="at">data=</span>airquality)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>fit2   <span class="ot">&lt;-</span> <span class="fu">update</span>(fit ,.<span class="sc">~</span>. <span class="sc">+</span> Wind, <span class="at">data=</span>airquality)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>stargazer<span class="sc">::</span><span class="fu">stargazer</span>(fit, fit2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>produce</p>
+<ol start="3" type="1">
+<li>Formatul <em>APA</em>. Aici lucrurile devin ceva mai complicate intrucat exista solutii diferite pentru probleme asemanatoare (dar totusi diferite (?!):</li>
+</ol>
+<ul>
+<li><p>Putin in afara scopului acestui workshop: daca doriti doar sa generati usor si rapid tabele Word in format <em>APA</em> folositi cu incredere <code>apaTables</code>. De la tabele de corelatii, pana la ANOVA sau regresii, acest pachet le ofera pe toate.</p></li>
+<li><p>Pachetul <code>papaja</code> ofera functia proprie <code>apa_table()</code>. Puteti folosi si pachetul <code>xtable</code><a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a>, extrem de puternic, <em>dar</em> acesta din urma nu ofera sprijin pentru documente <em>Word</em> si este mai dificil de invatat. Cu putin efort si Google insa puteti sa-l stapaniti.</p></li>
+</ul>
+<div class="no-row-height column-margin column-container"><div id="fn13"><p><sup>13</sup>&nbsp;<a href="https://cran.r-project.org/web/packages/xtable/vignettes/xtableGallery.pdf">Galerie Xtable cu exemple de cod</a></p></div></div></section>
+<section id="grafice" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="grafice">Grafice</h3>
+<p>Graficele sunt mult mai usor de produs si integrat decat tabelele. Unele sunt extrem de simple, cum ar fi o histograma</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(AirPassengers, <span class="at">breaks=</span><span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>altele ceva mai complexe, de exemplu reprezentarea grafica a unei interactiuni cu pachetul <code>ggplot</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>tips    <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"https://sebastiansauer.github.io/data/tips.csv"</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(<span class="at">x =</span> total_bill, <span class="at">y =</span> tip, <span class="at">data =</span> tips, <span class="at">color =</span> sex) <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Ca de obicei, exista o serie de resurse foarte bune atat online<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a> cat si pe hartie<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a> ce trateaza problema graficelor in RMarkdown.</p>
+<div class="no-row-height column-margin column-container"><div id="fn14"><p><sup>14</sup>&nbsp;<a href="https://www.statmethods.net/graphs/index.html" class="uri">https://www.statmethods.net/graphs/index.html</a></p></div><div id="fn15"><p><sup>15</sup>&nbsp;<span class="citation" data-cites="chang2012">(<a href="#ref-chang2012" role="doc-biblioref">Chang 2012</a>)</span></p><div id="ref-chang2012" class="csl-entry" role="listitem">
+Chang, Winston. 2012. <em>R Graphics Cookbook: Practical Recipes for Visualizing Data</em>. O’Reilly Media.
+</div></div></div></section>
+<section id="ecuatii" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="ecuatii">Ecuatii</h3>
+<p>Situatiile in care va trebui sa raportati formule sunt mai rare, dar exista. Aici intervine <span class="math inline">\(\LaTeX\)</span>. Codul trebuie inchis si deschis cu <code>$</code>, iar rezultatul va arata in felul urmator <span class="math inline">\(d' = z(\mathrm{H}) - z(\mathrm{FA})\)</span>. Exista si ecuatii mai complicate, aici veti folosi <code>$$</code> pentru a deschide si inchide formula.</p>
+<p><span class="math display">\[\frac{n!}{k!(n-k)!} = \binom{n}{k}\]</span></p>
+<p>Codul latex poate fi destul de complex si greu de invatat, dar din fericire exista colectii intregi de formule online: aici.<a href="#fn16" class="footnote-ref" id="fnref16" role="doc-noteref"><sup>16</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn16"><p><sup>16</sup>&nbsp;<a href="https://en.wikibooks.org/wiki/LaTeX/Mathematics">Formule Latex</a></p></div></div></section>
+<section id="statistici" class="level3">
+<h3 class="anchored" data-anchor-id="statistici">Statistici</h3>
+<p>De exemplu, daca doriti sa includeti media si deviatia standard intr-un text, puteti folosi functia <code>printnum()</code> din pachetul <code>papaja</code> care va include valoarea numerica, o va rotunji si va elimina zero-ul din fata (cum cere formatul <em>APA</em>).</p>
+<p>De exemplu, urmatorul cod:</p>
+<blockquote class="blockquote">
+<p>Marimea esantionului este de de <em>N</em>=<code>` r nrow(date)`</code>. Varsta medie este de <code>` r printnum(mean(date$varsta))`</code> ani cu o deviatie standard, <em>SD</em> = <code>` r printnum(sd(date$varsta))`</code>.</p>
+</blockquote>
+<p>va produce urmtorul rezultat:</p>
+<blockquote class="blockquote">
+<p>Marimea esantionului este de de <em>N</em>=6. Varsta medie este de 21.83 ani cu o deviatie standard (<em>SD</em> = 0.98).</p>
+</blockquote>
+</section>
+</section>
+<section id="documente-in-format-apa-cu-ajutorul-pachetului-papaja." class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="documente-in-format-apa-cu-ajutorul-pachetului-papaja.">Documente in format <em>APA</em> cu ajutorul pachetului <code>papaja</code>.</h2>
+<p>Formatul <code>APA</code> este destul de dificil de stapanit. Manualul<a href="#fn17" class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a> are peste 270 de pagini, cu o serie de informatii (uneori contradictorii) privind cerintele. Sabloane in format <code>.doc</code> circula pe internet, dar putine sunt cele care reusesc sa implementeze toti parametrii. Mai mult, la schimbul documentelor intre autori, sansele ca sablonul sa fie modificat sunt mari.</p>
+<div class="no-row-height column-margin column-container"><div id="fn17"><p><sup>17</sup>&nbsp;<a href="http://www.apastyle.org/manual/index.aspx">Publication Manual of the American Psychological Association, Sixth Edition</a></p></div></div><p>Frumusetea pachetului <code>papaja</code> este ca preia partea tehnica, creaza si formateaza documentele in stil <code>APA</code>, lasandu-va mai mult timp petnru crearea continutului. Cu toate ca pachetul nu este inca publicat pe CRAN (reteaua oficiala pentru pachete si distributii <code>R</code>), el este destul de stabil incat sa poate fi folosit in munca de zi cu zi.</p>
+<section id="instalarea-papaja" class="level3">
+<h3 class="anchored" data-anchor-id="instalarea-papaja">Instalarea <code>papaja</code></h3>
+<p>Momentan, <code>papaja</code> se afla pe GitHub si aveti nevoie de pachetul <code>devtools</code> pentru a-l instala.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Daca nu-l aveti instalat inca, pachetul devtools este necesar.</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="st">"devtools"</span> <span class="sc">%in%</span> <span class="fu">rownames</span>(<span class="fu">installed.packages</span>())) <span class="fu">install.packages</span>(<span class="st">"devtools"</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Instalati papaja</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"crsh/papaja"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="crearea-unui-document" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="crearea-unui-document">Crearea unui document</h3>
+<p>Dupa instalarea pachetului <code>papaja</code><a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a>, sablonul <code>APA</code> ar trebui sa apara in meniul destinat crearii de noi documente.</p>
+<div class="no-row-height column-margin column-container"><div id="fn18"><p><sup>18</sup>&nbsp;Manualul <code>papaja</code>: <a href="https://crsh.github.io/papaja_man/index.html" class="uri">https://crsh.github.io/papaja_man/index.html</a></p></div></div><p><img src="images/papaja-sablon.png" class="img-fluid" alt="Dialogul New R Markdown din RStudio, cu sablonul APA article (6th edition) din papaja selectat."></p>
+</section>
+<section id="cateva-observatii" class="level3">
+<h3 class="anchored" data-anchor-id="cateva-observatii">Cateva observatii:</h3>
+<ul>
+<li><p>Principiul dupa care functioneaza <code>papaja</code> este identic cu cel pe care l-am observat impreuna in <code>Markdown</code>, cu mentiunea ca <code>papaja</code> ofera o anvelopa suplimentara de functii ce preia formatarea, referintele si analiza statistica in momentul “crosetarii” documentului si le transpune in stilul <code>APA</code>.</p></li>
+<li><p>Odata creat, documentul este prepopulat cu o serie de infomatii. Veti observa ca <code>YAML</code> (capul documentului) este ceva mai complex, dar auto-suficient de clar, iar in rest se pastreaza logica si sintaxa <code>Markdown</code>.</p></li>
+<li><p><em>Atentie</em> <code>papaja</code> este capabil sa exporte atat in fisiere de tip <code>.docx</code> cat si in <code>.pdf</code>, dar exista anumite restrictii, unele dintre ele importante. Pentru ca sistemul Microsoft este proprietar, <code>pandoc</code>nu are acces la anumite functii de formatare. De exemplu, in documentele Word, imaginile (figurile) nu vor putea fi aranjate la sfarsitul documentulu (asa cum cere stilul <code>APA</code>).</p></li>
+</ul>
+</section>
+<section id="analiza-statistica-in-papaja" class="level3">
+<h3 class="anchored" data-anchor-id="analiza-statistica-in-papaja">Analiza statistica in <code>papaja</code></h3>
+<p><code>papaja</code> aduce cateva functii noi ce faciliteaza raportarea analizelor statistice. Poate cea mai importanta este functia <code>apa_print()</code>. Aceasta functie preia continutul obiectelor din <code>R</code>, si le transforma text ce poate fi inserat in document.</p>
+<p>Sa vedem un exemplu:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(papaja)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># regresie lineara</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>modelfit  <span class="ot">&lt;-</span>  <span class="fu">lm</span>(Ozone <span class="sc">~</span> Solar.R <span class="sc">+</span> Wind, <span class="at">data =</span> airquality)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#functia apa_print() preia obiectul "lm" si-l transforma/salveaza</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>result    <span class="ot">&lt;-</span>  <span class="fu">apa_print</span>(modelfit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Rezultatele ar putea fi scrise in felul acesta,</p>
+<blockquote class="blockquote">
+<p>The analysis shows that the levels of Solar radiation significantly predict the levels of ozone concentration (<code>` r result$estimate$Solar_R`</code>), (<code>` r result$statistic$Solar_R`</code>). Moreover, the same effect can be observed in regard to the levels of wind intensity (<code>` r result$estimate$Wind`</code>), (<code>` r result$statistic$Wind`</code>).</p>
+</blockquote>
+<p>care va produce urmatorul text:</p>
+<blockquote class="blockquote">
+<p>The analysis shows that the levels of Solar radiation significantly predict the levels of ozone concentration (<span class="math inline">\(b = 0.10\)</span>, 95% CI <span class="math inline">\([0.05, 0.15]\)</span>), (<span class="math inline">\(t(108) = 3.82\)</span>, <span class="math inline">\(p &lt; .001\)</span>). Moreover, the same effect can be observed in regard to the levels of wind intensity (<span class="math inline">\(b = -5.40\)</span>, 95% CI <span class="math inline">\([-6.74, -4.07]\)</span>), (<span class="math inline">\(t(108) = -8.02\)</span>, <span class="math inline">\(p &lt; .001\)</span>).</p>
+</blockquote>
+<p>Pentru unele obiecte R, <code>apa_print()</code> poate genera tabele, dar aici poate pachetele descrise ceva mai sus, au un usor avantaj.</p>
+</section>
+<section id="exercitiu" class="level3">
+<h3 class="anchored" data-anchor-id="exercitiu">Exercitiu</h3>
+<p>Instalati pachetul <code>papaja</code>, deschideti un sablon nou, salvati documentul si <em>“crosetati-l”</em>.</p>
+<ol type="1">
+<li><p>Includeti cateva elemente de text, precum si cateva calcule folosind atat cod inline cat si bucati mari de cod.</p></li>
+<li><p>Introduceti un grafic, oricare.</p></li>
+<li><p>“Crosetati” si observati schimbarile.</p></li>
+</ol>
+</section>
+<section id="sessioninfo" class="level3">
+<h3 class="anchored" data-anchor-id="sessioninfo">Sessioninfo()</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>R version 4.6.1 (2026-06-24)
+Platform: aarch64-apple-darwin23
+Running under: macOS Sequoia 15.8.2
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.6/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.6/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
+
+locale:
+[1] C/UTF-8/C/C/C/C
+
+time zone: Europe/Berlin
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] papaja_0.1.5.9001 tinylabels_0.2.5  dplyr_1.2.1       ggplot2_4.0.3    
+[5] kableExtra_1.4.1 
+
+loaded via a namespace (and not attached):
+ [1] Matrix_1.7-6       gtable_0.3.6       jsonlite_2.0.0     compiler_4.6.1    
+ [5] tidyselect_1.2.1   xml2_1.6.0         stringr_1.6.0      splines_4.6.1     
+ [9] systemfonts_1.3.2  scales_1.4.0       textshaping_1.0.5  yaml_2.3.12       
+[13] fastmap_1.2.0      lattice_0.23-1     R6_2.6.1           labeling_0.4.3    
+[17] generics_0.1.4     knitr_1.52         htmlwidgets_1.6.4  tibble_3.3.1      
+[21] insight_1.6.0      svglite_2.2.2      pillar_1.11.1      RColorBrewer_1.1-3
+[25] rlang_1.3.0        stringi_1.8.9      xfun_0.62          parameters_0.30.0 
+[29] S7_0.2.2           datawizard_1.4.1   otel_0.2.0         viridisLite_0.4.3 
+[33] cli_3.6.6          withr_3.0.3        magrittr_2.0.5     mgcv_1.9-4        
+[37] digest_0.6.39      grid_4.6.1         rstudioapi_0.19.0  effectsize_1.0.3  
+[41] nlme_3.1-171       lifecycle_1.0.5    vctrs_0.7.3        evaluate_1.0.5    
+[45] glue_1.8.1         farver_2.1.2       stats4_4.6.1       bayestestR_0.20.0 
+[49] rmarkdown_2.32     tools_4.6.1        pkgconfig_2.0.3    htmltools_0.5.9   </code></pre>
+</div>
+</div>
+
+
+
+</section>
+</section>
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/ggluca\.ro");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Construit cu Quarto.</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/GGLuca/ggluca.github.io/edit/main/workshops/rmarkdown-2022/index.qmd" class="toc-action"><i class="bi bi-github"></i>Editează pagina</a></li><li><a href="https://github.com/GGLuca/ggluca.github.io/issues/new" class="toc-action"><i class="bi empty"></i>Semnalează o problemă</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

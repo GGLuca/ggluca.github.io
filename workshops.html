@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>cursuri – George Gunnesch-Luca</title>
+<title>Workshopuri – George Gunnesch-Luca</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -34,6 +34,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./images/favicon.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-listing/list.min.js"></script>
+<script src="site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -75,17 +77,79 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script>
 
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-listing .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
 
-<meta property="og:title" content="cursuri – George Gunnesch-Luca">
-<meta property="og:description" content="">
+    const options = {
+      valueNames: ['listing-image','listing-title','listing-description','listing-date','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta property="og:title" content="Workshopuri – George Gunnesch-Luca">
+<meta property="og:image" content="https://ggluca.ro/workshops/rmarkdown-2022/images/document-nou.png">
 <meta property="og:site_name" content="George Gunnesch-Luca">
-<meta name="twitter:title" content="cursuri – George Gunnesch-Luca">
-<meta name="twitter:description" content="">
-<meta name="twitter:card" content="summary">
+<meta property="og:image:height" content="443">
+<meta property="og:image:width" content="586">
+<meta name="twitter:title" content="Workshopuri – George Gunnesch-Luca">
+<meta name="twitter:image" content="https://ggluca.ro/workshops/rmarkdown-2022/images/document-nou.png">
+<meta name="twitter:image-height" content="443">
+<meta name="twitter:image-width" content="586">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-fixed fullcontent quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -269,8 +333,8 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./cursuri.html" aria-current="page"> 
-<span class="menu-text">Cursuri</span></a>
+    <a class="nav-link active" href="./workshops.html" aria-current="page"> 
+<span class="menu-text">Workshopuri</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./cercetare.html"> 
@@ -299,22 +363,22 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content column-page" id="quarto-document-content">
 
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">cursuri</h1>
+<h1 class="title">Workshopuri</h1>
 </div>
 
 
 
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-page">
 
     
   
@@ -326,11 +390,45 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>În curând.</p>
 
 
 
-</main> <!-- /main -->
+
+<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
+<div class="list grid quarto-listing-cols-2">
+<div class="g-col-1" data-index="0" data-categories="QVBJTyUyMDIwMjIlMkNybWFya2Rvd24lMkNwYXBhamE=" data-listing-date-sort="1640991600000" data-listing-file-modified-sort="1793561013514" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="13" data-listing-word-count-sort="2496">
+<a href="./workshops/rmarkdown-2022/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img loading="lazy" src="./workshops/rmarkdown-2022/images/document-nou.png" class="thumbnail-image card-img" style="height: 180px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Workshop: RMarkdown pentru o literatura stiintifica reproductibila
+</h5>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('QVBJTyUyMDIwMjI='); return false;">APIO 2022</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('cm1hcmtkb3du'); return false;">rmarkdown</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('cGFwYWph'); return false;">papaja</div>
+
+</div>
+<div class="card-text listing-description delink">
+<p>Redactarea in timp real a documentelor</p>
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+1 Ianuarie 2022
+</div>
+</div>
+</div>
+</div></a>
+</div>
+</div>
+<div class="listing-no-matching d-none">Nicio postare</div>
+</div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
@@ -752,7 +850,7 @@ ul.task-list li input[type="checkbox"] {
     </div>   
     <div class="nav-footer-center">
 <p>Construit cu Quarto.</p>
-<div class="toc-actions"><ul><li><a href="https://github.com/GGLuca/ggluca.github.io/edit/main/cursuri.qmd" class="toc-action"><i class="bi bi-github"></i>Editează pagina</a></li><li><a href="https://github.com/GGLuca/ggluca.github.io/issues/new" class="toc-action"><i class="bi empty"></i>Semnalează o problemă</a></li></ul></div></div>
+<div class="toc-actions"><ul><li><a href="https://github.com/GGLuca/ggluca.github.io/edit/main/workshops.qmd" class="toc-action"><i class="bi bi-github"></i>Editează pagina</a></li><li><a href="https://github.com/GGLuca/ggluca.github.io/issues/new" class="toc-action"><i class="bi empty"></i>Semnalează o problemă</a></li></ul></div></div>
     <div class="nav-footer-right">
       &nbsp;
     </div>

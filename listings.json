@@ -4,5 +4,11 @@
     "items": [
       "/posts/2026-09-brms-benchmark/index.html"
     ]
+  },
+  {
+    "listing": "/workshops.html",
+    "items": [
+      "/workshops/rmarkdown-2022/index.html"
+    ]
   }
 ]
