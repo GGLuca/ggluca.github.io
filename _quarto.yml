@@ -12,6 +12,9 @@ website:
   title: "George Gunnesch-Luca"
   site-url: https://ggluca.ro
   repo-url: https://github.com/GGLuca/ggluca.github.io
+  favicon: images/favicon.png         # generat de _favicon.R
+  open-graph: true                     # carduri la share (WhatsApp, LinkedIn, Facebook)
+  twitter-card: true                   # carduri la share (X, Bluesky, Slack)
   repo-actions: [edit, issue]          # "Edit this page / Report an issue" in the footer
   navbar:
     right:
