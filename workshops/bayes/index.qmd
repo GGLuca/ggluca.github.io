@@ -6,6 +6,7 @@ date: 2024-02-01
 date-format: "MMMM YYYY"
 image: imagini/titanic.jpg
 categories: [Școala de iarnă, bayes, brms]
+resources: [date/regresie.csv]   # datele se publică pentru participanți
 toc: true
 toc-location: left
 toc-title: "Cuprins"
