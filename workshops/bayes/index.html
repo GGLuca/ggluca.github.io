@@ -815,7 +815,7 @@ f(\theta | x) \propto [\theta^{17}(1 - \theta)^{2}][\theta^{21-1}(1 - \theta)^{2
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(esantion)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.8582657</code></pre>
+<pre><code>[1] 0.8577162</code></pre>
 </div>
 </div>
 <p>Sau, mediana și abaterea standard.</p>
@@ -828,7 +828,7 @@ f(\theta | x) \propto [\theta^{17}(1 - \theta)^{2}][\theta^{21-1}(1 - \theta)^{2
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(esantion)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.07381526</code></pre>
+<pre><code>[1] 0.07450625</code></pre>
 </div>
 </div>
 <p>Din fericire, avem funcții gata create pentru aceste sarcini, ca de exemplu <code>describe_posterior()</code> din pachetul <a href="https://easystats.github.io/bayestestR/"><code>bayestestR</code></a>.</p>
@@ -842,7 +842,7 @@ f(\theta | x) \propto [\theta^{17}(1 - \theta)^{2}][\theta^{21-1}(1 - \theta)^{2
 
 Parameter | Median | Mean |  MAP |       95% CI |   pd |         ROPE | % in ROPE
 ---------------------------------------------------------------------------------
-Posterior |   0.87 | 0.86 | 0.86 | [0.69, 0.97] | 100% | [0.45, 0.55] |        0%</code></pre>
+Posterior |   0.87 | 0.86 | 0.90 | [0.68, 0.97] | 100% | [0.45, 0.55] |        0%</code></pre>
 </div>
 </div>
 <p>În cadrul inferenței Bayesiene, parametrii sunt estimați în mod probabilistic ca <em>distribuții.</em> Aceste distribuții pot fi rezumate și descrise prin raportarea a patru tipuri de indici:</p>
@@ -910,7 +910,7 @@ Posterior |   0.87 | 0.86 | 0.86 | [0.69, 0.97] | 100% | [0.45, 0.55] |        0
 
 Parameter   |    BF
 -------------------
-(Intercept) | 88.15
+(Intercept) | 74.46
 
 * Evidence Against The Null: 0.500</code></pre>
 </div>
