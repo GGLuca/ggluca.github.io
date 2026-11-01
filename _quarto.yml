@@ -20,8 +20,8 @@ website:
     right:
       - href: blog.qmd
         text: Blog
-      - href: cursuri.qmd
-        text: Cursuri
+      - href: workshops.qmd
+        text: Workshopuri
       - href: cercetare.qmd
         text: Cercetare
       - href: software.qmd

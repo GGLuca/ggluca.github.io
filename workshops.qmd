@@ -1,0 +1,12 @@
+---
+title: "Workshopuri"
+listing:
+  contents: workshops
+  type: grid
+  grid-columns: 2
+  image-height: 180px
+  sort: "date desc"
+  fields: [image, title, description, date, categories]
+page-layout: full
+title-block-banner: false
+---
