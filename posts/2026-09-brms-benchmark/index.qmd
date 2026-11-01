@@ -3,7 +3,7 @@ title: "Bayes cu R și brms. Nu procesorul e problema..."
 description: "Gânduri și recomandări despre sistemele pe care rulează modelele Bayesiene în brms și Stan. Un mic benchmark pentru acasă."
 date: 2026-10-18
 categories: [brms, ro, cpu, bayes, mcmc]
-image: featured.png
+image: featured.jpg
 ---
 
 ## Introducere
