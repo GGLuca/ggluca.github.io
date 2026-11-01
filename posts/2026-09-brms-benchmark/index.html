@@ -8,7 +8,7 @@
 
 <meta name="description" content="Gânduri și recomandări despre sistemele pe care rulează modelele Bayesiene în brms și Stan. Un mic benchmark pentru acasă.">
 
-<title>Bayes cu R si brms. Nu procesorul e problema… – George Gunnesch-Luca</title>
+<title>Bayes cu R și brms. Nu procesorul e problema… – George Gunnesch-Luca</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -104,7 +104,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
-    "search-text-placeholder": "Cauta",
+    "search-text-placeholder": "Caută",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -343,7 +343,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Bayes cu R si brms. Nu procesorul e problema…</h1>
+<h1 class="title">Bayes cu R și brms. Nu procesorul e problema…</h1>
   <div class="quarto-categories">
     <div class="quarto-category">brms</div>
     <div class="quarto-category">ro</div>
@@ -384,18 +384,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </p>
 <p>Deci un nucleu rapid ar fi de dorit, dar care e curba randamentului sau punctul de eficiență, care o dată atins nu justifică achiziția unui CPU “și mai bun”? Sau cât proverbial unt poți scoate din ceva mai vechi cu ajutorul paralelizării între nuclee și intra-lanțuri MCMC?<br>
 </p>
-<p>Pentru că am acces la diverse generații de procesoare sub diverse configurații, m-am gândit să le compar in concediu :) și cu ocazia asta să și scriu prima postare pe blog.</p>
+<p>Pentru că am acces la diverse generații de procesoare sub diverse configurații, m-am gândit să le compar în concediu :) și cu ocazia asta să și scriu prima postare pe blog.</p>
 </section>
-<section id="candidatii" class="level2">
-<h2 class="anchored" data-anchor-id="candidatii">Candidatii</h2>
+<section id="candidații" class="level2">
+<h2 class="anchored" data-anchor-id="candidații">Candidații</h2>
 <table class="caption-top table">
 <thead>
 <tr class="header">
 <th style="text-align: left;">Calculator</th>
-<th style="text-align: right;">Nuclee (performanta)</th>
+<th style="text-align: right;">Nuclee (performanță)</th>
 <th style="text-align: right;">RAM</th>
 <th style="text-align: left;">Sistem</th>
-<th style="text-align: right;">Pret aprox.</th>
+<th style="text-align: right;">Preț aprox.</th>
 </tr>
 </thead>
 <tbody>
@@ -461,13 +461,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">backend =</span> <span class="st">"cmdstanr"</span>,</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">save_pars =</span> <span class="fu">save_pars</span>(<span class="at">all =</span> <span class="cn">TRUE</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Pentru cei curioși, detaliile le puteți găsi și pe <a href="https://github.com/GGLuca/brms-cpu-benchmark">pagina de github</a> a benchmarkului, și dacă sunteți <em>și mai</em> curioși, puteți să rulați funcția voi și să îmi scrieți și mie ce valori primiți, împreună cu datele sistemului, si le pun “pe net”.</p>
+<p>Pentru cei curioși, detaliile le puteți găsi și pe <a href="https://github.com/GGLuca/brms-cpu-benchmark">pagina de github</a> a benchmarkului, și dacă sunteți <em>și mai</em> curioși, puteți să rulați funcția voi și să îmi scrieți și mie ce valori primiți, împreună cu datele sistemului, și le pun “pe net”.</p>
 </section>
 <section id="cum-am-testat" class="level2">
 <h2 class="anchored" data-anchor-id="cum-am-testat">Cum am testat</h2>
-<p>Fiecare calculator a rulat același model, cu aceleași date și cu aceeași seed. Am rulat fiecare configurație de două ori. Prima rulare include compilarea modelului, a doua folosește executabilul deja compilat si scris pe disc. În tabel de mai jos apare valoarea cea mai mică, adică rularea fără compilare.</p>
+<p>Fiecare calculator a rulat același model, cu aceleași date și cu aceeași seed. Am rulat fiecare configurație de două ori. Prima rulare include compilarea modelului, a doua folosește executabilul deja compilat și scris pe disc. În tabel de mai jos apare valoarea cea mai mică, adică rularea fără compilare.</p>
 <p>Ce raportez aici este timpul mediu pe lanț. Am pornit de la 4 lanțuri în paralel, câte unul pe nucleu, apoi am adăugat threaduri în interiorul fiecărui lanț (<code>threads = threading(k)</code>), atât cât au permis nucleele de performanță. De exemplu, pe CPUurile cu 6 nuclee am folosit 3 lanțuri x 2 threaduri, ca să ocup toate nucleele. Pe celelalte, 4x2, sau 4x3 (5950)</p>
-<p>Ce mai e de zis e ca laptopurile au fost conectate la priză, iar in Linux am setat guvernorul procesorului pe <code>performance</code>. All set!</p>
+<p>Ce mai e de zis e că laptopurile au fost conectate la priză, iar în Linux am setat guvernorul procesorului pe <code>performance</code>. All set!</p>
 </section>
 <section id="rezultate" class="level2">
 <h2 class="anchored" data-anchor-id="rezultate">Rezultate</h2>
@@ -548,7 +548,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="concluzii" class="level2">
 <h2 class="anchored" data-anchor-id="concluzii">Concluzii…</h2>
-<p>După toate aceste zile de testări ideea e că, pe un singur nucleu, diferențele dintre procesoarele moderne sunt mult mai mici decât ar sugera prețurile. De exemplu, toate cele trei CPUuri de la Apple, M4, de la Mac Mini până la M4 Max, termină un lanț în aproximativ 45–48 de secunde, iar acel Mac Mini m-a costat (cu prima didactica, ce-i drept) 1500 RON. Daca il gasiti pe undeva la SH, eu zic ca e e arhisuficient pentru modelele obișnuite.</p>
+<p>După toate aceste zile de testări ideea e că, pe un singur nucleu, diferențele dintre procesoarele moderne sunt mult mai mici decât ar sugera prețurile. De exemplu, toate cele trei CPUuri de la Apple, M4, de la Mac Mini până la M4 Max, termină un lanț în aproximativ 45–48 de secunde, iar acel Mac Mini m-a costat (cu prima didactică, ce-i drept) 1500 RON. Dacă îl găsiți pe undeva la SH, eu zic că e arhisuficient pentru modelele obișnuite.</p>
 <p>La fel, un Ryzen 9 5950X, care e un procesor de desktop din 2020, are nevoie de vreo 57 de secunde pt același model, dar are și un 105W TDP (poate chiar mai mult) în sarcină maximă. Ce a făcut Apple e de-a dreptul fascinant.<br>
 </p>
 <p>Diferența reală apare abia când folosesc nucleele rămase libere, prin <code>threading()</code> Două threaduri pe lanț MCMC duc la un câștig de timp de aproximativ 1,4–1,6 ori pe toate sistemele, iar pe desktopul meu cu 16 nuclee, cu patru threaduri pe lanț, ajunge la 26! de secunde, care e chiar puțin mai repede decât M4 Max-ul de 4.000 de euro. Nice!</p>
@@ -981,7 +981,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </div>   
     <div class="nav-footer-center">
 <p>Construit cu Quarto.</p>
-<div class="toc-actions"><ul><li><a href="https://github.com/GGLuca/ggluca.github.io/edit/main/posts/2026-09-brms-benchmark/index.qmd" class="toc-action"><i class="bi bi-github"></i>Editeaza pagina</a></li><li><a href="https://github.com/GGLuca/ggluca.github.io/issues/new" class="toc-action"><i class="bi empty"></i>Semnaleaza o problema</a></li></ul></div></div>
+<div class="toc-actions"><ul><li><a href="https://github.com/GGLuca/ggluca.github.io/edit/main/posts/2026-09-brms-benchmark/index.qmd" class="toc-action"><i class="bi bi-github"></i>Editează pagina</a></li><li><a href="https://github.com/GGLuca/ggluca.github.io/issues/new" class="toc-action"><i class="bi empty"></i>Semnalează o problemă</a></li></ul></div></div>
     <div class="nav-footer-right">
       &nbsp;
     </div>
