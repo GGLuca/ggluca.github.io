@@ -2,6 +2,10 @@ project:
   type: website
   
 lang: ro
+
+execute:
+  freeze: auto   # codul R rulează doar când se schimbă postarea
+
 date-format: "D MMMM YYYY"
 
 website:
