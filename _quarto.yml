@@ -31,5 +31,4 @@ format:
     theme:
       light: [cosmo, custom.css, hokusai-light.scss]
       dark: [darkly, custom.css, hokusai-dark.scss]                     # supplying both adds the light/dark toggle
-    css: styles.css
     toc: false
