@@ -1,0 +1,20 @@
+/*-- scss:defaults --*/
+// Hokusai2 (MetBrewer), varianta luminoasă
+$hok-light: #72aeb6;
+$hok-mid:   #2f70a1;
+$hok-dark:  #0a3351;
+
+$body-bg:          #fdfbf6;   // alb cald, „hârtie”
+$primary:          $hok-mid;
+$link-color:       $hok-mid;
+$link-hover-color: $hok-dark;
+$navbar-bg:        $body-bg;
+$navbar-hl:        $hok-mid;
+$footer-bg:        $body-bg;
+
+/*-- scss:rules --*/
+.navbar .nav-link.active { box-shadow: inset 0 -3px 0 $hok-light; }
+h2 { border-bottom-color: rgba($hok-light, .6) !important; }
+.quarto-about-trestles .about-entity .about-link { color: $hok-mid; border-color: rgba($hok-mid, .5); }
+.quarto-about-trestles .about-entity .about-link:hover { color: $hok-dark; border-color: $hok-dark; }
+.quarto-about-trestles .about-contents { border-left-color: rgba($hok-light, .7); }

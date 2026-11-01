@@ -1,0 +1,23 @@
+/*-- scss:defaults --*/
+// Hokusai2 (MetBrewer), varianta întunecată: aceleași nuanțe, mai deschise
+$hok-light: #72aeb6;
+$hok-mid:   #2f70a1;
+$hok-pale:  #8cc3e6;
+
+$body-bg:          #161d24;
+$body-color:       #e3ebf1;
+$primary:          $hok-mid;
+$link-color:       $hok-pale;
+$link-hover-color: $hok-light;
+$navbar-bg:        $body-bg;
+$navbar-hl:        $hok-pale;
+$footer-bg:        $body-bg;
+
+/*-- scss:rules --*/
+.navbar .nav-link.active { box-shadow: inset 0 -3px 0 $hok-light; }
+h2 { border-bottom-color: rgba($hok-light, .4) !important; }
+.quarto-about-trestles .about-entity .about-link { color: $hok-pale; border-color: rgba($hok-pale, .5); }
+.quarto-about-trestles .about-entity .about-link:hover { color: $hok-light; border-color: $hok-light; }
+.quarto-about-trestles .about-contents { border-left-color: rgba($hok-light, .4); }
+// posteriorul bleumarin (#0a3351) nu se vede pe fundal închis, așa că aici e cel mai deschis
+body.quarto-dark .bayes-bg .posterior { fill: #cfe6ef; stroke: #cfe6ef; }

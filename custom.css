@@ -18,10 +18,10 @@ $font-family-base: $font-family-sans-serif;
   pointer-events: none;
   svg { display: block; width: 100%; height: auto; }
   path { stroke-width: 1.5; vector-effect: non-scaling-stroke; fill-opacity: .12; stroke-opacity: .45; }
-  // MetBrewer::met.brewer("Klimt", 3)
-  .prior      { fill: #924099; stroke: #924099; }
-  .likelihood { fill: #c93f55; stroke: #c93f55; }
-  .posterior  { fill: #eacc62; stroke: #eacc62; fill-opacity: .25; stroke-opacity: .8; }
+  // MetBrewer::met.brewer("Hokusai2", 3)
+  .prior      { fill: #72aeb6; stroke: #72aeb6; }
+  .likelihood { fill: #2f70a1; stroke: #2f70a1; }
+  .posterior  { fill: #0a3351; stroke: #0a3351; fill-opacity: .18; stroke-opacity: .7; }
   .area { stroke: none; }
   .line { fill: none; }
 }
