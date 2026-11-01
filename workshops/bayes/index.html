@@ -144,11 +144,15 @@ window.Quarto = {
 
 <meta property="og:title" content="Modelul Beta-Binomial și regresia Bayesiană – George Gunnesch-Luca">
 <meta property="og:description" content="Primul vostru model Bayesian">
-<meta property="og:image" content="https://ggluca.ro/workshops/bayes/imagini/titanic.jpg">
+<meta property="og:image" content="https://ggluca.ro/workshops/bayes/imagini/mcmc-trace.png">
 <meta property="og:site_name" content="George Gunnesch-Luca">
+<meta property="og:image:height" content="960">
+<meta property="og:image:width" content="1344">
 <meta name="twitter:title" content="Modelul Beta-Binomial și regresia Bayesiană – George Gunnesch-Luca">
 <meta name="twitter:description" content="Primul vostru model Bayesian">
-<meta name="twitter:image" content="https://ggluca.ro/workshops/bayes/imagini/titanic.jpg">
+<meta name="twitter:image" content="https://ggluca.ro/workshops/bayes/imagini/mcmc-trace.png">
+<meta name="twitter:image-height" content="960">
+<meta name="twitter:image-width" content="1344">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -815,7 +819,7 @@ f(\theta | x) \propto [\theta^{17}(1 - \theta)^{2}][\theta^{21-1}(1 - \theta)^{2
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(esantion)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.8577162</code></pre>
+<pre><code>[1] 0.8577061</code></pre>
 </div>
 </div>
 <p>Sau, mediana și abaterea standard.</p>
@@ -828,7 +832,7 @@ f(\theta | x) \propto [\theta^{17}(1 - \theta)^{2}][\theta^{21-1}(1 - \theta)^{2
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(esantion)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.07450625</code></pre>
+<pre><code>[1] 0.07411285</code></pre>
 </div>
 </div>
 <p>Din fericire, avem funcții gata create pentru aceste sarcini, ca de exemplu <code>describe_posterior()</code> din pachetul <a href="https://easystats.github.io/bayestestR/"><code>bayestestR</code></a>.</p>
@@ -842,7 +846,7 @@ f(\theta | x) \propto [\theta^{17}(1 - \theta)^{2}][\theta^{21-1}(1 - \theta)^{2
 
 Parameter | Median | Mean |  MAP |       95% CI |   pd |         ROPE | % in ROPE
 ---------------------------------------------------------------------------------
-Posterior |   0.87 | 0.86 | 0.90 | [0.68, 0.97] | 100% | [0.45, 0.55] |        0%</code></pre>
+Posterior |   0.87 | 0.86 | 0.86 | [0.69, 0.97] | 100% | [0.45, 0.55] |        0%</code></pre>
 </div>
 </div>
 <p>În cadrul inferenței Bayesiene, parametrii sunt estimați în mod probabilistic ca <em>distribuții.</em> Aceste distribuții pot fi rezumate și descrise prin raportarea a patru tipuri de indici:</p>
@@ -908,9 +912,9 @@ Posterior |   0.87 | 0.86 | 0.90 | [0.68, 0.97] | 100% | [0.45, 0.55] |        0
 <div class="cell-output cell-output-stdout">
 <pre><code>Bayes Factor (Savage-Dickey density ratio)
 
-Parameter   |    BF
--------------------
-(Intercept) | 74.46
+Parameter   |     BF
+--------------------
+(Intercept) | 242.15
 
 * Evidence Against The Null: 0.500</code></pre>
 </div>
