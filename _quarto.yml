@@ -11,7 +11,7 @@ website:
   repo-actions: [edit, issue]          # "Edit this page / Report an issue" in the footer
   navbar:
     right:
-      - href: index.qmd
+      - href: blog.qmd
         text: Blog
       - href: cursuri.qmd
         text: Cursuri
@@ -19,10 +19,8 @@ website:
         text: Cercetare
       - href: software.qmd
         text: Software
-      - href: despre.qmd
-        text: Despre
       - icon: rss
-        href: index.xml
+        href: blog.xml
       - icon: github
         href: https://github.com/GGLuca
   page-footer:

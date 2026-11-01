@@ -1,15 +1,35 @@
 ---
-title: ""
-listing:
-  contents: posts
-  type: grid                           
-  grid-columns: 2
-  image-height: 180px
-  sort: "date desc"
-  sort-ui: [title, date]               
-  categories: numbered
-  fields: [image, title, description, date, categories]
-  feed: true
-page-layout: full
-title-block-banner: false
+title: "George Gunnesch-Luca"
+image: images/ggluca.jpg
+about:
+  template: trestles
+  image-shape: round
+  image-width: 14em
+  links:
+    - icon: github
+      text: GitHub
+      href: https://github.com/GGLuca
+    - text: ORCID
+      href: https://orcid.org/0000-0002-7563-8020
+    - icon: mortarboard
+      text: Google Scholar
+      href: https://scholar.google.com/citations?user=PorkiZ0AAAAJ
 ---
+
+George aici, psiholog și conferențiar la Universitatea din București. Înainte de asta, 20 de ani la Universitatea Erlangen-Nürnberg (FAU), la School of Business, Economics and Society, unde am făcut un doctorat și o abilitare.
+
+Cercetarea mea se axează pe performanța umană în situații de interacțiune, de la motricitatea timpurie până la performanța în organizații. Tot timpul Bayesian, pentru că [probabilitatea nu există](https://en.wikipedia.org/wiki/Bruno_de_Finetti)!
+
+Scriu mult cod în R. Uneori chiar rulează.
+
+::: {.text-muted lang="en"}
+*All the above in short:* Psychologist at the University of Bucharest, previously lots of beautiful years at FAU Erlangen-Nürnberg. Human performance in interaction, always Bayesian, lots of R (that sometimes runs!)
+:::
+
+## Recent
+
+- [High-stakes oral examinations and grade inflation: Evidence from a national cohort of Romanian psychology graduates](https://doi.org/10.35542/osf.io/rftgw_v2). Preprint, 2026.
+- [Teachers' professional identity patterns in the stream of changes](https://doi.org/10.1080/01443410.2025.2609788). *Educational Psychology*, 2026.
+- [A Bayesian regression analysis of the effects of narcissism on group performance](https://doi.org/10.1027/1866-5888/a000324). *Journal of Personnel Psychology*, 2023.
+
+[Toate publicațiile →](cercetare.qmd)

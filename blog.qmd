@@ -1,0 +1,15 @@
+---
+title: "Blog"
+listing:
+  contents: posts
+  type: grid                           
+  grid-columns: 2
+  image-height: 180px
+  sort: "date desc"
+  sort-ui: [title, date]               
+  categories: numbered
+  fields: [image, title, description, date, categories]
+  feed: true
+page-layout: full
+title-block-banner: false
+---

@@ -1,5 +1,43 @@
 ---
-title: "cercetare"
+title: "Cercetare"
 ---
 
-În curând.
+Lista completă și actualizată e pe [ORCID](https://orcid.org/0000-0002-7563-8020) și [Google Scholar](https://scholar.google.com/citations?user=PorkiZ0AAAAJ).
+
+## 2026
+
+**Gunnesch-Luca, G.** (2026). *High-stakes oral examinations and grade inflation: Evidence from a national cohort of Romanian psychology graduates* [Preprint]. EdArXiv. <https://doi.org/10.35542/osf.io/rftgw_v2>
+
+Popa, D., Markowska-Manista, U., **Gunnesch-Luca, G.**, Paladi, O., Turculeț, A. R., & Budnyk, O. (2026). Teachers' professional identity patterns in the stream of changes. *Educational Psychology, 46*, 541–558. <https://doi.org/10.1080/01443410.2025.2609788>
+
+## 2025
+
+De Witte, H., **Gunnesch-Luca, G.**, & Iliescu, D. (2025). Job insecurity, temporary contracts and their interaction: Associations with a variety of performance indicators in academia. In *Aligning perspectives on health, safety and well-being* (pp. 215–244). Springer. <https://doi.org/10.1007/978-3-031-85772-0_9>
+
+## 2023
+
+**Gunnesch-Luca, G.**, Paul, K. I., & Moser, K. (2023). A Bayesian regression analysis of the effects of narcissism on group performance. *Journal of Personnel Psychology, 22*, 215–225. <https://doi.org/10.1027/1866-5888/a000324>
+
+## 2022
+
+Ion, A., **Gunnesch-Luca, G.**, Petre, D., & Iliescu, D. (2022). Secular changes in personality: An age-period-cohort analysis. *Journal of Research in Personality, 100*, 104280. <https://doi.org/10.1016/j.jrp.2022.104280>
+
+## 2021
+
+Livinți, R., **Gunnesch-Luca, G.**, & Iliescu, D. (2021). Research self-efficacy: A meta-analysis. *Educational Psychologist, 56*, 215–242. <https://doi.org/10.1080/00461520.2021.1886103>
+
+Holzwarth, S., **Gunnesch-Luca, G.**, Soucek, R., & Moser, K. (2021). How communication in organizations is related to foci of commitment and turnover intentions. *Journal of Personnel Psychology, 20*, 27–38. <https://doi.org/10.1027/1866-5888/a000261>
+
+## 2020
+
+**Gunnesch-Luca, G.**, & Iliescu, D. (2020). Time and generational changes in cognitive performance in Romania. *Intelligence, 79*, 101430. <https://doi.org/10.1016/j.intell.2020.101430>
+
+**Gunnesch-Luca, G.**, & Moser, K. (2020). Development and validation of a German language unit-level organizational citizenship behavior (OCB) scale. *European Journal of Psychological Assessment, 36*, 852–863. <https://doi.org/10.1027/1015-5759/a000558>
+
+## 2009–2013
+
+**Gunnesch-Luca, G.**, Klöble, U., Göritz, A. S., & Moser, K. (2013). Soziale Normen, Akzeptanz von Innovationen und die moderierende Rolle von Trendsetting. *Zeitschrift für Arbeits- und Organisationspsychologie, 57*, 177–184. <https://doi.org/10.1026/0932-4089/a000121>
+
+**Gunnesch-Luca, G.**, Moser, K., & Klöble, U. (2010). Adoption und Weiterempfehlung neuer Technologien: Die Bedeutung von Trendsetting. *der markt, 49*, 53–64. <https://doi.org/10.1007/s12642-010-0026-7>
+
+Ślebarska, K., Moser, K., & **Gunnesch-Luca, G.** (2009). Unemployment, social support, individual resources, and job search behavior. *Journal of Employment Counseling, 46*, 159–170. <https://doi.org/10.1002/j.2161-1920.2009.tb00079.x>
