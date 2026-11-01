@@ -1,0 +1,1613 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ro" xml:lang="ro"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Primul vostru model Bayesian">
+
+<title>Modelul Beta-Binomial și regresia Bayesiană – George Gunnesch-Luca</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../images/favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-9f9bee2c5df52c576f80702a0444854b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-7b1f6849361a072933304eb698951353.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-9f9bee2c5df52c576f80702a0444854b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "Caută",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta property="og:title" content="Modelul Beta-Binomial și regresia Bayesiană – George Gunnesch-Luca">
+<meta property="og:description" content="Primul vostru model Bayesian">
+<meta property="og:image" content="https://ggluca.ro/workshops/bayes/imagini/titanic.jpg">
+<meta property="og:site_name" content="George Gunnesch-Luca">
+<meta name="twitter:title" content="Modelul Beta-Binomial și regresia Bayesiană – George Gunnesch-Luca">
+<meta name="twitter:description" content="Primul vostru model Bayesian">
+<meta name="twitter:image" content="https://ggluca.ro/workshops/bayes/imagini/titanic.jpg">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">George Gunnesch-Luca</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../workshops.html"> 
+<span class="menu-text">Workshopuri</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../cercetare.html"> 
+<span class="menu-text">Cercetare</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../software.html"> 
+<span class="menu-text">Software</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../blog.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/GGLuca"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Cuprins</h2>
+   
+  <ul>
+  <li><a href="#partea-i.-modelul-beta-binomial" id="toc-partea-i.-modelul-beta-binomial" class="nav-link active" data-scroll-target="#partea-i.-modelul-beta-binomial">Partea I. Modelul Beta-Binomial</a>
+  <ul class="collapse">
+  <li><a href="#introducere" id="toc-introducere" class="nav-link" data-scroll-target="#introducere">1. Introducere</a></li>
+  <li><a href="#studiul-de-caz-istoric-the-lady-tasting-tea" id="toc-studiul-de-caz-istoric-the-lady-tasting-tea" class="nav-link" data-scroll-target="#studiul-de-caz-istoric-the-lady-tasting-tea">2. Studiul de caz istoric: “The Lady Tasting Tea”</a></li>
+  <li><a href="#criticile-la-adresa-valorii-p-și-principiul-verosimilității" id="toc-criticile-la-adresa-valorii-p-și-principiul-verosimilității" class="nav-link" data-scroll-target="#criticile-la-adresa-valorii-p-și-principiul-verosimilității">3. Criticile la adresa valorii <span class="math inline">\(p\)</span> și principiul verosimilității</a></li>
+  <li><a href="#the-alcohol-tasting-group-diferențierea-berii-cu-și-fără-alcool" id="toc-the-alcohol-tasting-group-diferențierea-berii-cu-și-fără-alcool" class="nav-link" data-scroll-target="#the-alcohol-tasting-group-diferențierea-berii-cu-și-fără-alcool">4. The alcohol tasting group: Diferențierea berii cu și fără alcool</a></li>
+  <li><a href="#teorema-lui-bayes-și-aplicabilitatea-ei" id="toc-teorema-lui-bayes-și-aplicabilitatea-ei" class="nav-link" data-scroll-target="#teorema-lui-bayes-și-aplicabilitatea-ei">5. Teorema lui Bayes și aplicabilitatea ei</a></li>
+  <li><a href="#construirea-modelului-bayesian" id="toc-construirea-modelului-bayesian" class="nav-link" data-scroll-target="#construirea-modelului-bayesian">6. Construirea modelului Bayesian</a></li>
+  <li><a href="#analiza-și-interpretarea-distribuției-posterioare" id="toc-analiza-și-interpretarea-distribuției-posterioare" class="nav-link" data-scroll-target="#analiza-și-interpretarea-distribuției-posterioare">7. Analiza și interpretarea distribuției posterioare</a></li>
+  <li><a href="#testarea-ipotezelor-și-factorii-bayes" id="toc-testarea-ipotezelor-și-factorii-bayes" class="nav-link" data-scroll-target="#testarea-ipotezelor-și-factorii-bayes">8. Testarea ipotezelor și factorii Bayes</a></li>
+  </ul></li>
+  <li><a href="#partea-ii.-regresia-bayesiana" id="toc-partea-ii.-regresia-bayesiana" class="nav-link" data-scroll-target="#partea-ii.-regresia-bayesiana">Partea II. Regresia Bayesiana</a>
+  <ul class="collapse">
+  <li><a href="#pachetele-necesare" id="toc-pachetele-necesare" class="nav-link" data-scroll-target="#pachetele-necesare">Pachetele necesare:</a></li>
+  <li><a href="#datele" id="toc-datele" class="nav-link" data-scroll-target="#datele">Datele</a></li>
+  <li><a href="#un-model-de-regresie" id="toc-un-model-de-regresie" class="nav-link" data-scroll-target="#un-model-de-regresie">Un model de regresie:</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/GGLuca/ggluca.github.io/edit/main/workshops/bayes/index.qmd" class="toc-action"><i class="bi bi-github"></i>Editează pagina</a></li><li><a href="https://github.com/GGLuca/ggluca.github.io/issues/new" class="toc-action"><i class="bi empty"></i>Semnalează o problemă</a></li></ul></div></nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Modelul Beta-Binomial și regresia Bayesiană</h1>
+<p class="subtitle lead">Primul vostru model Bayesian</p>
+  <div class="quarto-categories">
+    <div class="quarto-category">Școala de iarnă</div>
+    <div class="quarto-category">bayes</div>
+    <div class="quarto-category">brms</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Primul vostru model Bayesian
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Publicat</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">Februarie 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="partea-i.-modelul-beta-binomial" class="level2">
+<h2 class="anchored" data-anchor-id="partea-i.-modelul-beta-binomial">Partea I. Modelul Beta-Binomial</h2>
+<section id="introducere" class="level3">
+<h3 class="anchored" data-anchor-id="introducere">1. Introducere</h3>
+<ul>
+<li>Definiția probabilității binomiale</li>
+</ul>
+<p>Probabilitatea binomială se referă la estimarea prevalenței sau proporției unui eveniment binar (succes sau eșec) în cadrul unei serii de încercări independente de tip Bernoulli. Cu alte cuvinte, ea măsoară probabilitatea de a obține un anumit număr de succese într-un număr fix de încercări, fiecare încercare având aceeași probabilitate de succes. Distribuția binomială, care fundamentează această probabilitate, este parametrizată de <span class="math inline">\(n\)</span> (numărul total de încercări) și <span class="math inline">\(p\)</span> (probabilitatea de succes într-o singură încercare).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://en.wikipedia.org/wiki/Sinking_of_the_Titanic"><img src="imagini/titanic.jpg" class="img-fluid figure-img"></a></p>
+<figcaption>Eveniment Bernoulli :)</figcaption>
+</figure>
+</div>
+<p>Un exemplu clasic este aruncarea unei monede pentru a estima probabilitatea de a obține cap sau pajură într-un număr determinat de aruncări. Totuși, aplicabilitatea conceptului se extinde mult dincolo de acest caz simplu, fiind relevantă în diverse situații, precum:</p>
+<ul>
+<li>Estimarea prezenței sau absenței unei patologii într-un eșantion din populație,</li>
+<li>Determinarea probabilității de succes sau eșec în îndeplinirea unei sarcini specifice,</li>
+<li>Evaluarea deciziilor în dileme morale, unde rezultatele pot fi văzute ca ‘corect’ sau ‘greșit’.</li>
+</ul>
+</section>
+<section id="studiul-de-caz-istoric-the-lady-tasting-tea" class="level3">
+<h3 class="anchored" data-anchor-id="studiul-de-caz-istoric-the-lady-tasting-tea">2. Studiul de caz istoric: “The Lady Tasting Tea”</h3>
+<p>Cu peste 80 de ani în urmă, Sir Ronald Fisher conduce un experiment, cunoscut sub numele de “<a href="https://en.wikipedia.org/wiki/Lady_tasting_tea">The Lady Tasting Tea</a>”, pentru a verifica dacă colega sa, Dr.&nbsp;Muriel Bristol, era capabilă să distingă ordinea în care ceaiul și laptele au fost adăugate într-o ceașcă, bazându-se exclusiv pe gust.</p>
+<p>În cadrul experimentului, Bristol a fost pusă în fața a opt cești de ceai, fiindu-i comunicat că în patru dintre acestea laptele a fost turnat înaintea ceaiului.</p>
+<p>În contextul acestui experiment, Fisher a introdus conceptul de ipoteză nulă (<span class="math inline">\(H_0\)</span>), care presupunea că Dr.&nbsp;Bristol nu putea deosebi secvența adăugării ingredientelor, sugerând astfel că selecțiile ei nu erau altceva decât ghiciri aleatorii.</p>
+<p>Raționamentul folosit a fost următorul:</p>
+<ul>
+<li>Se presupune că Dr.&nbsp;Bristol nu are abilitatea de a face distincția și selectează ceștile bazându-se pe ghicit: adică, <span class="math inline">\(H_0\)</span> este adevărată.</li>
+<li>Se calculează probabilitatea (<span class="math inline">\(p\)</span>) de a obține un rezultat cel puțin la fel de extrem ca cel observat în realitate.</li>
+<li>Dacă probabilitatea calculată este suficient de mică, acest lucru servește ca bază pentru respingerea ipotezei nule, sugerând că performanța Dr.&nbsp;Bristol nu poate fi explicată prin simpla întâmplare.</li>
+</ul>
+</section>
+<section id="criticile-la-adresa-valorii-p-și-principiul-verosimilității" class="level3">
+<h3 class="anchored" data-anchor-id="criticile-la-adresa-valorii-p-și-principiul-verosimilității">3. Criticile la adresa valorii <span class="math inline">\(p\)</span> și principiul verosimilității</h3>
+<p><strong>Reevaluarea experimentului lui Fisher de către Lindley (1993)</strong></p>
+<ul>
+<li><strong>Context</strong>: Reevaluarea experimentului lui Fisher.</li>
+<li><strong>Scop</strong>: Evidențierea limitărilor valorii <span class="math inline">\(p\)</span>, dependența acesteia de planul de eșantionare și violarea principiului verosimilității (<a href="https://en.wikipedia.org/wiki/Likelihood_principle">likelihood principle</a>)</li>
+<li>Limitările valorii <span class="math inline">\(p\)</span> și violarea principiului verosimilității</li>
+</ul>
+<p><em>Exemplu</em>: situații care pot genera: CCCCCG:</p>
+<p><strong>Calculul valorii <span class="math inline">\(p\)</span> pentru planul fix de șase perechi</strong></p>
+<p>Pentru situația exact șase perechi și trebuie să identifice ceașca cu ceai turnat primul, putem folosi distribuția binomială pentru a calcula valoarea-p.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Calculul valorii-p pentru planul fix de șase perechi</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>valoare_p <span class="ot">&lt;-</span> <span class="fu">binom.test</span>(<span class="dv">5</span>, <span class="dv">6</span>, <span class="at">p =</span> <span class="fl">0.5</span>, <span class="at">alternative =</span> <span class="st">"greater"</span>)<span class="sc">$</span>p.value</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Valoarea-p pentru planul fix de șase perechi este:"</span>, valoare_p, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Valoarea-p pentru planul fix de șase perechi este: 0.109375 </code></pre>
+</div>
+</div>
+<p><strong>Calculul valorii <span class="math inline">\(p\)</span> pentru planul de continuare până la prima eroare</strong></p>
+<p>Pentru situația “prima greșeală”, utilizăm distribuția binomială negativă pentru a calcula valoarea-p.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Calculul valorii-p pentru planul de continuare până la prima eroare</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># P(cel puțin 5 reușite înainte de prima eroare) = 0.5^5</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>valoare_p2 <span class="ot">&lt;-</span> <span class="fu">pnbinom</span>(<span class="dv">4</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fl">0.5</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Valoarea-p pentru planul prima greseala este"</span>, valoare_p2, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Valoarea-p pentru planul prima greseala este 0.03125 </code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>Diferența aici constă în includerea cazurilor mai extreme. În planul „testare șase căni”, singurul rezultat mai extrem este CCCCCC (adică distribuția binomială), în timp ce pentru planul „testare până la eroare” rezultatele mai extreme includ secvențe precum CCCCCCCG și CCCCCCCCCCG (adică distribuția binomială negativă).</p>
+</blockquote>
+<p>„Astfel, utilizarea valorii-p implică faptul că o ipoteză care ar putea fi adevărată poate fi respinsă pentru că nu a prezis rezultate observabile care nu au avut loc. Acest lucru pare o procedură remarcabilă.” (Jeffreys, 1961, p.&nbsp;385)</p>
+</section>
+<section id="the-alcohol-tasting-group-diferențierea-berii-cu-și-fără-alcool" class="level3">
+<h3 class="anchored" data-anchor-id="the-alcohol-tasting-group-diferențierea-berii-cu-și-fără-alcool">4. The alcohol tasting group: Diferențierea berii cu și fără alcool</h3>
+<p>Punctul de plecare:</p>
+<blockquote class="blockquote">
+<p>Să presupunem că doriți să aflați în ce măsură oamenii pot sa deosebească între berea cu și fără alcool. Pe măsură ce procesul de extragere a alcoolului este tot mai avansat sau chiar radical diferit, sunteți curioși să aflați care este proporția celor care pot să deosebească prin gust aceste două produse.</p>
+</blockquote>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/St%C3%A8le_Mercenaire_syrien_18%C3%A8me_dynastie_Neues_Museum_image_%C3%A9claircie_et_perspective_corrig%C3%A9e.jpg/1280px-St%C3%A8le_Mercenaire_syrien_18%C3%A8me_dynastie_Neues_Museum_image_%C3%A9claircie_et_perspective_corrig%C3%A9e.jpg" class="img-fluid"></p>
+<p>Dat fiind faptul ca am observat un număr de <span class="math inline">\(s\)</span> = 17, si <span class="math inline">\(e\)</span> = 2, care este proportia celor care au reusit sa identifice corect berea cu alcool?</p>
+</section>
+<section id="teorema-lui-bayes-și-aplicabilitatea-ei" class="level3">
+<h3 class="anchored" data-anchor-id="teorema-lui-bayes-și-aplicabilitatea-ei">5. Teorema lui Bayes și aplicabilitatea ei</h3>
+<section id="definiția-și-importanța-probabilității-posterioare" class="level4">
+<h4 class="anchored" data-anchor-id="definiția-și-importanța-probabilității-posterioare">Definiția și importanța probabilității posterioare</h4>
+<p>Finalitatea procesului de învățare Bayesian este probabilitatea posterioară, pe care o notăm ca <span class="math inline">\(p(θ|y)\)</span>. Dintr-o perspectivă <a href="https://en.wikipedia.org/wiki/Epistemology">epistemologică</a>, probabilitatea posterioară conține tot ceea ce este de știut despre o propoziție incertă (cum ar fi o ipoteză științifică sau valorile parametrilor). Pe scurt, theta (<span class="math inline">\(θ\)</span>) este parametrul nostru de interes, și ceea ce căutăm noi.</p>
+</section>
+<section id="epistemologia-și-formalizarea-teoremei-lui-bayes" class="level4">
+<h4 class="anchored" data-anchor-id="epistemologia-și-formalizarea-teoremei-lui-bayes">Epistemologia și formalizarea teoremei lui Bayes</h4>
+<p>Theta (<span class="math inline">\(θ\)</span>), rezultă din combinația dintre informațiile obținute din datele <span class="math inline">\(y\)</span> (observațiile noastre) și informațiile noastre anterioare (ceea ce știm deja despre <span class="math inline">\(θ\)</span>). Acest tip de învățare este formalizat prin Teorema lui Bayes:</p>
+<p><span class="math display">\[
+p(\theta|y)=\frac{p(y|\theta)p(\theta)}{p(y)}
+\]</span></p>
+<p>unde</p>
+<p><span class="math inline">\(θ\)</span> adică <span class="math inline">\((p(θ|y)\)</span> este probabilitatea posterioară; <span class="math inline">\(p(y|θ)\)</span> este procesul de generare a datelor, denumit de obicei verosimilitate sau <em>likelihood</em>; <span class="math inline">\(p(θ)\)</span> este probabilitatea anterioară a lui <span class="math inline">\(θ\)</span>; și <span class="math inline">\(p(y)\)</span> este o constantă de normalizare. Nu ne vom preocupa chiar acum de constanta de normalizare, <span class="math inline">\(p(y)\)</span>, deoarece aceasta nu ne afectează concluziile. Ea este acolo doar pentru a transforma verosimilitatea - obținută din înmulțirea <span class="math inline">\(p(y|\theta)p(\theta)\)</span> - în probabilități (adică valori ce sumate ajung la 1).</p>
+<p>Prin urmare:</p>
+<p><span class="math display">\[
+p(\theta|y) \propto p(y|\theta)p(\theta)
+\]</span></p>
+<p>Ceea ce este important de înțeles este că <span class="math inline">\(θ\)</span> este <strong>un</strong> parametru necunoscut, dar pentru a estima <em>incertitudinea</em> noastră cu privire la <span class="math inline">\(θ\)</span>, vom încerca <strong>diferite</strong> valori ale lui.</p>
+<p>De exemplu, dorim să cunoaștem proporția celor care identifică corect berea cu alcool, care variază de la 0 la 1 (cu 0 înseamnă că nimeni nu o face; 1 înseamnă că toți fără excepție reușesc). Astfel, în ecuația noastră, <span class="math inline">\(θ\)</span> ar reprezenta toate valorile cuprinse între 0 și 1. Cu toate acestea, există o infinitate de valori cuprinse între 0 și 1, astfel încât, în practică, am putea doar <em>încerca</em> valori cuprinse între 0 și 1.</p>
+<p>Vom utilizează un proces relativ simplu numit aproximare prin grilă, în care vom folosi o grilă de valori cuprinse între 0 și 1, la distanță egală, pentru <span class="math inline">\(θ\)</span>.</p>
+<p>Acest proces de aproximare funcționează perfect pentru cazuri de acest gen, dar pe măsură ce vom înainta în material generarea lui <span class="math inline">\(θ\)</span> devine imposibilă prin acest procedeu, și vom recurge la procedee mai complexe cum ar fi Markov-Chain Monte-Carlo (MCMC).</p>
+</section>
+</section>
+<section id="construirea-modelului-bayesian" class="level3">
+<h3 class="anchored" data-anchor-id="construirea-modelului-bayesian">6. Construirea modelului Bayesian</h3>
+<section id="aproximare-prin-grila-pentru-determinarea-lui-theta-componentele-modelului-bayesian" class="level4">
+<h4 class="anchored" data-anchor-id="aproximare-prin-grila-pentru-determinarea-lui-theta-componentele-modelului-bayesian">6.1 - Aproximare prin grila pentru determinarea lui <span class="math inline">\(\theta\)</span>; Componentele modelului Bayesian</h4>
+<section id="likelihood-verosimilitatea" class="level5">
+<h5 class="anchored" data-anchor-id="likelihood-verosimilitatea">Likelihood (Verosimilitatea)</h5>
+<p>Verosimilitatea (în acest caz, verosimilitatea binomială a) datelor este un concept destul de greu de înțeles la “prima strigare”. Verosimilitatea se referă la “cât de probabile sunt datele, având în vedere o anumită valoare pentru <span class="math inline">\(θ\)</span>”.</p>
+<blockquote class="blockquote">
+<p>Dacă vreți o explicație pe îndelete, vă recomand acest mic <a href="https://www.youtube.com/watch?v=pYxNSUDSFH4">videoclip</a>.</p>
+</blockquote>
+<p>Oricum, pentru varianta binomială verosimilitatea are această structură:</p>
+<p><span class="math display">\[
+f(x|n,\theta) \propto \theta^y(1-\theta)^{n-y}
+\]</span></p>
+<p>unde</p>
+<p><span class="math inline">\(y\)</span> este de numărul de reușite și <span class="math inline">\(n\)</span> este numărul de încercări.</p>
+<p>Pentru exemplul nostru, unde avem 17 reușite din 19 încercări, calculăm <span class="math inline">\(p(y|\theta)\)</span> pentru toate valorile <span class="math inline">\(\theta\)</span> de la 0 la 1 și le reprezentăm grafic.</p>
+<p><span class="math display">\[
+f(x|n,\theta) \propto \theta^{17} (1-\theta)^2
+\]</span></p>
+<p>Acum, am putea să le calculăm de mână, pentru că nu sunt multe, dar putem să le și obținem prin funcția R <code>dbinom()</code>. Iată codul:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MetBrewer)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(latex2exp)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Defineste spatiul de probabilitati (de la 0 la 1)</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="do">## Pentru 100 de valori posibile ale lui theta</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from=</span><span class="dv">0</span>, <span class="at">to=</span><span class="dv">1</span>, <span class="at">length.out=</span><span class="dv">100</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="do">## Calculeaza verosimilitata cu functia dbinom()</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="do">## Pentru 17 reușite din 19 încercări, cu </span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="do">## prob = adica probabilitatea de a obține reușita</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="do">## care provine din vectorul theta.</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="do">## Pentru o probabilitate theta de .10, dbinom(17, 19, prob = .10)</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="do">## Functia dbinom va calcula pentru fiecare valoare posibila a lui theta</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="do">## verosimiliatea de observa 17 reusite din 19 incecari.</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>likelihood <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(<span class="dv">17</span>, <span class="at">size=</span> <span class="dv">19</span>, <span class="at">prob=</span>theta)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="do">## Sa le lipim intr-un singur dataframe pentru plot</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>df         <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(theta, likelihood)</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="do">## care e valoarea maxima?</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(likelihood <span class="sc">==</span> <span class="fu">max</span>(likelihood))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      theta likelihood
+1 0.8989899  0.2854681</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Iată și graficul</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> theta, <span class="at">y =</span> likelihood)) <span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">alpha =</span> .<span class="dv">5</span>, </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">fill =</span> <span class="fu">met.brewer</span>(<span class="st">"Gauguin"</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">TeX</span>(<span class="st">"$</span><span class="sc">\\</span><span class="st">theta$"</span>),</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Verosimilitatea"</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="fu">TeX</span>(<span class="st">"$</span><span class="sc">\\</span><span class="st">theta^{17}(1 - </span><span class="sc">\\</span><span class="st">theta)^{19 - 17}$"</span>),</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Linia neagra = valoarea lui theta unde verosmilitatea atinge valoarea maximă"</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"Valori nonnormalizate"</span>) <span class="sc">+</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> .<span class="dv">89</span>, </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">0.5</span>, </span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">"black"</span>, </span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">by =</span> .<span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> .<span class="dv">5</span>, <span class="at">size =</span> <span class="dv">20</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In Bayes, totuși, nu ne mulțumim doar cu estimarea punctuală și în schimb folosim întreaga densitate pentru a exprima <em>incertitudinea</em> despre <span class="math inline">\(\theta\)</span>.</p>
+</section>
+<section id="informații-anterioare-expectanța" class="level5">
+<h5 class="anchored" data-anchor-id="informații-anterioare-expectanța">Informații anterioare (Expectanța)</h5>
+<ul>
+<li><p>Pentru că facem inferență de tip Bayesian, avem oportunitatea de a incorpora informații anterioare în modelul nostru.</p></li>
+<li><p><span class="math inline">\(p(θ)\)</span> din teorema lui Bayes, este probabilitatea anterioară a lui <span class="math inline">\(θ\)</span> și poate reprezenta date anterioare sau chiar cunoștințe subiective despre valoarea probabilă și incertitudinea lui <span class="math inline">\(\theta\)</span>.</p></li>
+<li><p>O uniformă de tip <span class="math inline">\(beta(1,1)\)</span> fiecare valoare posibilă a lui <span class="math inline">\(\theta\)</span> are o probabilitate anterioara de 1, ele fiind egale, adică toate <span class="math inline">\(\theta\)</span> sunt la fel de probabile.</p></li>
+</ul>
+<p>O abordare obișnuită atunci când se alege priorul este identificarea unui prior conjugat: o formulă de exprimare a priorului care are o structură de date similară cu cea a verosimilității. În acest caz, un prior conjugat pentru verosimilitatea binomială este funcția beta:</p>
+<p><span class="math display">\[
+\text{beta}(a,b) \propto \theta^{a-1}(1-\theta)^{b-1}
+\]</span></p>
+<p>unde <span class="math inline">\(a\)</span> poate reprezenta reușitele, iar <span class="math inline">\(b\)</span> poate reprezenta eșecurile.</p>
+<p>Observați similitudinea dintre formulele pentru funcțiile binomială și beta.</p>
+<p>Acestea au structuri de date identice, ceea ce face ca beta să fie un prior conjugat pentru verosimilitatea binomială. Să folosim un <span class="math inline">\(beta(1,1)\)</span> ca a priori, reprezentând cunoștințele noastre despre o probabilitate egală a lui <span class="math inline">\(\theta\)</span>.</p>
+<p><strong>Codul generativ pentru un prior uniform</strong></p>
+<p>Pentru a genera 100 de valori de 1 (pentru egalitate), folosim funcția <code>dbeta()</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Distributie beta(1,1)</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Cei doi parametri, alpha (shape1) si beta(shape2) controleaza forma distributiei de tip beta</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>prior.beta <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(theta, <span class="at">shape1 =</span> <span class="dv">1</span>, <span class="at">shape2 =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="distribția-posterioară-în-sfârșit" class="level5">
+<h5 class="anchored" data-anchor-id="distribția-posterioară-în-sfârșit">Distribția Posterioară (în sfârșit!)</h5>
+<p>Probabilitatea posterioară, <span class="math inline">\(p(θ|y)\)</span> ia în considerare verosimilitatea și expectanțele noastre anterioare privind parametrul. Aceasta este adesea privită ca un <em>compromis</em> între verosimilitatea datelor și probabilitatea anterioară. Acest lucru este mai ușor de înțeles din punct de vedere grafic:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## înmulțește probabilitatea binomială cu 100 pentru a o exprima în "termeni de probabilitate" ca și beta.</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="do">## practic rescriem obiectul anterior</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>likelihood <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(<span class="at">x =</span> <span class="dv">17</span>, <span class="at">size =</span> <span class="dv">19</span>, <span class="at">prob =</span> theta)<span class="sc">*</span><span class="dv">100</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="do">## Teorema lui Bayes, nenormalizata</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>posterior  <span class="ot">&lt;-</span> likelihood <span class="sc">*</span> prior.beta</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="do">## Să creăm un nou dataframe, care să cuprindă toate obiectele noastre create anterior.</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">theta =</span> theta,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">likelihood =</span> likelihood,</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>                 <span class="at">prior =</span> prior.beta,</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>                 <span class="at">posterior =</span> posterior)</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="do">## Folosiți pivot_longer pentru a crea o variabilă care să grupeze likelihood vs. prior vs. posterior</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="do">## Pivot_longer </span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(df, <span class="at">cols =</span> <span class="fu">c</span>(likelihood, prior, posterior))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+</section>
+<section id="analiza-și-interpretarea-distribuției-posterioare" class="level3">
+<h3 class="anchored" data-anchor-id="analiza-și-interpretarea-distribuției-posterioare">7. Analiza și interpretarea distribuției posterioare</h3>
+<section id="reprezentarea-grafică-a-distribuțiilor" class="level4">
+<h4 class="anchored" data-anchor-id="reprezentarea-grafică-a-distribuțiilor">Reprezentarea grafică a distribuțiilor</h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>data_long <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> theta, <span class="at">y =</span> value, <span class="at">fill =</span> name)) <span class="sc">+</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_area</span>(<span class="at">position =</span> <span class="fu">position_identity</span>(), <span class="at">alpha =</span> .<span class="dv">5</span>)<span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">TeX</span>(<span class="st">"$</span><span class="sc">\\</span><span class="st">theta$"</span>),</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="cn">NULL</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="cn">NULL</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Distribuția Posterioară, Anterioară și Verosimilitatea"</span>)<span class="sc">+</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">by =</span> .<span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">met.brewer</span>(<span class="st">"Tiepolo"</span>, <span class="dv">3</span>)) <span class="sc">+</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Graficul de mai sus prezintă distribuția posterioară, verosimilitatea și priorul unul lângă altul.</p>
+<p>Observați cum priorul conține mai puțină certitudine decât verosimilitatea. Densitatea posterioară este pur și simplu probabilitatea anterioară înmulțită cu verosimilitatea, astfel încât conține informații din ambele surse. Este o regulă generală că, în cazurile în care există o mulțime de date, iar priorul nostru este în mare parte neinformativ, verosimilitatea (likelihood) va copleși priorul.</p>
+<p><a href="https://r.amherst.edu/apps/nhorton/Shiny-Bayes/">Exemplu grafic al actualizarii priorului, shiny app.</a></p>
+<p><strong>Animație</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://willhipson.netlify.app/bayesian_intro/Bayesian_Intro_files/figure-html/unnamed-chunk-10-1.gif" class="img-fluid figure-img"></p>
+<figcaption>Animație: <a href="https://willhipson.netlify.app/post/bayesian_intro/binomial_gold/">Will Hipson</a></figcaption>
+</figure>
+</div>
+<section id="bayes-analitic" class="level5">
+<h5 class="anchored" data-anchor-id="bayes-analitic">Bayes analitic</h5>
+<ul>
+<li>Același caz: Likelihood Binomială, Prior Beta, Posterior Beta</li>
+<li>Parametrii distribuției beta, a și b, pot fi interpretați ca (convingerile noastre despre) succese și eșecuri anterioare.</li>
+<li>Odată ce alegem valori pentru a și b, putem plota PDF-ul beta.</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Defineste theta</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Creaza dataframeul</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">c</span>(x, x, x),</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">c</span>(<span class="fu">dbeta</span>(x, <span class="dv">1</span>, <span class="dv">1</span>), <span class="fu">dbeta</span>(x, <span class="dv">3</span>, <span class="dv">3</span>), <span class="fu">dbeta</span>(x, <span class="dv">21</span>, <span class="dv">21</span>)),</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Distributie =</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">'Beta(1,1)'</span>, <span class="st">'Beta(3,3)'</span>, <span class="st">'Beta(21,21)'</span>), <span class="at">each =</span> <span class="dv">100</span>))</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="do">## Plot cu ggplot2</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">color =</span> Distributie)) <span class="sc">+</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">'theta'</span>,</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Densitate'</span>) <span class="sc">+</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">'Beta(1,1)'</span> <span class="ot">=</span> <span class="st">'steelblue'</span>, <span class="st">'Beta(3,3)'</span> <span class="ot">=</span> <span class="st">'salmon'</span>, <span class="st">'Beta(21,21)'</span> <span class="ot">=</span> <span class="st">'black'</span>)) <span class="sc">+</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Ce înseamnă <span class="math inline">\(\theta \sim beta(a, b)\)</span> în termeni practici?</p>
+<ul>
+<li><p>Dacă nu avem multe informații anterioare, am putea folosi a=b=1; acest lucru ne oferă un prior uniform; acesta este uneori numit un prior neinformativ.</p></li>
+<li><p>Dacă avem multe cunoștințe anterioare și/sau o convingere puternică că <span class="math inline">\(\theta\)</span> are un anumit interval de valori, putem folosi valori mai mari pentru a și b pentru a reflecta certitudinea noastră mai mare despre parametru.</p></li>
+<li><p>Remarcăm că, cu cât parametrii a și b sunt mai mari, cu atât dispersia distribuției este mai îngustă; acest lucru are sens pentru că o mărime mai mare a eșantionului (un număr mai mare de succese a, și un număr mai mare de eșecuri b) va duce la estimări mai precise.</p></li>
+<li><p>Ca exemplu, să luăm patru priori beta diferiți, fiecare reflectând certitudine crescătoare.</p></li>
+</ul>
+<ol type="1">
+<li><span class="math inline">\(beta(a=2,b=2)\)</span></li>
+<li><span class="math inline">\(beta(a=3,b=3)\)</span></li>
+<li><span class="math inline">\(beta(a=6,b=6)\)</span></li>
+<li><span class="math inline">\(beta(a=21,b=21)\)</span></li>
+</ol>
+<p>Fiecare reflectă credința că <span class="math inline">\(\theta\)</span> = 0.5, cu grade variate de (in)certitudine. Acum trebuie doar să introducem likelihoodul și priorul.</p>
+<p><span class="math display">\[
+f(\theta | x) \propto f(x | \theta)f(\theta) \quad
+\]</span></p>
+<p>Iar soluția este:</p>
+<p><span class="math display">\[
+f(\theta | x) \propto [\theta^{17}(1 - \theta)^{2}][\theta^{2-1}(1 - \theta)^{2-1}] = \theta^{18}(1 - \theta)^{3} \quad (1)
+\]</span></p>
+<p><span class="math display">\[
+f(\theta | x) \propto [\theta^{17}(1 - \theta)^{2}][\theta^{3-1}(1 - \theta)^{3-1}] = \theta^{19}(1 - \theta)^{4} \quad (2)
+\]</span></p>
+<p><span class="math display">\[
+f(\theta | x) \propto [\theta^{17}(1 - \theta)^{2}][\theta^{6-1}(1 - \theta)^{6-1}] = \theta^{22}(1 - \theta)^{7} \quad (3)
+\]</span></p>
+<p><span class="math display">\[
+f(\theta | x) \propto [\theta^{17}(1 - \theta)^{2}][\theta^{21-1}(1 - \theta)^{21-1}] = \theta^{37}(1 - \theta)^{22} \quad (4)
+\]</span></p>
+</section>
+</section>
+<section id="inferența-bazată-pe-distribuția-posterioară" class="level4">
+<h4 class="anchored" data-anchor-id="inferența-bazată-pe-distribuția-posterioară">Inferența bazată pe distribuția posterioară</h4>
+<p>Dacă ar fi să extindem acest lucru mai departe pentru a trage concluzii reale cu privire la incertitudinea noastră privind proporția cautata, ar trebui să extragem eșantioane aleatorii din distribuția posterioară și să generăm estimări de interval pe baza acestor extrageri.</p>
+</section>
+<section id="lucrul-cu-distribuția-posterioară-eșantionarea-și-sumarizarea-inferențelor" class="level4">
+<h4 class="anchored" data-anchor-id="lucrul-cu-distribuția-posterioară-eșantionarea-și-sumarizarea-inferențelor">Lucrul cu distribuția posterioară, eșantionarea și sumarizarea inferențelor</h4>
+<p>Acum avem un o distribuție posterioară! De obicei, nu o putem folosi doar pe ea. Trebuie să calculăm media oricărei inferențe pe întreaga distribuție. Acest lucru necesită calcul infinitezimal, care este (1) dificil și (2) adesea imposibil.</p>
+<p>Așa că, în schimb, putem folosi eșantioane din distribuție și așa putem face inferențe pe baza acestora.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">## extrage esantioane din grila creata anterior</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>esantion <span class="ot">&lt;-</span> <span class="fu">sample</span>(theta, </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">prob =</span> posterior, </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">size =</span> <span class="dv">10000</span>, </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(esantion, <span class="at">main =</span> <span class="st">"10,000 extrageri din distribuția posterioară"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(esantion), <span class="at">main =</span> <span class="st">"Distribuția celor 10,000 de eșantionări"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Odată ce am extras destule eșantioane din grila creată, putem începe să facem inferențe prin sumarizarea acestora.</p>
+<p>De exemplu, putem calcula media acestui eșantion.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(esantion)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8582657</code></pre>
+</div>
+</div>
+<p>Sau, mediana și abaterea standard.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(esantion)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8686869</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(esantion)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.07381526</code></pre>
+</div>
+</div>
+<p>Din fericire, avem funcții gata create pentru aceste sarcini, ca de exemplu <code>describe_posterior()</code> din pachetul <a href="https://easystats.github.io/bayestestR/"><code>bayestestR</code></a>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bayestestR)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">describe_posterior</span>(esantion,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">centrality =</span> <span class="st">"all"</span>,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">rope_range =</span> <span class="fu">c</span>(.<span class="dv">45</span>, .<span class="dv">55</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Summary of Posterior Distribution
+
+Parameter | Median | Mean |  MAP |       95% CI |   pd |         ROPE | % in ROPE
+---------------------------------------------------------------------------------
+Posterior |   0.87 | 0.86 | 0.86 | [0.69, 0.97] | 100% | [0.45, 0.55] |        0%</code></pre>
+</div>
+</div>
+<p>În cadrul inferenței Bayesiene, parametrii sunt estimați în mod probabilistic ca <em>distribuții.</em> Aceste distribuții pot fi rezumate și descrise prin raportarea a patru tipuri de indici:</p>
+<ul>
+<li>Centralitate: media, mediana sau modul.</li>
+<li>Incertitudine: HDI sau CI</li>
+<li>Existența efecului: pd (probabilitatea direcției)</li>
+<li>Semnificația efectului: de ex. ROPE.</li>
+</ul>
+<p>Pe măsură ce veți primi mai multă încredere, aceste moduri de a cuantifica incertitudinea vă vor părea din ce în ce mai naturale.</p>
+<p>De asemenea, aveți posibiliatea reprezentărilor grafice mai avansate din pachete precum <code>ggdist()</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>esantion.data.frame <span class="ot">=</span> <span class="fu">as.data.frame</span>(esantion)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggdist)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>esantion.data.frame <span class="sc">%&gt;%</span> </span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> esantion))<span class="sc">+</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>()<span class="sc">+</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  see<span class="sc">::</span><span class="fu">theme_lucid</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="testarea-ipotezelor-și-factorii-bayes" class="level3">
+<h3 class="anchored" data-anchor-id="testarea-ipotezelor-și-factorii-bayes">8. Testarea ipotezelor și factorii Bayes</h3>
+<p>O altă sarcină uzuală în cercetare este testarea ipotezelor, i.e., dacă un efect există sau nu, cum ar fi testarea dacă două tratamente sunt egal de eficace sau pur și simplu daca voi puteți diferenția între berea cu și fără alcool. <span class="math inline">\(NHST\)</span> este o metodă pentru a testa aceste ipoteze, dar este limitată deoarece testele de semnificație nu oferă dovezi în sprijinul ipotezei nule.</p>
+<p>Factorii Bayes sunt o metrică utilizată pentru a cuantifica suportul empiric pentru o ipoteză față de alta. BF permit actualizarea probabilităților anterioare (credințele inițiale înainte de a vedea datele) în probabilități posterioare (credințele actualizate după ce datele au fost observate), pe baza dovezilor furnizate de date.</p>
+<p>În esență, factorul Bayes compară probabilitatea observării datelor sub două ipoteze diferite:</p>
+<p>Matematic, factorul Bayes (BF) se calculează ca raportul dintre probabilitatea datelor sub ipoteza alternativă și probabilitatea datelor sub ipoteza nulă:</p>
+<p><span class="math display">\[
+\frac{Pr(H_A | \text{data})}{Pr(H_0 | \text{data})} = \frac{Pr(\text{data} | H_A)}{Pr(\text{data} | H_0)} * \frac{Pr(H_A)}{Pr(H_0)}
+\]</span></p>
+<section id="pachetul-brms" class="level4">
+<h4 class="anchored" data-anchor-id="pachetul-brms">Pachetul <code>brms</code></h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(brms)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">brm</span>(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bf</span>(corecte <span class="sc">|</span> <span class="fu">trials</span>(evenimente) <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> Intercept),</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> <span class="fu">list</span>(<span class="at">corecte =</span> <span class="dv">17</span>, <span class="at">evenimente =</span> <span class="dv">19</span>),</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"identity"</span>),</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">beta</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="at">class =</span> b, <span class="at">lb =</span> <span class="dv">0</span>, <span class="at">ub =</span> <span class="dv">1</span>)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(see)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bayestestR)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>bf <span class="ot">&lt;-</span> <span class="fu">bayesfactor_parameters</span>(m1, <span class="at">null =</span> <span class="fu">c</span>(.<span class="dv">45</span>, .<span class="dv">55</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>bf <span class="ot">&lt;-</span> <span class="fu">bayesfactor_parameters</span>(m1, <span class="at">null =</span> .<span class="dv">50</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>bf</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Bayes Factor (Savage-Dickey density ratio)
+
+Parameter   |    BF
+-------------------
+(Intercept) | 88.15
+
+* Evidence Against The Null: 0.500</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(bf)<span class="sc">+</span><span class="fu">theme_default</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Ideea principală a analizei bayesiene este simplă și intuitivă. Există unele date care trebuie explicate, și avem un set de explicații candidate. Înainte de a cunoaște datele noi, explicațiile candidate au anumite credibilități anterioare de a fi cea mai bună explicație. Apoi, când sunt prezentate datele noi, mutăm credibilitatea către explicațiile candidate care contabilizează mai bine datele, și retragem credibilitatea de la explicațiile candidate care nu explică bine datele. O modalitate matematic impresionantă de a realoca credibilitatea se numește regula lui Bayes. Restul sunt doar detalii.</p>
+</section>
+</section>
+</section>
+<section id="partea-ii.-regresia-bayesiana" class="level2">
+<h2 class="anchored" data-anchor-id="partea-ii.-regresia-bayesiana">Partea II. Regresia Bayesiana</h2>
+<section id="pachetele-necesare" class="level3">
+<h3 class="anchored" data-anchor-id="pachetele-necesare">Pachetele necesare:</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bayestestR)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bayesplot)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(brms)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(see)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="datele" class="level3">
+<h3 class="anchored" data-anchor-id="datele">Datele</h3>
+<p>Datele reprezintă date parțiale de recensământ pentru zona Dobe a !Kung San, compilate din interviuri realizate de Nancy Howell la sfârșitul anilor 1960.</p>
+<p>!Kung San sunt cea mai faimoasă populație de vânători-culegători din secolul 20, în mare parte datorită studiilor cantitative detaliate realizate de cercetători precum Howell (McElreath, 2020).</p>
+<p><img src="imagini/san.jpg" class="img-fluid" alt="Femeie ǃKung făcând bijuterii lângă un copil."><br>
+</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"date/regresie.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Pentru a vedea cum arata bivariat:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> greutate, <span class="at">y =</span> inaltime)) <span class="sc">+</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">21</span>,</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> .<span class="dv">4</span>,</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> <span class="st">"steelblue"</span>, </span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">"black"</span>, </span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">color =</span> <span class="st">"steelblue"</span>)<span class="sc">+</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  see<span class="sc">::</span><span class="fu">theme_lucid</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="un-model-de-regresie" class="level3">
+<h3 class="anchored" data-anchor-id="un-model-de-regresie">Un model de regresie:</h3>
+<section id="reminder-bayes-theorem" class="level4">
+<h4 class="anchored" data-anchor-id="reminder-bayes-theorem">Reminder: Bayes Theorem:</h4>
+<p><span class="math display">\[
+p(\theta|y)=\frac{p(y|\theta)p(\theta)}{p(y)}
+\]</span></p>
+<p>unde</p>
+<ul>
+<li><p><span class="math inline">\(θ\)</span> adică <span class="math inline">\((p(θ|y)\)</span> este probabilitatea posterioară;</p></li>
+<li><p><span class="math inline">\(p(y|θ)\)</span> este procesul de generare a datelor, denumit de obicei verosimilitate sau <em>likelihood</em>;</p></li>
+<li><p><span class="math inline">\(p(θ)\)</span> este probabilitatea anterioară a lui <span class="math inline">\(θ\)</span>;</p></li>
+<li><p>și <span class="math inline">\(p(y)\)</span> este o constantă de normalizare. Nu ne vom preocupa chiar acum de constanta de normalizare, <span class="math inline">\(p(y)\)</span>, deoarece aceasta nu ne afectează concluziile. Ea este acolo doar pentru a transforma verosimilitatea - obținută din înmulțirea <span class="math inline">\(p(y|\theta)p(\theta)\)</span> - în probabilități (adică valori ce sumate ajung la 1).</p></li>
+</ul>
+</section>
+<section id="modelul" class="level4">
+<h4 class="anchored" data-anchor-id="modelul">Modelul</h4>
+<p>Modelul este o regresie bivariată, unde înălțimea este prezisă din datele despre greutate. Modelul este:</p>
+<p><span class="math display">\[
+î_i = \alpha + \beta_1 \text{Greutate}_i + \varepsilon_i \tag{1}
+\]</span></p>
+<p>Reziduurile, <span class="math inline">\(\varepsilon_i\)</span>, sunt distribuite normal cu o medie de 0 și o abatere standard <span class="math inline">\(\sigma\)</span> necunoscută.</p>
+<p><span class="math display">\[
+\varepsilon_i \sim \mathcal{N}(0, \sigma) \tag{2}
+\]</span></p>
+<p>Pentru a utiliza metode bayesiene pentru acest model, trebuie să definim a) un <code>likelihood</code> pentru date și b) <code>priori</code> pentru toți parametrii din model.</p>
+<p>Așa cum s-a discutat anterior, un likelihood este o distribuție de probabilitate pentru a descrie datele. Pentru un model de regresie liniară, cum ar fi Ecuația 1, distribuția normală este cea mai comună alegere. Aceasta verosimilitate pentru date poate fi scrisă ca:</p>
+<p><span class="math display">\[
+î_i \sim \mathcal{N}(\mu_i, \sigma) \tag{3}
+\]</span></p>
+<p>ceea ce spune că valoarea înălțimii pentru persoana <span class="math inline">\(i^{th}\)</span> urmează o distribuție normală (Gaussiană) cu o medie <span class="math inline">\(= \mu_i\)</span> și o deviație standard <span class="math inline">\(= \sigma\)</span>. Media, numită și valoarea așteptată sau valoarea prezisă (<code>expected value of the mean</code>), a înălțimii este egală cu:</p>
+<p><span class="math display">\[
+\mu_i = \alpha + \beta_1 \text{Greutate}_i \tag{4}
+\]</span></p>
+<p>Deviația standard în Ecuația 3 este aceeași deviație standard ca în Ecuația 2. Astfel, putem rescrie ca:</p>
+<p><span class="math display">\[
+î_i \sim \mathcal{N}(\alpha + \beta_1 \text{Greutate}_i, \sigma) \tag{5}
+\]</span></p>
+<p>Ecuația 5 indică faptul că acest model are trei parametri unici de estimat: <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\beta_1\)</span> și <span class="math inline">\(\sigma\)</span>. Rețineți că <span class="math inline">\(\mu_i\)</span> este definit complet de <span class="math inline">\(\alpha\)</span> și <span class="math inline">\(\beta_1\)</span> și nu este estimat direct, ci calculat după ce <span class="math inline">\(\alpha\)</span> și <span class="math inline">\(\beta_1\)</span> sunt estimate. Fiecare dintre acești parametri necesită o distribuție prior. O alegere comună pentru parametrii de regresie este o distribuție normală, deoarece parametrii de regresie pot fi atât pozitivi, cât și negativi.</p>
+<p>Stabilim priorul pentru <span class="math inline">\(\alpha\)</span> și <span class="math inline">\(\beta_1\)</span> la:</p>
+<p><span class="math display">\[
+\begin{align} \alpha &amp;\sim \mathcal{N}(178,20) \\ \beta_1 &amp;\sim \mathcal{N}(0,3) \tag{6} \end{align}
+\]</span></p>
+<p>Pentru <span class="math inline">\(\alpha\)</span>, intervalul cu o medie de 178cm și variații de la 138 cm la 218 cm cuprinde o plajă largă de înălțimi medii plauzibile pentru populațiile umane. Toată lumea știe ceva despre înălțimea umană și poate stabili un prior rezonabil și vag de acest fel. Dar, în multe probleme de regresie, așa cum veți vedea mai târziu, utilizarea informațiilor anterioare este mai subtilă, deoarece parametrii nu au întotdeauna un înțeles fizic atât de clar.</p>
+<p>Pentru <span class="math inline">\(\beta\)</span>:</p>
+<p>O distribuție normală cu media la 0 oferă o probabilitate egală coeficienților pozitivi și negativi, iar o distribuție normală cu o deviație standard de 3 înseamnă că credem că 95% din coeficienți ar trebui să fie între <span class="math inline">\(\pm6\)</span> (adică, <span class="math inline">\(\pm2\)</span> deviații standard). Având în vedere intervalul tipic al relației greutate–înălțime, acest prior este destul de plat și neinformativ. Prin comparație, regresia prin metoda pătratelor minime poate fi considerată ca având un prior uniform (adică, toate valorile au aceeași probabilitate) de la <span class="math inline">\(-\infty\)</span> la <span class="math inline">\(\infty\)</span> pentru coeficienții de regresie.</p>
+<p>Astfel, priorul nostru este mai informativ și mai rezonabil, dată fiind constrângerea asupra intervalului inălțime precum și posibilele relații greutate–înălțime.</p>
+<p>Pentru <span class="math inline">\(\sigma\)</span>:</p>
+<p>O alegere comună pentru un prior pe o deviație standard, cum ar fi <span class="math inline">\(\sigma\)</span>, este o distribuție half-Cauchy. Distribuția Cauchy completă nu este potrivită pentru o deviație standard deoarece distribuția Cauchy acoperă valori negative. Astfel, este necesară o distribuție half-Cauchy astfel încât deviația standard să poată lua doar valori pozitive. Priorul pentru <span class="math inline">\(\sigma\)</span> a fost:</p>
+<p><span class="math display">\[
+\sigma \sim \text{half-Cauchy}(0, 2.5){\tag 7}
+\]</span></p>
+</section>
+<section id="modelul-complet-bayesian" class="level4">
+<h4 class="anchored" data-anchor-id="modelul-complet-bayesian">Modelul complet bayesian</h4>
+<p>Modelul complet, incluzând verosimilitatea și distribuțiile prior este:</p>
+<p><span class="math display">\[
+\begin{align*} \color{red}{\text{inaltime}_i} &amp; \color{red}\sim \color{red}{\operatorname{Normal}(\mu_i, \sigma)} &amp;&amp; \color{red}{\text{likelihood}} \\ \color{red}{\mu_i} &amp; \color{red}= \color{red}{\alpha + \beta (\text{greutate}_i - \overline{\text{greutate}})} &amp;&amp; \color{red}{\text{\{modelul liniar este doar o parte speciala a verosimilitatii\}} } \\ \color{blue}\alpha &amp; \color{blue}\sim \color{blue}{\operatorname{Normal}(178, 20)} &amp;&amp; \color{blue}{\text{prior(i)}} \\ \color{blue}\beta &amp; \color{blue}\sim \color{blue}{\operatorname{Normal}(0, 3)} \\ \color{blue}\sigma &amp; \color{blue}\sim \color{blue}{\operatorname{half-Cauchy}(0, 2.5)} \end{align*}
+\]</span></p>
+</section>
+<section id="prior-prediction-check." class="level4">
+<h4 class="anchored" data-anchor-id="prior-prediction-check.">Prior prediction check.</h4>
+<p>Bine. Acum modelul este construit. Să ne uităm la ce prezice de fapt. La ce se gândește modelul înainte de a vedea orice date?</p>
+<p>O PPC este o tehnică utilizată în statistica Bayesiană pentru a evalua adecvarea distribuțiilor a priori alese înainte de observarea datelor sau de ajustarea modelului la date.</p>
+<p>Aceasta implică simularea datelor din distribuțiile a priori ale parametrilor modelului și apoi utilizarea acestor date simulate pentru a genera rezultate bazate pe verosimilitatea modelului.</p>
+<p>Acest proces ajută în evaluarea dacă priorii conduc la predicții rezonabile ale datelor și dacă sunt consistente cu cunoștințele de domeniu sau așteptările despre fenomenele reale care sunt modelate.</p>
+<p>PPCurile sunt utile pentru identificarea problemelor cu priorii specificați, cum ar fi priori excesiv de restrictivi sau implauzibil de largi, înainte de a proceda cu analiza datelor. Acest pas poate preveni probleme potențiale în inferența posterioară și asigură că modelul Bayesian este construit pe o fundație solidă.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>priors      <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">178</span>, <span class="dv">20</span>), <span class="at">class =</span> Intercept),</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">3</span>), <span class="at">class =</span> b),</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">prior</span>(<span class="st">"cauchy(0,2.5)"</span>, <span class="at">class =</span> <span class="st">"sigma"</span>))</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>mean_greutate <span class="ot">&lt;-</span> <span class="fu">mean</span>(df<span class="sc">$</span>greutate)</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>greutate_z <span class="ot">&lt;-</span> df<span class="sc">$</span>greutate <span class="sc">-</span> mean_greutate  </span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>expectante  <span class="ot">&lt;-</span> <span class="fu">brm</span>(<span class="fu">bf</span>(inaltime <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> greutate_z),</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>                        <span class="at">data         =</span> df,</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>                        <span class="at">family       =</span> <span class="fu">gaussian</span>(),</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>                        <span class="at">prior        =</span> priors,</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sample_prior =</span> <span class="st">"only"</span>)</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a><span class="fu">conditional_effects</span>(expectante)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Acestea sunt presupuneri complet nerezonabile, chiar dacă într-un fel funcționează. Cu siguranță putem face mai bine.</p>
+<p>Multe dintre acele linii sunt complet implauzibile, așa că vom folosi în schimb un prior lognormal pentru β: Distribuția lognormală forțează β să fie &gt; 0 și este aglomerată în jos la valori scăzute, cam ca 1</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> <span class="sc">~</span><span class="fu">dlnorm</span>(., <span class="dv">0</span>, <span class="dv">1</span>), </span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">geom =</span> <span class="st">"area"</span>, </span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">fill =</span> <span class="st">"salmon"</span>,</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">alpha =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">5</span>)) <span class="sc">+</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Valori simulate β"</span>, <span class="at">y =</span> <span class="st">"Densitate"</span>)<span class="sc">+</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_default</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Modelul devine atunci:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>priors      <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">178</span>, <span class="dv">20</span>), <span class="at">class =</span> Intercept),</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">prior</span>(<span class="fu">lognormal</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">class =</span> b, <span class="at">lb =</span> <span class="dv">0</span>), <span class="co"># aici</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">prior</span>(<span class="st">"cauchy(0,2.5)"</span>, <span class="at">class =</span> <span class="st">"sigma"</span>))</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>expectante_log  <span class="ot">&lt;-</span> <span class="fu">brm</span>(<span class="fu">bf</span>(inaltime <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> greutate_z),</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>                        <span class="at">data         =</span> df,</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>                        <span class="at">family       =</span> <span class="fu">gaussian</span>(),</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>                        <span class="at">prior        =</span> priors,</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sample_prior =</span> <span class="st">"only"</span>)</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a><span class="fu">conditional_effects</span>(expectante_log)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Odata ce expectantele modelululi sunt clare, putem sa le actualizam cu date. Si totusi sa vedem inca odata modelul formulat:</p>
+<p><span class="math display">\[
+\begin{align*} \color{red}{\text{inaltime}_i} &amp; \color{red}\sim \color{red}{\operatorname{Normal}(\mu_i, \sigma)} &amp;&amp; \color{red}{\text{likelihood}} \\ \color{red}{\mu_i} &amp; \color{red}= \color{red}{\alpha + \beta (\text{greutate}_i - \overline{\text{greutate}})} &amp;&amp; \color{red}{\text{\{modelul liniar este doar o parte speciala a verosimilitatii\}} } \\ \color{blue}\alpha &amp; \color{blue}\sim \color{blue}{\operatorname{Normal}(178, 20)} &amp;&amp; \color{blue}{\text{prior(i)}} \\ \color{blue}\beta &amp; \color{blue}\sim \color{blue}{\operatorname{LogNormal}(0, 1)} \\ \color{blue}\sigma &amp; \color{blue}\sim \color{blue}{\operatorname{half-Cauchy}(0, 2.5)} \end{align*}
+\]</span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>priors      <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">178</span>, <span class="dv">20</span>), <span class="at">class =</span> Intercept),</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">prior</span>(<span class="fu">lognormal</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">class =</span> b, <span class="at">lb =</span> <span class="dv">0</span>),</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">prior</span>(<span class="st">"cauchy(0,2.5)"</span>, <span class="at">class =</span> <span class="st">"sigma"</span>))</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>model_final  <span class="ot">&lt;-</span> <span class="fu">brm</span>(<span class="fu">bf</span>(inaltime <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> greutate_z),</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>                        <span class="at">data         =</span> df,</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>                        <span class="at">family       =</span> <span class="fu">gaussian</span>(),</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>                        <span class="at">prior        =</span> priors,</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>                        <span class="at">chains =</span> <span class="dv">4</span>,</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>                        <span class="at">cores =</span> <span class="dv">4</span>, </span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>                        <span class="at">warmup =</span> <span class="dv">2000</span>,</span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>                        <span class="at">iter =</span> <span class="dv">4000</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="diagnostic" class="level4">
+<h4 class="anchored" data-anchor-id="diagnostic">Diagnostic</h4>
+<section id="ppc" class="level5">
+<h5 class="anchored" data-anchor-id="ppc">PPC</h5>
+<p>Verificarea predicțiilor posterioare (Posterior Predictive Check, PPC) este o tehnică utilizată în analiza Bayesiană pentru a evalua cât de bine modelul construit se potrivește datelor observate. Această metodă implică utilizarea distribuției posterioare a parametrilor modelului pentru a genera seturi de date simulate, care apoi sunt comparate cu setul de date original. Scopul este de a verifica dacă modelul poate reproduce caracteristicile observate ale datelor reale.</p>
+<p>Validarea Modelului: PPC oferă o metodă directă pentru a verifica dacă modelul poate reproduce caracteristicile observate ale datelor, contribuind astfel la validarea modelului.</p>
+<p>Îmbunătățirea Modelului: Prin identificarea deficiențelor în potrivirea modelului, PPC poate ghida ajustările și îmbunătățirile ulterioare ale modelului.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pp_check</span>(model_final, <span class="at">ndraws =</span> <span class="dv">100</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(see)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> bayestestR<span class="sc">::</span><span class="fu">hdi</span>(model_final, <span class="at">ci =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.89</span>, <span class="fl">0.95</span>))</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(result, <span class="at">priors =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="mcmc" class="level5">
+<h5 class="anchored" data-anchor-id="mcmc">MCMC</h5>
+<p>În analiza bayesiană, spre deosebire de metodele frecventiste care se bazează pe estimări punctuale obținute prin algoritmi precum cel al pătratelor minime sau al verosimilității maxime, se urmărește producerea distribuției posterioare. Acest lucru este relativ simplu când distribuția posterioară se conformează unei distribuții de probabilitate cunoscute, cum ar fi distribuția normală sau beta, permitând inferențe directe bazate pe proprietățile distribuției. Cu toate acestea, distribuțiile posterioare nu se încadrează întotdeauna în formele cunoscute, făcând necesară utilizarea metodelor de simulare Markov Chain Monte Carlo (MCMC) pentru a genera extrageri aleatorii din distribuția posterioară.</p>
+<p>Simulările MCMC sunt robuste și flexibile, fiind adesea folosite în cercetările bayesiene pentru a aproxima distribuții necunoscute. Aceste simulări permit calculul valorilor așteptate sau a intervalului de încredere pentru parametrii de interes din distribuția posterioară. De exemplu, având mii de extrageri aleatorii dintr-o distribuție posterioră normală cu medie cunoscută, dar deviație standard necunoscută, putem estima deviația standard și forma distribuției.</p>
+<p>Metodele MCMC combină principiile simulărilor Monte Carlo cu procesele aleatorii Markov pentru a evalua dacă valorile propuse provin din distribuția posterioară, bazându-se pe cunoașterea densității posterioare și a datelor. Aceasta necesită mii de evaluări, acceptând sau respingând valorile propuse pentru a produce o secvență de extrageri din distribuția posterioară.</p>
+<p>Software-urile statistice moderne, cum ar fi Stan accesat prin R, facilitează implementarea algoritmilor MCMC, permițând estimarea unor modele complexe. Stan, de exemplu, utilizează algoritmi de eșantionare eficienti precum Hamiltonian Monte Carlo și este disponibil ca sursă deschisă, fiind accesibil din mai multe limbaje de programare. Cu toate că necesită o curba de învățare pentru a stăpâni limbajul său de modelare și configurarea, avantajele includ viteza crescută de calcul și flexibilitatea în modelare.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bayesplot)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>posterior <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_final)</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="fu">color_scheme_set</span>(<span class="st">"mix-blue-red"</span>)</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_trace</span>(posterior, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">"b_greutate_z"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+
+
+</section>
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/ggluca\.ro");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Construit cu Quarto.</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/GGLuca/ggluca.github.io/edit/main/workshops/bayes/index.qmd" class="toc-action"><i class="bi bi-github"></i>Editează pagina</a></li><li><a href="https://github.com/GGLuca/ggluca.github.io/issues/new" class="toc-action"><i class="bi empty"></i>Semnalează o problemă</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

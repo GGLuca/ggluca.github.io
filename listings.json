@@ -8,6 +8,7 @@
   {
     "listing": "/workshops.html",
     "items": [
+      "/workshops/bayes/index.html",
       "/workshops/rmarkdown-2022/index.html"
     ]
   }
