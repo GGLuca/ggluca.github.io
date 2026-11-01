@@ -4,7 +4,7 @@ subtitle: "Primul vostru model Bayesian"
 description: "Primul vostru model Bayesian"
 date: 2024-02-01
 date-format: "MMMM YYYY"
-image: imagini/titanic.jpg
+image: imagini/mcmc-trace.png
 categories: [Școala de iarnă, bayes, brms]
 resources: [date/regresie.csv]   # datele se publică pentru participanți
 toc: true
