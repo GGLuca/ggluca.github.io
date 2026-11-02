@@ -1,5 +1,39 @@
 ---
-title: "software"
+title: "Software"
 ---
 
-În curând.
+## apa.cor
+
+v0.0.0.98 · R · [GitHub](https://github.com/GGLuca/apa.cor)
+
+Generează dintr-un dataframe o matrice de corelații în stil APA, cu medii, abateri standard și praguri de semnificație.
+
+```r
+remotes::install_github("GGLuca/apa.cor")
+```
+
+## adverseimpact
+
+v0.0.2 · R · [GitHub](https://github.com/GGLuca/adverseimpact)
+
+Calculează principalii indicatori statistici de impact advers (adverse impact) în deciziile de selecție de personal.
+
+```r
+remotes::install_github("GGLuca/adverseimpact")
+```
+
+## unibucbeamer
+
+v0.1.0 · R Markdown, Keynote · [GitHub](https://github.com/GGLuca/unibuc-beamer-template)
+
+Șabloane de prezentare pentru Universitatea din București, în Beamer (R Markdown) și Keynote.
+
+```r
+remotes::install_github("GGLuca/unibuc-beamer-template")
+```
+
+## brms-cpu-benchmark
+
+R · [GitHub](https://github.com/GGLuca/brms-cpu-benchmark)
+
+Un benchmark scurt care testează cât de repede rulează procesorul modele Bayesiene în brms (cmdstanr).
