@@ -212,8 +212,36 @@
   {
     "objectID": "software.html",
     "href": "software.html",
-    "title": "software",
+    "title": "Software",
     "section": "",
-    "text": "În curând."
+    "text": "v0.0.0.98 · R · GitHub\nGenerează dintr-un dataframe o matrice de corelații în stil APA, cu medii, abateri standard și praguri de semnificație.\nremotes::install_github(\"GGLuca/apa.cor\")"
+  },
+  {
+    "objectID": "software.html#apa.cor",
+    "href": "software.html#apa.cor",
+    "title": "Software",
+    "section": "",
+    "text": "v0.0.0.98 · R · GitHub\nGenerează dintr-un dataframe o matrice de corelații în stil APA, cu medii, abateri standard și praguri de semnificație.\nremotes::install_github(\"GGLuca/apa.cor\")"
+  },
+  {
+    "objectID": "software.html#adverseimpact",
+    "href": "software.html#adverseimpact",
+    "title": "Software",
+    "section": "adverseimpact",
+    "text": "adverseimpact\nv0.0.2 · R · GitHub\nCalculează principalii indicatori statistici de impact advers (adverse impact) în deciziile de selecție de personal.\nremotes::install_github(\"GGLuca/adverseimpact\")"
+  },
+  {
+    "objectID": "software.html#unibucbeamer",
+    "href": "software.html#unibucbeamer",
+    "title": "Software",
+    "section": "unibucbeamer",
+    "text": "unibucbeamer\nv0.1.0 · R Markdown, Keynote · GitHub\nȘabloane de prezentare pentru Universitatea din București, în Beamer (R Markdown) și Keynote.\nremotes::install_github(\"GGLuca/unibuc-beamer-template\")"
+  },
+  {
+    "objectID": "software.html#brms-cpu-benchmark",
+    "href": "software.html#brms-cpu-benchmark",
+    "title": "Software",
+    "section": "brms-cpu-benchmark",
+    "text": "brms-cpu-benchmark\nR · GitHub\nUn benchmark scurt care testează cât de repede rulează procesorul modele Bayesiene în brms (cmdstanr)."
   }
 ]
