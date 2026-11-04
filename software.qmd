@@ -24,9 +24,9 @@ remotes::install_github("GGLuca/adverseimpact")
 
 ## unibucbeamer
 
-v0.1.0 · R Markdown, Keynote · [GitHub](https://github.com/GGLuca/unibuc-beamer-template)
+v0.2.0 · R Markdown, PowerPoint, Keynote · [GitHub](https://github.com/GGLuca/unibuc-beamer-template)
 
-Șabloane de prezentare pentru Universitatea din București, în Beamer (R Markdown) și Keynote.
+Șabloane de prezentare pentru Universitatea din București, în Beamer (R Markdown), PowerPoint și Keynote.
 
 ```r
 remotes::install_github("GGLuca/unibuc-beamer-template")

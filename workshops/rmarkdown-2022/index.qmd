@@ -87,7 +87,7 @@ Experiment: incercati sa deschideti fisiere output SPSS de acum 15 ani si raport
 
 1.  R^[<https://cran.r-project.org/>]
 
-2.  RStudio^[[https://www.rstudio.com/](https://www.rstudio.com/products/rstudio/download/)]
+2.  RStudio^[[https://posit.co/](https://posit.co/download/rstudio-desktop/)]
 
 Optional (si nu prea):
 
@@ -151,7 +151,7 @@ A treia componenta este codul `R`. Codul se insereaza prin `Code->Insert code ch
 
 ### Formatarea textului
 
-Markdown este una dintre cele mai simple si usoare forme de adnotare a textului. Este un standard deschis, ce poate fi convertit in `.tex`, `.docx`, `.html`, `.pdf`, etc si este atat de usor incat il puteti [invata in aproximativ 5 minute!](https://learnxinyminutes.com/docs/markdown/) Nu, chiar pe bune.^[<https://learnxinyminutes.com/docs/markdown/>] Exista si alte linkuri utile precum [acest PDF](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf).
+Markdown este una dintre cele mai simple si usoare forme de adnotare a textului. Este un standard deschis, ce poate fi convertit in `.tex`, `.docx`, `.html`, `.pdf`, etc si este atat de usor incat il puteti [invata in aproximativ 5 minute!](https://learnxinyminutes.com/docs/markdown/) Nu, chiar pe bune.^[<https://learnxinyminutes.com/docs/markdown/>] Exista si alte linkuri utile precum [acest PDF](https://rstudio.github.io/cheatsheets/rmarkdown.pdf).
 
 Limbajul este pe cat de usor, pe atat de puternic. Iata cateva exemple:
 
@@ -160,7 +160,7 @@ Limbajul este pe cat de usor, pe atat de puternic. Iata cateva exemple:
 - Listele sunt create prin `*` pentru fiecare item.
 - Linkuri externe, cam asa:`[text](http://google.com)`.
 
-Pentru o lista completa folositi **R Markdown Cheat Sheet**^[[Cheat Sheet](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)]
+Pentru o lista completa folositi **R Markdown Cheat Sheet**^[[Cheat Sheet](https://rstudio.github.io/cheatsheets/rmarkdown.pdf)]
 
 ### Exercitii (\~10min)
 
@@ -250,7 +250,7 @@ qplot(x = total_bill, y = tip, data = tips, color = sex) +
   geom_smooth(method = "lm")
 ```
 
-Ca de obicei, exista o serie de resurse foarte bune atat online^[<https://www.statmethods.net/graphs/index.html>] cat si pe hartie^[[@chang2012]] ce trateaza problema graficelor in RMarkdown.
+Ca de obicei, exista o serie de resurse foarte bune atat online^[<https://www.datacamp.com/doc/r/category/graphs>] cat si pe hartie^[[@chang2012]] ce trateaza problema graficelor in RMarkdown.
 
 ### Ecuatii
 
@@ -274,7 +274,7 @@ va produce urmtorul rezultat:
 
 ## Documente in format *APA* cu ajutorul pachetului `papaja`.
 
-Formatul `APA` este destul de dificil de stapanit. Manualul^[[Publication Manual of the American Psychological Association, Sixth Edition](http://www.apastyle.org/manual/index.aspx)] are peste 270 de pagini, cu o serie de informatii (uneori contradictorii) privind cerintele. Sabloane in format `.doc` circula pe internet, dar putine sunt cele care reusesc sa implementeze toti parametrii. Mai mult, la schimbul documentelor intre autori, sansele ca sablonul sa fie modificat sunt mari.
+Formatul `APA` este destul de dificil de stapanit. Manualul^[[Publication Manual of the American Psychological Association, Sixth Edition](https://apastyle.apa.org/manual)] are peste 270 de pagini, cu o serie de informatii (uneori contradictorii) privind cerintele. Sabloane in format `.doc` circula pe internet, dar putine sunt cele care reusesc sa implementeze toti parametrii. Mai mult, la schimbul documentelor intre autori, sansele ca sablonul sa fie modificat sunt mari.
 
 Frumusetea pachetului `papaja` este ca preia partea tehnica, creaza si formateaza documentele in stil `APA`, lasandu-va mai mult timp petnru crearea continutului. Cu toate ca pachetul nu este inca publicat pe CRAN (reteaua oficiala pentru pachete si distributii `R`), el este destul de stabil incat sa poate fi folosit in munca de zi cu zi.
 
@@ -293,7 +293,7 @@ devtools::install_github("crsh/papaja")
 
 ### Crearea unui document
 
-Dupa instalarea pachetului `papaja`^[Manualul `papaja`: <https://crsh.github.io/papaja_man/index.html>], sablonul `APA` ar trebui sa apara in meniul destinat crearii de noi documente.
+Dupa instalarea pachetului `papaja`^[Manualul `papaja`: <https://frederikaust.com/papaja_man/>], sablonul `APA` ar trebui sa apara in meniul destinat crearii de noi documente.
 
 ![](images/papaja-sablon.png){fig-alt="Dialogul New R Markdown din RStudio, cu sablonul APA article (6th edition) din papaja selectat."}
 
