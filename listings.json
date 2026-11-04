@@ -6,6 +6,12 @@
     ]
   },
   {
+    "listing": "/aplicatii.html",
+    "items": [
+      "/aplicatii/prior-predictiv/index.html"
+    ]
+  },
+  {
     "listing": "/workshops.html",
     "items": [
       "/workshops/bayes/index.html",
