@@ -1,0 +1,21 @@
+---
+title: "Ce implică distribuțiile a priori, înainte de a vedea datele?"
+description: "Verificare predictivă bazată pe distribuția a priori comună a parametrilor (α, β, σ), pentru o regresie liniară simplă: înălțimea în funcție de greutate."
+date: 2026-11-04
+image: featured.jpg
+categories: [bayes, priori, shiny]
+page-layout: full
+engine: knitr
+filters:
+  - shinylive
+---
+
+Aplicația rulează direct în browser. Prima încărcare durează câteva secunde.
+
+```{shinylive-r}
+#| standalone: true
+#| components: [viewer]
+#| viewerHeight: 900
+
+{{< include app.R >}}
+```

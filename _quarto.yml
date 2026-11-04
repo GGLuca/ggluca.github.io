@@ -22,6 +22,8 @@ website:
         text: Blog
       - href: workshops.qmd
         text: Workshopuri
+      - href: aplicatii.qmd
+        text: Aplicații
       - href: cercetare.qmd
         text: Cercetare
       - href: software.qmd
