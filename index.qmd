@@ -19,7 +19,7 @@ about:
 
 George aici, psiholog și conferențiar la Universitatea din București. Înainte de asta, 20 de ani la Universitatea Erlangen-Nürnberg (FAU), la School of Business, Economics and Society, unde am făcut un doctorat și o abilitare.
 
-Cercetarea mea se axează pe performanța umană în situații de interacțiune, de la motricitatea timpurie până la performanța în organizații. Tot timpul Bayesian, pentru că [probabilitatea nu există](https://en.wikipedia.org/wiki/Bruno_de_Finetti)!
+Cercetarea mea se axează pe performanța umană în situații de interacțiune, de la motricitatea timpurie până la performanța în organizații. Doar cu Bayes, pentru că [probabilitatea nu există](https://en.wikipedia.org/wiki/Bruno_de_Finetti)!
 
 Scriu mult cod în R, iar uneori rulează.
 
