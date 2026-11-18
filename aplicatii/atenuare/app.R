@@ -169,8 +169,7 @@ main <- layout_sidebar(
     actionButton("again", "Eșantion nou", class = "btn-outline-primary")
   ),
   div(class = "summary", id = "rezumat"),
-  card(full_screen = TRUE, card_header("Un eșantion"),
-       imageOutput("scatter", height = "480px"))
+  card(full_screen = TRUE, imageOutput("scatter", height = "480px"))
 )
 
 ui <- page_fillable(
