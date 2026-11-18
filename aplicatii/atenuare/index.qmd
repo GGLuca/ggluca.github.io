@@ -1,0 +1,21 @@
+---
+title: "Cum atenuează eroarea de măsurare panta regresiei?"
+description: "Eroarea de măsurare din predictor face panta estimată mai mică decât cea reală, în funcție de fidelitate. Simulare pentru o regresie liniară simplă, cu corectare pentru atenuare."
+date: 2026-11-18
+image: featured.jpg
+categories: [măsurare, fidelitate, shiny]
+page-layout: full
+engine: knitr
+filters:
+  - shinylive
+---
+
+Aplicația rulează direct în browser. Prima încărcare durează câteva secunde.
+
+```{shinylive-r}
+#| standalone: true
+#| components: [viewer]
+#| viewerHeight: 780
+
+{{< include app.R >}}
+```
