@@ -11,7 +11,7 @@
     "href": "aplicatii.html",
     "title": "Aplicații",
     "section": "",
-    "text": "Atenuarea pantei de regresie prin fidelitatea scăzută a predictorului\n\n\n\nmăsurare\n\nfidelitate\n\nshiny\n\n\n\nEroarea de măsurare din predictor face panta estimată mai mică decât cea reală, în funcție de fidelitate. Simulare pentru o regresie liniară simplă, cu corectare pentru…\n\n\n\n18 Noiembrie 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nCe implică distribuțiile a priori, înainte de a vedea datele?\n\n\n\nbayes\n\npriori\n\nshiny\n\n\n\nVerificare predictivă bazată pe distribuția a priori comună a parametrilor (α, β, σ), pentru o regresie liniară simplă: înălțimea în funcție de greutate.\n\n\n\n4 Noiembrie 2026\n\n\n\n\n\n\nNicio postare"
+    "text": "Atenuarea pantei de regresie prin fidelitatea scăzută a predictorului\n\n\n\nmăsurare\n\nfidelitate\n\nshiny\n\n\n\nO simulare Shiny în cazul unei regresii liniare simple, cu corectare pentru atenuare.\n\n\n\n18 Noiembrie 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nCe implică distribuțiile a priori, înainte de a vedea datele?\n\n\n\nbayes\n\npriori\n\nshiny\n\n\n\nVerificare predictivă bazată pe distribuția a priori comună a parametrilor (α, β, σ), pentru o regresie liniară simplă: înălțimea în funcție de greutate.\n\n\n\n4 Noiembrie 2026\n\n\n\n\n\n\nNicio postare"
   },
   {
     "objectID": "workshops.html",
