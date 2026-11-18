@@ -1,5 +1,5 @@
 ---
-title: "Cum atenuează eroarea de măsurare panta regresiei?"
+title: "Atenuarea pantei de regresie prin fidelitatea scăzută a predictorului"
 description: "Eroarea de măsurare din predictor face panta estimată mai mică decât cea reală, în funcție de fidelitate. Simulare pentru o regresie liniară simplă, cu corectare pentru atenuare."
 date: 2026-11-18
 image: featured.jpg
