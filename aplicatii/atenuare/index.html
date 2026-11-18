@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ro" xml:lang="ro"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Eroarea de măsurare din predictor face panta estimată mai mică decât cea reală, în funcție de fidelitate. Simulare pentru o regresie liniară simplă, cu corectare pentru atenuare.">
+
+<title>Cum atenuează eroarea de măsurare panta regresiei? – George Gunnesch-Luca</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../images/favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-447e42e69aaa9833c0ba1b986f430b20.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-f5b6bd87e2bb8976c72a6f9176f77cb9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-53bb392d45985d3b4ea9610c0823b4e4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-f5b6bd87e2bb8976c72a6f9176f77cb9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<meta name="shinylive:serviceworker_dir" content="../..">
+<script src="../../site_libs/quarto-contrib/shinylive-0.10.12/shinylive/load-shinylive-sw.js" type="module"></script>
+<script src="../../site_libs/quarto-contrib/shinylive-0.10.12/shinylive/run-python-blocks.js" type="module"></script>
+<link href="../../site_libs/quarto-contrib/shinylive-0.10.12/shinylive/shinylive.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/shinylive-quarto-css/shinylive-quarto.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Niciun rezultat",
+    "search-matching-documents-text": "documente găsite",
+    "search-copy-link-title": "Copiază linkul căutării",
+    "search-hide-matches-text": "Ascunde celelalte rezultate",
+    "search-more-match-text": "rezultat în plus în acest document",
+    "search-more-matches-text": "rezultate în plus în acest document",
+    "search-clear-button-title": "Șterge",
+    "search-text-placeholder": "Caută",
+    "search-detached-cancel-button-title": "Anulează",
+    "search-submit-button-title": "Caută",
+    "search-label": "Caută"
+  }
+}</script>
+
+
+<meta property="og:title" content="Cum atenuează eroarea de măsurare panta regresiei? – George Gunnesch-Luca">
+<meta property="og:description" content="Eroarea de măsurare din predictor face panta estimată mai mică decât cea reală, în funcție de fidelitate. Simulare pentru o regresie liniară simplă, cu corectare pentru atenuare.">
+<meta property="og:image" content="https://ggluca.ro/aplicatii/atenuare/featured.jpg">
+<meta property="og:site_name" content="George Gunnesch-Luca">
+<meta property="og:image:height" content="675">
+<meta property="og:image:width" content="1200">
+<meta name="twitter:title" content="Cum atenuează eroarea de măsurare panta regresiei? – George Gunnesch-Luca">
+<meta name="twitter:description" content="Eroarea de măsurare din predictor face panta estimată mai mică decât cea reală, în funcție de fidelitate. Simulare pentru o regresie liniară simplă, cu corectare pentru atenuare.">
+<meta name="twitter:image" content="https://ggluca.ro/aplicatii/atenuare/featured.jpg">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
+        setTimeout(() => {
+          window.scrollTo(0, scrollY);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">George Gunnesch-Luca</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../workshops.html"> 
+<span class="menu-text">Workshopuri</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../aplicatii.html"> 
+<span class="menu-text">Aplicații</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../cercetare.html"> 
+<span class="menu-text">Cercetare</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../software.html"> 
+<span class="menu-text">Software</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../blog.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/GGLuca"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
+</div>
+            <div id="quarto-search" class="" title="Caută"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content column-page" id="quarto-document-content" tabindex="-1">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Cum atenuează eroarea de măsurare panta regresiei?</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">măsurare</div>
+    <div class="quarto-category">fidelitate</div>
+    <div class="quarto-category">shiny</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Eroarea de măsurare din predictor face panta estimată mai mică decât cea reală, în funcție de fidelitate. Simulare pentru o regresie liniară simplă, cu corectare pentru atenuare.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta column-page">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Publicat</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">18 Noiembrie 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Aplicația rulează direct în browser. Prima încărcare durează câteva secunde.</p>
+<pre class="shinylive-r" data-engine="r"><code>#| '!! shinylive warning !!': |
+#|   shinylive does not work in self-contained HTML documents.
+#|   Please set `embed-resources: false` in your metadata.
+#| standalone: true
+#| components: [viewer]
+#| viewerHeight: 780
+
+# Atenuarea: ce face eroarea de măsurare din x cu panta regresiei y ~ x
+# Aplicație Shinylive pentru ggluca.ro/aplicatii/atenuare (sursa: Measurement lessons/apps/atenuare).
+# Terminologia după Sava (Analiza datelor în cercetarea psihologică): fidelitate, eroare de măsurare,
+# mărimea eșantionului, panta/dreapta de regresie, atenuare.
+# Stilul site-ului (Hokusai2, Atkinson Hyperlegible, fundal „hârtie”, urmează modul luminos/întunecat al paginii)
+# și construcția aplicației prior-predictiv: shiny + bslib + grafică de bază, grafice trimise ca PNG cu
+# renderImage(), pentru că renderPlot() blochează Shinylive în Safari (r-shinylive#204).
+
+library(shiny)
+library(bslib)
+
+# ---- culori ----------------------------------------------------------------------------
+# Hokusai2 ca pe site (hokusai-light.scss / hokusai-dark.scss), plus o culoare caldă pentru
+# „ce găsește regresia”, ca să se distingă de dreapta reală.
+palettes &lt;- list(
+  light = list(bg = "#fdfbf6", text = "#2b2f33", muted = "#5c6670", grid = "#e6e2d8",
+               truth = "#0a3351", found = "#c2602a", fixed = "#2f70a1", points = "#72aeb6"),
+  dark  = list(bg = "#161d24", text = "#e3ebf1", muted = "#a7b4bf", grid = "#2a3540",
+               truth = "#cfe6ef", found = "#e8955f", fixed = "#8cc3e6", points = "#72aeb6")
+)
+
+plot_style &lt;- function(pal) {
+  par(mar = c(4.2, 4.4, 0.8, 0.8), bg = pal$bg, las = 1, bty = "n",
+      col.axis = pal$muted, col.lab = pal$text, fg = pal$muted,
+      cex.axis = 0.95, cex.lab = 1.05, mgp = c(2.8, 0.6, 0))
+}
+grid_lines &lt;- function(pal) {
+  abline(h = axTicks(2), v = axTicks(1), col = pal$grid, lwd = 1)
+}
+
+# Diagrama de dispersie: dreapta reală, dreapta estimată din eșantion și, la cerere, dreapta corectată
+# (folosită și de _featured.R pentru imaginea din listă)
+grafic_dispersie &lt;- function(s, beta, p = palettes$light, rel_corectare = NULL) {
+  plot_style(p)
+  plot(NA, xlim = range(s$xobs), ylim = range(s$y), xlab = "x", ylab = "y")
+  grid_lines(p)
+  points(s$xobs, s$y, pch = 16, cex = 0.7, col = adjustcolor(p$points, 0.65))
+  abline(0, beta, col = p$truth, lwd = 3)
+  abline(s$a, s$b, col = p$found, lwd = 3, lty = 2)
+  leg &lt;- c("dreapta reală", "dreapta estimată din eșantion"); cols &lt;- c(p$truth, p$found); lt &lt;- c(1, 2)
+  if (!is.null(rel_corectare)) {
+    abline(s$a, s$b / rel_corectare, col = p$fixed, lwd = 3, lty = 4)
+    leg &lt;- c(leg, "dreapta corectată"); cols &lt;- c(cols, p$fixed); lt &lt;- c(lt, 4)
+  }
+  legend(if (beta &gt;= 0) "topleft" else "topright", legend = leg, col = cols, lty = lt, lwd = 3, bty = "n",
+         cex = 0.9, text.col = p$text, bg = p$bg)
+}
+
+# graficul de bază desenat într-un PNG de mărimea zonei de afișare, trimis cu renderImage()
+png_render &lt;- function(id, session, draw, alt) {
+  renderImage({
+    cd &lt;- session$clientData
+    w &lt;- cd[[paste0("output_", id, "_width")]]
+    h &lt;- cd[[paste0("output_", id, "_height")]]
+    if (is.null(w) || w &lt;= 0) w &lt;- 600
+    if (is.null(h) || h &lt;= 0) h &lt;- 420
+    pr &lt;- cd$pixelratio %||% 1
+    f &lt;- tempfile(fileext = ".png")
+    png(f, width = w * pr, height = h * pr, res = 96 * pr)
+    op &lt;- options(OutDec = ",")   # virgulă zecimală și pe axe
+    draw()
+    options(op)
+    dev.off()
+    list(src = f, contentType = "image/png", width = w, height = h, alt = alt)
+  }, deleteFile = TRUE)
+}
+
+# numere în format românesc: virgulă zecimală, minus tipografic
+fmt &lt;- function(x, d = 2) sub("^-", "\u2212", formatC(x, format = "f", digits = d, decimal.mark = ","))
+
+# ---- temă (ca în aplicația prior-predictiv) -------------------------------------------
+theme &lt;- bs_theme(
+  version = 5, bg = palettes$light$bg, fg = palettes$light$text, primary = "#2f70a1",
+  base_font = font_collection(
+    font_link("Atkinson Hyperlegible",
+              href = "https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&amp;display=swap"),
+    "sans-serif"
+  )
+)
+theme &lt;- bs_add_rules(theme, "
+.summary { font-size: .95rem; line-height: 1.45; padding-bottom: .55rem; margin-bottom: .25rem;
+  border-bottom: 1px solid rgba(10, 51, 81, .2); font-variant-numeric: tabular-nums; }
+[data-bs-theme=dark] {
+  --bs-body-bg: #161d24; --bs-body-bg-rgb: 22, 29, 36;
+  --bs-body-color: #e3ebf1; --bs-body-color-rgb: 227, 235, 241;
+  --bs-emphasis-color: #ffffff; --bs-emphasis-color-rgb: 255, 255, 255;
+  --bs-secondary-color: rgba(227, 235, 241, .72); --bs-secondary-color-rgb: 227, 235, 241;
+  --bs-secondary-bg: #222c36; --bs-tertiary-bg: #1c252e;
+  --bs-border-color: #2e3a45;
+  --bs-link-color: #8cc3e6; --bs-link-color-rgb: 140, 195, 230;
+  --bs-link-hover-color: #72aeb6; --bs-link-hover-color-rgb: 114, 174, 182;
+  --bs-primary: #8cc3e6; --bs-primary-rgb: 140, 195, 230;
+  color-scheme: dark;
+}
+[data-bs-theme=dark] .summary { border-bottom-color: rgba(140, 195, 230, .25); }
+[data-bs-theme=dark] .form-switch .form-check-input:not(:checked) {
+  --bs-form-switch-bg: url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba%28227,235,241,0.4%29'/%3e%3c/svg%3e\");
+}
+[data-bs-theme=dark] .btn-outline-primary {
+  --bs-btn-color: #8cc3e6; --bs-btn-border-color: #8cc3e6;
+  --bs-btn-hover-color: #161d24; --bs-btn-hover-bg: #8cc3e6; --bs-btn-hover-border-color: #8cc3e6;
+  --bs-btn-active-color: #161d24; --bs-btn-active-bg: #72aeb6; --bs-btn-active-border-color: #72aeb6;
+}
+[data-bs-theme=dark] .irs.irs--shiny .irs-line { background: #2e3a45; border-color: #2e3a45; }
+[data-bs-theme=dark] .irs.irs--shiny .irs-min, [data-bs-theme=dark] .irs.irs--shiny .irs-max {
+  background: #222c36; color: #a7b4bf; }
+[data-bs-theme=dark] .irs.irs--shiny .irs-grid-text { color: #a7b4bf; }
+")
+
+# Modul luminos/întunecat urmează pagina Quarto din jur (quarto-dark / quarto-light pe &lt;body&gt;),
+# ca în aplicația prior-predictiv. Rulată separat, rămâne luminoasă.
+script_mode &lt;- tags$script(HTML("
+(function() {
+  function pageBody() {
+    var w = window;
+    try {
+      while (w.parent &amp;&amp; w.parent !== w) {
+        w = w.parent;
+        var b = w.document.body;
+        if (b &amp;&amp; (b.classList.contains('quarto-dark') || b.classList.contains('quarto-light'))) return b;
+      }
+    } catch (e) {}
+    return null;
+  }
+  var body = pageBody();
+  function dark() { return !!body &amp;&amp; body.classList.contains('quarto-dark'); }
+  function apply() {
+    var d = dark();
+    document.documentElement.setAttribute('data-bs-theme', d ? 'dark' : 'light');
+    try { if (window.Shiny &amp;&amp; Shiny.setInputValue) Shiny.setInputValue('dark_mode', d); } catch (e) {}
+  }
+  document.documentElement.setAttribute('data-bs-theme', dark() ? 'dark' : 'light');
+  $(document).on('shiny:connected', apply);
+  if (body) new MutationObserver(apply).observe(body, { attributes: true, attributeFilter: ['class'] });
+})();
+"))
+
+# Virgulă zecimală pe glisoare: ionRangeSlider afișează numerele prin „prettify”
+script_virgula &lt;- tags$script(HTML("
+Shiny.addCustomMessageHandler('rezumat', function(h) { document.getElementById('rezumat').innerHTML = h; });
+$(document).on('shiny:connected', function() {
+  setTimeout(function() {
+    $('.js-range-slider').each(function() {
+      var s = $(this).data('ionRangeSlider');
+      var alfa = ['rel', 'rel_assumed'].indexOf(this.id) &gt;= 0;   // fidelitatea: fără zero în față, două zecimale
+      if (s) s.update({ prettify: function(n) {
+        if (alfa) return n &lt; 1 ? n.toLocaleString('ro-RO', { minimumFractionDigits: 2 }).replace(/^0/, '') : '1';
+        return n.toLocaleString('ro-RO', { maximumFractionDigits: 2 });
+      } });
+    });
+  }, 0);
+});
+"))
+
+# ---- UI ---------------------------------------------------------------------------------
+main &lt;- layout_sidebar(
+  sidebar = sidebar(
+    width = 290,
+    sliderInput("beta", "Panta reală", min = -2, max = 2, value = 1, step = 0.1),
+    sliderInput("rel", "Fidelitatea lui x (α)", min = 0.1, max = 1, value = 0.7, step = 0.05),
+    sliderInput("n", "Mărimea eșantionului", min = 20, max = 1000, value = 200, step = 10),
+    sliderInput("sdy", "Abaterea standard a erorii din y", min = 0, max = 2, value = 0, step = 0.1),
+    input_switch("fix", "Corectează pentru atenuare", value = FALSE),
+    conditionalPanel(
+      "input.fix",
+      sliderInput("rel_assumed", "Fidelitatea folosită la corectare (α)", min = 0.1, max = 1,
+                  value = 0.7, step = 0.05)
+    ),
+    actionButton("again", "Eșantion nou", class = "btn-outline-primary")
+  ),
+  div(class = "summary", id = "rezumat"),
+  card(full_screen = TRUE, card_header("Un eșantion"),
+       imageOutput("scatter", height = "480px"))
+)
+
+ui &lt;- page_fillable(
+  theme = theme,
+  lang = "ro",
+  main,
+  script_mode,
+  script_virgula
+)
+
+# ---- server -----------------------------------------------------------------------------
+server &lt;- function(input, output, session) {
+
+  pal &lt;- reactive(if (isTRUE(input$dark_mode)) palettes$dark else palettes$light)
+
+  # corectarea pornește de la fidelitatea reală; mutată apoi, arată o corectare greșită
+  observeEvent(input$rel, updateSliderInput(session, "rel_assumed", value = input$rel))
+
+  sample1 &lt;- reactive({
+    input$again
+    n &lt;- input$n; rel &lt;- input$rel
+    xtrue &lt;- rnorm(n)
+    xobs  &lt;- xtrue + rnorm(n, 0, sqrt((1 - rel) / rel))   # var(xtrue) = 1
+    y     &lt;- input$beta * xtrue + rnorm(n, 0, input$sdy)
+    fit   &lt;- lm(y ~ xobs)
+    ci    &lt;- suppressWarnings(confint(fit))["xobs", ]   # potrivire perfectă la fidelitate 1 și fără eroare în y
+    list(xtrue = xtrue, xobs = xobs, y = y, b = unname(coef(fit)[2]), lo = ci[[1]], hi = ci[[2]],
+         a = unname(coef(fit)[1]))
+  })
+
+  output$scatter &lt;- png_render("scatter", session, function() {
+    grafic_dispersie(sample1(), input$beta, pal(), if (input$fix) input$rel_assumed)
+  }, alt = "Diagramă de dispersie a lui y în funcție de valorile măsurate ale lui x, cu dreapta de regresie reală și cea estimată")
+
+  # Rezumatul în notație APA (b și 95% CI [ ; ]), cu b cursiv. HTML-ul static din pagină e
+  # actualizat printr-un mesaj, nu cu renderUI(): renderUI() cu HTML a blocat Safari în Shinylive.
+  rezumat_html &lt;- reactive({
+    s &lt;- sample1(); beta &lt;- input$beta; rel &lt;- input$rel
+    fmt_a &lt;- function(x) sub("^0,", ",", fmt(x))   # APA: fără zero în față pentru valori care nu depășesc 1
+    ic &lt;- function(lo, hi) paste0("95% CI [", fmt(lo), "; ", fmt(hi), "]")
+    txt &lt;- paste0("Pentru o pantă reală de ", fmt(beta), " și la o fidelitate de ", fmt_a(rel),
+                  " a predictorului x, modelul estimează în acest eșantion o pantă de &lt;em&gt;b&lt;/em&gt; = ", fmt(s$b), ", ",
+                  ic(s$lo, s$hi), ".")
+    if (input$fix) {
+      ra &lt;- input$rel_assumed
+      txt &lt;- paste0(txt, " Corectată pentru atenuare (α = ", fmt_a(ra), "), panta devine &lt;em&gt;b&lt;/em&gt; = ",
+                    fmt(s$b / ra), ", ", ic(s$lo / ra, s$hi / ra), ".")
+    }
+    txt
+  })
+  observe(session$sendCustomMessage("rezumat", rezumat_html()))
+
+}
+
+shinyApp(ui, server)
+</code></pre>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiat!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiat!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/ggluca\.ro");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Construit cu Quarto.</p>
+<div class="toc-actions"><ul><li><a href="https://github.com/GGLuca/ggluca.github.io/edit/main/aplicatii/atenuare/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/GGLuca/ggluca.github.io/issues/new" class="toc-action"><i class="bi empty"></i>Semnalează o problemă</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
